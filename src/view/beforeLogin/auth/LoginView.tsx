@@ -9,11 +9,9 @@ import errorLottie from '../../../../public/lottie/error.json';
 import logo from '../../../../public/img/logo2.png';
 import ImageLottie from "../../../component/lottie/image-lottie";
 import IDialog from "../../../component/IDialog/IDialog";
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
-import { Fragment } from "react";
 
 
-const LoginView = ( req : NextRequest ) => {
+const LoginView = () => {
     const controller = LoginViewModel()
     return <>
         {

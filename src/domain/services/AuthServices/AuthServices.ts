@@ -21,6 +21,7 @@ class AuthServices {
         try {
             const data = await fetch( 'https://astraapps.astra.co.id/dmsahassapi/dgi-api/v2/spk/read', {
                 method : 'POST',
+                mode : 'cors',
                 body : JSON.stringify( {
                     "fromTime" : "2022-08-01 00:00:00",
                     "toTime" : "2022-08-04 23:59:59",

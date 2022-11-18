@@ -9,10 +9,12 @@ import errorLottie from '../../../../public/lottie/error.json';
 import logo from '../../../../public/img/logo2.png';
 import ImageLottie from "../../../component/lottie/image-lottie";
 import IDialog from "../../../component/IDialog/IDialog";
+import AuthServices from "../../../domain/services/AuthServices/AuthServices";
 
 
 const LoginView = () => {
     const controller = LoginViewModel()
+    // const test = AuthServices.test()
     return <>
         {
             controller.validator.status ? <IDialog>
@@ -53,7 +55,13 @@ const LoginView = () => {
                         </div>
                     </div>
                     <div className = { `mt-5 w-full h-12 bg-secondary3 flex place-items-center place-content-center rounded-full text-white font-Archivo font-semibold cursor-pointer` }
-                         onClick = { controller.login }>
+                         onClick = {
+                             // controller.login
+                             () => {
+                                 AuthServices.test().then( () => {
+                                 } )
+                             }
+                         }>
                         { controller.loading ? <SpinLoading/> : null }
                         Login
                     </div>

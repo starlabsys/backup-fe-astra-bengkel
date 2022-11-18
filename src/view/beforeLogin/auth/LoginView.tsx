@@ -2,14 +2,12 @@ import type { NextPageContext } from "next";
 import { MdRemoveRedEye } from "react-icons/md";
 import AuthAnimation from "../../../component/animation/auth/auth_animation";
 import SpinLoading from "../../../component/animation/ISpinLoading/ISpinLoading";
-import { NextRequest } from "next/server";
 import Image from "next/image";
 import { LoginViewModel } from "./controller/LoginController";
 import errorLottie from '../../../../public/lottie/error.json';
 import logo from '../../../../public/img/logo2.png';
 import ImageLottie from "../../../component/lottie/image-lottie";
 import IDialog from "../../../component/IDialog/IDialog";
-import AuthServices from "../../../domain/services/AuthServices/AuthServices";
 
 
 const LoginView = () => {

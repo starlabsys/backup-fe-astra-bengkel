@@ -38,7 +38,25 @@ class AuthServices {
                     'DGI-API-Token' : cry1
                 },
             } )
-            console.log( data.json() )
+            console.log( {
+                    result : await data.json(),
+                    data : JSON.stringify( {
+                        "fromTime" : "2022-08-01 00:00:00",
+                        "toTime" : "2022-08-04 23:59:59",
+                        "dealerId" : "07533",
+                        "deliveryDocumentId" : "",
+                        "idSPK" : "",
+                        "idCustomer" : ""
+                    } ),
+                    headers : {
+                        'content-type' : 'application/json',
+                        'Accept' : 'application/json',
+                        'X-Request-Time' : dayUnix.toString(),
+                        'DGI-API-Key' : apiKey,
+                        'DGI-API-Token' : cry1
+                    },
+                },
+            )
         } catch ( e ) {
 
             console.log( e );

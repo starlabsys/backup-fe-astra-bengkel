@@ -24,10 +24,6 @@ if ( process.env.ENV === 'dev' ) {
             return response;
         },
         error => {
-            console.debug( 'RESPONSE : ' );
-            console.debug( 'Response Status : ', error.response.status );
-            console.debug( 'Response Headers : ', error.response.headers );
-            console.debug( 'Response Body : ', error.response.data );
             console.log( error );
             if ( error.response?.status === 400 ) {
                 ErrorHandler.errorResponse( { message : error.response.data, statusCode : error.response.status } );
@@ -37,6 +33,9 @@ if ( process.env.ENV === 'dev' ) {
             }
             if ( error.response?.status === 403 ) {
                 ErrorHandler.timeout();
+            }
+            if ( error.response?.status === 504 ) {
+                ErrorHandler.internalError();
             }
             if ( error.message === 'Network Error' ) {
                 ErrorHandler.networkError();

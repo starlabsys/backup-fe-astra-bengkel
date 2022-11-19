@@ -1,6 +1,5 @@
 import { del, get, post } from "../../../core/api/api"
-import { InterfaceAddMotoCycle } from "./interface/InterfaceAddMotoCycle";
-import { InterfacePatchMotoCycle } from "./interface/InterfacePatchMotoCycle";
+import { InterfaceMotoCycle } from "./interface/InterfaceMotoCycle";
 
 
 class MotoCycleRepository {
@@ -10,7 +9,7 @@ class MotoCycleRepository {
         } )
     }
 
-    public add = async ( props : InterfaceAddMotoCycle ) => {
+    public add = async ( props : InterfaceMotoCycle ) => {
         return await post( {
             url : "/vehicle",
             reqBody : {
@@ -26,11 +25,10 @@ class MotoCycleRepository {
         } )
     }
 
-    public patch = async ( props : InterfacePatchMotoCycle ) => {
+    public patch = async ( id : string, props : InterfaceMotoCycle ) => {
         return await post( {
-            url : "/vehicle",
+            url : "/vehicle" + id.toString(),
             reqBody : {
-                "id" : props.id,
                 "no_polisi" : props.noPolisi,
                 "no_rangka" : props.noRangka,
                 "no_mesin" : props.noMesin,

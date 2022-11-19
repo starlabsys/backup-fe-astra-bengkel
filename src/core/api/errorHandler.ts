@@ -11,6 +11,10 @@ class ErrorHandler {
     notAuthorized = () => {
     }
     networkError = () => {
+        console.log( 'Network Error' )
+    }
+    internalError = () => {
+        console.log( 'Internal Error' )
     }
 }
 

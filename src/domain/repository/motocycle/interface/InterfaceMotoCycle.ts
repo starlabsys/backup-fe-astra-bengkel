@@ -1,4 +1,4 @@
-export interface InterfaceAddMotoCycle {
+export interface InterfaceMotoCycle {
     noPolisi : string
     noRangka : string
     noMesin : string

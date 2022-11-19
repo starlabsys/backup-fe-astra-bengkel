@@ -16,7 +16,7 @@ const IButton = ( props : Interface ) => {
     return <button
         onClick = { props.onClick }
         type = { props.type }
-        className = { `${ body3 } px-5 hover:shadow-2xl ${ props.width ?? 'min-w-0 max-w-full' }
+        className = { `${ body3 } px-5 hover:shadow-2xl ${ props.width ?? 'min-w-[150px] max-w-full' }
         ${ props.status === 'primary' ? 'bg-primary hover:bg-gray-800' : props.status === 'secondary' ?
             'bg-secondary2' : props.status === 'danger' ? 'bg-danger hover:bg-red-800' : props.status === 'success' ?
                 'bg-success hover:bg-green-900' : props.status === 'warning' ? 'bg-warning hover:bg-amber-700' : props.status === 'info' ? 'bg-info hover:bg-blue-900' : 'bg-primary hover:bg-gray-800' } 

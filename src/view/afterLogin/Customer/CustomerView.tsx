@@ -15,7 +15,7 @@ const CustomerView = () => {
             <div className = { `grid gap-5 tablet:grid-cols-2 laptop:grid-cols-3` }>
                 {
                     controller.listMenuCustomer.map( ( data, index ) => {
-                        return <ICard key = { index } title = { data.title } icon = { data.icon }/>
+                        return <ICard key = { index } title = { data.title } path = { data.link } icon = { data.icon }/>
                     } )
                 }
             </div>

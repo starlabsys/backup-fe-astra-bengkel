@@ -1,6 +1,7 @@
 import ISideBar from "./ISideBar";
 import IBody from "./IBody";
 import { MiniSideBarProvider } from "../context/miniSideBarContext";
+import IDrawer from "./IDrawer/IDrawer";
 
 
 interface InterfaceMainLayout {
@@ -10,12 +11,14 @@ interface InterfaceMainLayout {
 const MainLayout = ( props : InterfaceMainLayout ) => {
     return (
         <MiniSideBarProvider>
-            <div className = { `w-screen h-screen flex fixed` }>
-                <ISideBar/>
-                <IBody>
-                    { props.children }
-                </IBody>
-            </div>
+            <IDrawer>
+                <div className = { `w-screen h-screen flex fixed` }>
+                    <ISideBar/>
+                    <IBody>
+                        { props.children }
+                    </IBody>
+                </div>
+            </IDrawer>
         </MiniSideBarProvider>
     )
 }

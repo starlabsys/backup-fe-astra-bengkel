@@ -13,3 +13,14 @@ export const getDataStorage = async ( key : string ) => {
     }
     return ""
 }
+
+export const removeDataStorage = async () => {
+    if ( typeof window !== "undefined" ) {
+        try {
+            await localStorage.clear()
+            console.log( `success clear local storage}` )
+        } catch ( e ) {
+            console.log( `error clear local storage` )
+        }
+    }
+}

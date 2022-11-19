@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, removeCookies, setCookie } from "cookies-next";
 
 
 export const setICookies = async ( key : string, value : string, time : number ) => {
@@ -20,5 +20,14 @@ export const getICookies = async ( key : string ) => {
     } catch ( e ) {
         console.log( 'error get cookie ' + e );
         return ''
+    }
+}
+
+export const removeICookies = async ( key : string ) => {
+    try {
+        await deleteCookie( key )
+        console.log( 'success remove cookie' )
+    } catch ( e ) {
+        console.log( e )
     }
 }

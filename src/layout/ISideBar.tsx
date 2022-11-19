@@ -11,11 +11,13 @@ import { useContext } from "react";
 import { InterfaceMiniSideBarContext, MiniSideBarContext } from "../context/miniSideBarContext";
 import Link from "next/link";
 import { InterfaceChildSideBar } from "./interface/InterfaceSideBar";
+import LogoutVM from "./ViewModel/LogoutVM";
 
 
 const ISideBar = () => {
     const controller = SideBarVM();
     const sidebarController = useContext( MiniSideBarContext )
+    const logout = LogoutVM()
 
     return <div className = { `hidden laptop:flex ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } bg-primary` }>
         <div className = { `${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } h-full` }>
@@ -77,7 +79,8 @@ const ISideBar = () => {
                         } )
                     }
                 </div>
-                <div className = { `absolute bottom-0 ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } hover:bg-red-800 cursor-pointer h-16 flex-1 flex gap-2 place-items-center pl-5` }>
+                <div className = { `absolute bottom-0 ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } hover:bg-red-800 cursor-pointer h-16 flex-1 flex gap-2 place-items-center pl-5` }
+                     onClick = { logout.logout }>
                     <IoIosLogOut size = { 30 } color = { 'white' }/>
                     {
                         sidebarController.miniSideBar ? null :

@@ -6,13 +6,14 @@ import SparePartServices from "../../../../domain/services/SparePartServices/Spa
 const SparePartController = () => {
 
     const [ sparepart, setSparepart ] = useState<InterfaceSparePart[]>( [] as InterfaceSparePart[] );
+    const [ loading, setLoading ] = useState( false );
 
     const getSparepart = async () => {
+        setLoading( true )
         const response = await SparePartServices.get();
         if ( response.message === "success" ) {
             const resp : [] = response.data
             const listData : InterfaceSparePart[] = resp.map( ( item : any, data ) => {
-                // if ( data < 10 ) {
                 return {
                     code : item.parts_code,
                     name : item.parts_name,
@@ -21,10 +22,10 @@ const SparePartController = () => {
                     price : `Rp. ${ item.parts_price }`,
                     priceNasional : `Rp. ${ item.parts_price }`
                 }
-                // }
             } )
             setSparepart( listData )
         }
+        setLoading( false )
     }
 
     useEffect( () => {
@@ -37,7 +38,8 @@ const SparePartController = () => {
 
 
     return {
-        sparepart
+        sparepart,
+        loading
     }
 
 }

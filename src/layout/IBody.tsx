@@ -2,6 +2,8 @@ import Image from "next/image";
 import logo from '../../public/img/logo2.png'
 import ahass from '../../public/img/img-ahas2.png'
 import { MdMenu } from "react-icons/md";
+import { useContext } from "react";
+import { IDrawerContext } from "./IDrawer/IDrawer";
 
 
 interface InterfaceIBody {
@@ -9,9 +11,15 @@ interface InterfaceIBody {
 }
 
 const IBody = ( props : InterfaceIBody ) => {
+    const context = useContext( IDrawerContext );
     return <div className = { `flex-1` }>
         <div className = { `h-24 bg-white flex place-content-between place-items-center px-4 laptop:px-0` }>
-            <MdMenu size = { 30 } color = { `black` } className = { `laptop:hidden` }/>
+            <MdMenu size = { 30 }
+                    color = { `black` }
+                    className = { `laptop:hidden cursor-pointer` }
+                    onClick = { () => {
+                        context.setOpenDrawer( !context.openDrawer )
+                    } }/>
             <div className = { `w-56 laptop:hidden` }>
                 <Image src = { logo } alt = { 'logo' }/>
             </div>

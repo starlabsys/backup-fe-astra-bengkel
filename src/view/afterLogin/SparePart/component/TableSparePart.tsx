@@ -2,6 +2,7 @@ import { MdModeEditOutline, MdInfo, MdDelete, MdKeyboardArrowDown } from "react-
 import ISizeBox from "../../../../component/ISizeBox/ISizeBox";
 import SparePartController from "../controller/SparePartController";
 import { useState } from "react";
+import ISpinLoading from "../../../../component/animation/ISpinLoading/ISpinLoading";
 
 
 interface Interface {
@@ -46,7 +47,9 @@ const TableSparePart = ( props : Interface ) => {
         }
     }
 
-    return <div className = { `overflow-auto py-5` }>
+    return controller.loading ? <div className = { `w-full flex place-items-center place-content-center` }>
+        <ISpinLoading/>
+    </div> : <div className = { `overflow-auto py-5` }>
         <div className = { `px-5` }>
             <div className = { `border border-primary w-16 py-3 flex place-items-center place-content-center rounded-lg cursor-pointer` }>
                 <div>1</div>

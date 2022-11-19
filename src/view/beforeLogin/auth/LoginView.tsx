@@ -8,10 +8,13 @@ import errorLottie from '../../../../public/lottie/error.json';
 import logo from '../../../../public/img/logo2.png';
 import ImageLottie from "../../../component/lottie/image-lottie";
 import IDialog from "../../../component/IDialog/IDialog";
+import { getICookies } from "../../../utils/cookies/ICookies";
+import { IConstantEnum } from "../../../utils/enum/IConstantEnum";
 
 
 const LoginView = () => {
     const controller = LoginViewModel()
+
     return <>
         {
             controller.validator.status ? <IDialog>

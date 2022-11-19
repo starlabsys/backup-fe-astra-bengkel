@@ -17,37 +17,29 @@ const ISideBar = () => {
     const controller = SideBarVM();
     const sidebarController = useContext( MiniSideBarContext )
 
-    return <div className = { `hidden laptop:flex ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' }` }>
-        <div className = { `w-full h-full` }>
-            <div className = { `h-24 flex w-full` }>
-                <div className = { `w-10/12 place-content-center place-items-center flex px-5` }>
-                    {
-                        sidebarController.miniSideBar ? <Image src = { logo2 }
-                                                               alt = { `logo` }
-                                                               width = { 50 }
-                                                               sizes = { '' }/> : <Image src = { logo }
-                                                                                         alt = { `logo` }
-                                                                                         sizes = { '' }/>
-                    }
-
-                </div>
-                <div className = { `w-3/12 flex place-content-end place-items-center` }>
-                    <MdMenu size = { 30 } onClick = { () => {
-                        console.log( 'click' );
-                        sidebarController.setMiniSideBar( !sidebarController.miniSideBar );
-                    } }/>
-                </div>
+    return <div className = { `hidden laptop:flex ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } bg-primary` }>
+        <div className = { `${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } h-full` }>
+            <div className = { `h-24 flex ${ sidebarController.miniSideBar ? 'place-content-between pl-2' : 'place-content-between' } place-items-center bg-white` }>
+                {
+                    sidebarController.miniSideBar ? <Image src = { logo2 }
+                                                           className = { `w-[52px] h-[50px]` }
+                                                           alt = { `logo` }/> : <Image src = { logo }
+                                                                                       alt = { `logo` }
+                                                                                       className = { `w-56 h-[70px]` }
+                                                                                       sizes = { '50px' }/>
+                }
+                <MdMenu size = { 30 } className = { `cursor-pointer` } onClick = { () => {
+                    sidebarController.setMiniSideBar( !sidebarController.miniSideBar );
+                } }/>
             </div>
-            <div className = { `bg-primary h-screen` }>
+            <div className = { `bg-primary w-full` }>
                 <div className = { `h-24 flex place-items-center place-content-center w-full px-3` }>
 
                     {
                         sidebarController.miniSideBar ? <FaUserCircle size = { 35 } color = { 'white' }/> :
                             <>
-                                <div className = { `w-2/12 flex place-content-center place-items-center w-full` }>
-                                    <FaUserCircle size = { 35 } color = { 'white' }/>
-                                </div>
-                                <div className = { `w-10/12 flex place-content-start place-items-center` }>
+                                <FaUserCircle size = { 35 } color = { 'white' }/>
+                                <div className = { `flex-1 flex place-content-start place-items-center` }>
                                     <ISizeBox width = { `w-2` }/>
                                     <div className = { `${ body4 } text-white` }>{ controller.username } /
                                         { controller.role }
@@ -85,13 +77,14 @@ const ISideBar = () => {
                         } )
                     }
                 </div>
-                <div className = { `h-16 absolute bottom-0 flex gap-2 place-items-center ${ sidebarController.miniSideBar ? 'place-content-center' : 'pl-5' } hover:bg-danger ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' }` }>
+                <div className = { `absolute bottom-0 ${ sidebarController.miniSideBar ? 'w-28' : 'w-72' } hover:bg-red-800 cursor-pointer h-16 flex-1 flex gap-2 place-items-center pl-5` }>
                     <IoIosLogOut size = { 30 } color = { 'white' }/>
                     {
                         sidebarController.miniSideBar ? null :
                             <div className = { `${ body3 } text-white ` }>Logout</div>
                     }
                 </div>
+
             </div>
         </div>
     </div>

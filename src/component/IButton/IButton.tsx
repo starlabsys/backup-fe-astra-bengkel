@@ -16,10 +16,10 @@ const IButton = ( props : Interface ) => {
     return <button
         onClick = { props.onClick }
         type = { props.type }
-        className = { `${ body3 } px-5 ${ props.width ?? 'min-w-0 max-w-full' }
-        ${ props.status === 'primary' ? 'bg-primary' : props.status === 'secondary' ?
-            'bg-secondary2' : props.status === 'danger' ? 'bg-danger' : props.status === 'success' ?
-                'bg-success' : props.status === 'warning' ? 'bg-warning' : props.status === 'info' ? 'bg-info' : 'bg-primary' } 
+        className = { `${ body3 } px-5 hover:shadow-2xl ${ props.width ?? 'min-w-0 max-w-full' }
+        ${ props.status === 'primary' ? 'bg-primary hover:bg-gray-800' : props.status === 'secondary' ?
+            'bg-secondary2' : props.status === 'danger' ? 'bg-danger hover:bg-red-800' : props.status === 'success' ?
+                'bg-success hover:bg-green-900' : props.status === 'warning' ? 'bg-warning hover:bg-amber-700' : props.status === 'info' ? 'bg-info hover:bg-blue-900' : 'bg-primary hover:bg-gray-800' } 
         ${ props.size === 'small' ? 'py-2' : props.size === 'large' ? 'py-4' : 'py-3' } 
         ${ props.rounded === 'lg' ? 'rounded-lg' : 'rounded-full' }  ${ props.textColor ?? 'text-white' }` }>
         { props.children }

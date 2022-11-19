@@ -34,7 +34,7 @@ const SparePartView = () => {
             <div className = { `w-full p-5 grid gap-10` }>
                 <ITitleMd title = { 'List Sparepart' }/>
                 <div className = { `laptop:flex place-items-center place-content-between mb-5` }>
-                    <div className = { `laptop:w-4/12 mb-5` }>
+                    <div className = { `laptop:w-4/12 mb-5 laptop:mb-0` }>
                         <ITextFieldDefault type = { "text" } onChange = { event => {
                         } } placeholder = { 'Cari...' } label = { 'Cari' } onEnter = { "enter" }/>
                     </div>

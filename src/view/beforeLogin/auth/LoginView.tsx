@@ -2,19 +2,19 @@ import type { NextPageContext } from "next";
 import { MdRemoveRedEye } from "react-icons/md";
 import AuthAnimation from "../../../component/animation/auth/auth_animation";
 import SpinLoading from "../../../component/animation/ISpinLoading/ISpinLoading";
-import { NextRequest } from "next/server";
 import Image from "next/image";
 import { LoginViewModel } from "./controller/LoginController";
 import errorLottie from '../../../../public/lottie/error.json';
 import logo from '../../../../public/img/logo2.png';
 import ImageLottie from "../../../component/lottie/image-lottie";
 import IDialog from "../../../component/IDialog/IDialog";
-import AuthServices from "../../../domain/services/AuthServices/AuthServices";
+import { getICookies } from "../../../utils/cookies/ICookies";
+import { IConstantEnum } from "../../../utils/enum/IConstantEnum";
 
 
 const LoginView = () => {
     const controller = LoginViewModel()
-    // const test = AuthServices.test()
+
     return <>
         {
             controller.validator.status ? <IDialog>
@@ -55,13 +55,7 @@ const LoginView = () => {
                         </div>
                     </div>
                     <div className = { `mt-5 w-full h-12 bg-secondary3 flex place-items-center place-content-center rounded-full text-white font-Archivo font-semibold cursor-pointer` }
-                         onClick = {
-                             // controller.login
-                             () => {
-                                 AuthServices.test().then( () => {
-                                 } )
-                             }
-                         }>
+                         onClick = { controller.login }>
                         { controller.loading ? <SpinLoading/> : null }
                         Login
                     </div>

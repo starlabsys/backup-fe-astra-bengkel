@@ -1,4 +1,5 @@
-import { getCookie } from "cookies-next";
+import { getICookies } from "../../utils/cookies/ICookies";
+import { IConstantEnum } from "../../utils/enum/IConstantEnum";
 
 
 export const timeOut = 50000
@@ -12,7 +13,7 @@ export const baseUrl = () : string => {
 
 
 export const header = async () => {
-    const token = await getCookie( 'key' );
+    const token = await getICookies( IConstantEnum.token )
     return {
         'Authorization' : `Bearer ${ token }`
     }

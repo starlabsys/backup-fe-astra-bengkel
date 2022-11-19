@@ -4,8 +4,9 @@ import { AlertInterface } from "./interface/alert_interface";
 import AuthServices from "../../../../domain/services/AuthServices/AuthServices";
 import { ValidateLogin } from "./ValidateLogin";
 import { IConstantEnum } from "../../../../utils/enum/IConstantEnum";
-import { setCookie } from "cookies-next";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
+import { setDataStorage } from "../../../../utils/localStorage/LocalStorage";
+import { setICookies } from "../../../../utils/cookies/ICookies";
 
 
 export const LoginViewModel = () => {
@@ -42,12 +43,10 @@ export const LoginViewModel = () => {
 
         if ( resp.message === 'success' ) {
             console.log( resp.data )
-            localStorage.setItem( IConstantEnum.username, resp.data.person.username );
-            localStorage.setItem( IConstantEnum.id, resp.data.person.id );
-            localStorage.setItem( IConstantEnum.role, resp.data.person.role === 'Admin' ? RoleEnum.Admin : RoleEnum.SuperAdmin );
-            setCookie( IConstantEnum.token, resp.data.token, {
-                maxAge : 60 * 60 * 24,
-            } )
+            await setDataStorage( IConstantEnum.username, resp.data.person.username );
+            await setDataStorage( IConstantEnum.id, resp.data.person.id );
+            await setDataStorage( IConstantEnum.role, resp.data.person.role === 'Admin' ? RoleEnum.Admin : RoleEnum.SuperAdmin );
+            await setICookies( IConstantEnum.token, resp.data.token, 1 );
             setLoading( false );
             route.replace( '/' ).then( () => {
             } )

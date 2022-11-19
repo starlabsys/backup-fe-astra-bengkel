@@ -19,9 +19,6 @@ class MyDocument extends Document {
                         rel = "stylesheet"/>
                     <link href = "https://fonts.googleapis.com/icon?family=Material+Icons"
                           rel = "stylesheet"/>
-                    {/*<link rel = "shortcut icon" href = {require('../../public/img/logo3.png')}/>*/}
-                    {/*<link rel = "apple-touch-icon"*/}
-                    {/*      href = {require('../../public/img/logo3.png')}/>*/}
                 </Head>
                 <body>
                 <Main/>

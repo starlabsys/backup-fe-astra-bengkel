@@ -24,10 +24,10 @@ const ISideBar = () => {
             <div className = { `h-24 flex ${ sidebarController.miniSideBar ? 'place-content-between pl-2' : 'place-content-between' } place-items-center bg-white` }>
                 {
                     sidebarController.miniSideBar ? <Image src = { logo2 }
-                                                           className = { `w-[52px] h-[50px]` }
+                                                           className = { `w-14` }
                                                            alt = { `logo` }/> : <Image src = { logo }
                                                                                        alt = { `logo` }
-                                                                                       className = { `w-56 h-[70px]` }
+                                                                                       className = { `w-56` }
                                                                                        sizes = { '50px' }/>
                 }
                 <MdMenu size = { 30 } className = { `cursor-pointer` } onClick = { () => {

@@ -1,11 +1,12 @@
 import { createContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import ISizeBox from "../../component/ISizeBox/ISizeBox";
-import { body3, body4, bodyLabel1, bodyLabel2, bodyLabel3 } from "../../component/styles/Style";
+import { body4, bodyLabel1, bodyLabel2, bodyLabel3 } from "../../component/styles/Style";
 import { SideBarVM } from "../ViewModel/SideBarVM";
 import Link from "next/link";
 import { InterfaceChildSideBar } from "../interface/InterfaceSideBar";
-import { InterfaceMiniSideBarContext } from "../../context/miniSideBarContext";
+import { IoIosLogOut } from "react-icons/io";
+import LogoutVM from "../ViewModel/LogoutVM";
 
 
 interface Interface {
@@ -22,6 +23,7 @@ export const IDrawerContext = createContext( {} as InterfaceIDrawer );
 const IDrawer = ( props : Interface ) => {
     const [ state, setState ] = useState( false );
     const controller = SideBarVM();
+    const logout = LogoutVM()
 
     return <IDrawerContext.Provider value = { { openDrawer : state, setOpenDrawer : setState } }>
         <>
@@ -33,7 +35,7 @@ const IDrawer = ( props : Interface ) => {
                     }
                     }>
                     </div>
-                    <div className = { `absolute w-8/12 tablet:w-6/12 bg-primary h-screen` }>
+                    <div className = { `absolute w-8/12 tablet:w-6/12 bg-primary h-screen relative` }>
                         <div className = { `w-full flex gap-2 place-content-center place-items-center h-24 pl-5 pr-1` }>
                             <FaUserCircle size = { 35 } color = { 'white' }/>
                             <div className = { `flex-1 flex place-content-start place-items-center` }>
@@ -75,6 +77,13 @@ const IDrawer = ( props : Interface ) => {
                                     </div>
                                 } )
                             }
+                        </div>
+                        <div className = { `absolute bottom-0 py-5 flex gap-2 place-items-center pl-5 hover:bg-danger cursor-pointer w-full` }
+                             onClick = {
+                                 logout.logout
+                             }>
+                            <IoIosLogOut size = { 30 } color = { 'white' }/>
+                            <div className = { `${ bodyLabel2 } text-white ` }>Logout</div>
                         </div>
                     </div>
                 </div> : null

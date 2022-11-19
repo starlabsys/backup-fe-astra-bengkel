@@ -27,8 +27,7 @@ const ISideBar = () => {
                                                            className = { `w-14` }
                                                            alt = { `logo` }/> : <Image src = { logo }
                                                                                        alt = { `logo` }
-                                                                                       className = { `w-56` }
-                                                                                       sizes = { '50px' }/>
+                                                                                       className = { `w-56` }/>
                 }
                 <MdMenu size = { 30 } className = { `cursor-pointer` } onClick = { () => {
                     sidebarController.setMiniSideBar( !sidebarController.miniSideBar );

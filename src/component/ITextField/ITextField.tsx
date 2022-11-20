@@ -8,6 +8,7 @@ export const ITextFieldRounded = ( props : InterfaceTextFieldRounded ) => {
                   required = { props.required }
                   autoComplete = { props.autoComplete }
                   hidden = { props.hidden }
+                  name = { props.name }
                   placeholder = { props.placeholder } onChange = { props.onChange }/>
 }
 
@@ -16,6 +17,7 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
         <div
             className = { `w-full border ${ props.error ? 'border-danger' : "border-primary" } rounded-md gap-2 pt-2.5 pb-2 px-3 flex` }>
             <input type = { props.type }
+                   name = { props.name }
                    enterKeyHint = { props.onEnter }
                    required = { props.required }
                    className = { `focus:outline-none bg-white w-full placeholder:text-sm` }

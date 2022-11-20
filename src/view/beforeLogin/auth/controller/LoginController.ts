@@ -7,7 +7,7 @@ import { IConstantEnum } from "../../../../utils/enum/IConstantEnum";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import { setDataStorage } from "../../../../utils/localStorage/LocalStorage";
 import { setICookies } from "../../../../utils/cookies/ICookies";
-import { IAlertDialogContext } from "../../../../component/IAlert/IAlertDialog";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 export const LoginViewModel = () => {

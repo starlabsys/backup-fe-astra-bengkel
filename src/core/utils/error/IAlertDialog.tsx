@@ -1,7 +1,7 @@
-import ImageLottie from "../lottie/image-lottie";
-import errorLottie from "../../../public/lottie/error.json";
-import successLottie from "../../../public/lottie/success.json";
-import IButton from "../IButton/IButton";
+import ImageLottie from "../../../component/lottie/image-lottie";
+import errorLottie from "../../../../public/lottie/error.json";
+import successLottie from "../../../../public/lottie/success.json";
+import IButton from "../../../component/IButton/IButton";
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -10,8 +10,9 @@ export interface InterfaceError {
     setOpen : ( data : boolean ) => void;
     onError : ( data : boolean ) => void;
     giveMessage : ( data : string ) => void;
+    router? : ( data : string ) => void;
     onCLick : () => void
-    toRoute : ( data : string ) => void
+    // toRoute : ( data : string ) => void
 }
 
 export const IAlertDialogContext = createContext( {} as InterfaceError )
@@ -24,15 +25,15 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
     const [ open, setOpen ] = useState( false );
     const [ isError, setIsError ] = useState( false );
     const [ message, setMessage ] = useState( '' );
+    const [ onRoute, setOnRoute ] = useState( '' );
     const route = useRouter();
 
     const onOk = () => {
+        if ( onRoute !== '' ) {
+            return route.replace( onRoute ).then( () => {
+            } )
+        }
         setOpen( false )
-    }
-
-    const toRoute = ( data : string ) => {
-        route.replace( data ).then( () => {
-        } )
     }
 
 
@@ -41,7 +42,8 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
         onError : setIsError,
         giveMessage : setMessage,
         onCLick : onOk,
-        toRoute : toRoute
+        router : setOnRoute
+        // toRoute : toRoute
     } }>
         { props.children }
         {

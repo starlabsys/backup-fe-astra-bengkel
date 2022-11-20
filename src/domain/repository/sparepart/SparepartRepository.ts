@@ -1,7 +1,7 @@
 import { InterfaceAddSparePart } from "./interfaces/InterfaceAddSparePart";
 import { del, get, patch, post } from "../../../core/api/api";
 import { InterfacePatchSparePart } from "./interfaces/InterfacePatchSparePart";
-import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 
 
 class SparepartRepository {

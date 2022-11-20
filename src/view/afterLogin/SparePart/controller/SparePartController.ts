@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { InterfaceSparePart } from "../interfaces/InterfaceSparePart";
 import SparePartServices from "../../../../domain/services/SparePartServices/SparePartServices";
-import { IAlertDialogContext } from "../../../../component/IAlert/IAlertDialog";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 const SparePartController = () => {

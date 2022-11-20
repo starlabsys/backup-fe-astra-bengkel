@@ -2,7 +2,7 @@ import { LoginInterface } from "../../repository/auth/interface/LoginInterface";
 import AuthRepository from "../../repository/auth/AuthRepository";
 import { ReturnResult } from "../../../core/api/interface/InterfaceResponseResult";
 import crypto from "crypto";
-import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 
 
 class AuthServices {

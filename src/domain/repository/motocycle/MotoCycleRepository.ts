@@ -1,6 +1,6 @@
 import { del, get, post } from "../../../core/api/api"
 import { InterfaceMotoCycle } from "./interface/InterfaceMotoCycle";
-import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 
 
 class MotoCycleRepository {

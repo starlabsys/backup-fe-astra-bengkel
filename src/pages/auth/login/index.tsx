@@ -1,5 +1,5 @@
 import LoginView from "../../../view/beforeLogin/auth/LoginView";
-import IAlertDialog from "../../../component/IAlert/IAlertDialog";
+import IAlertDialog from "../../../core/utils/error/IAlertDialog";
 
 
 const Login = () => {

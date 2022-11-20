@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import ErrorHandler from "./errorHandler";
 import { baseUrl, header, timeOut } from "./baseApi";
 import { ReturnResult } from "./interface/InterfaceResponseResult";
-import { InterfaceError } from "../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../utils/error/IAlertDialog";
 
 
 if ( process.env.ENV === 'dev' ) {
@@ -72,7 +72,13 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.notAuthorized( context, { message : data.message } );
         }
         if ( error.response?.status === 403 ) {
-            ErrorHandler.timeout( context, { message : data.message } );
+            ErrorHandler.forbiddenAccess( context, { message : data.message } );
+        }
+        if ( error.response?.status === 404 ) {
+            ErrorHandler.notFound( context, { message : data.message } );
+        }
+        if ( error.response?.status === 405 ) {
+            ErrorHandler.methodNotAllowed( context, { message : data.message } );
         }
         if ( error.response?.status === 504 ) {
             ErrorHandler.internalError( context, { message : data.message } );

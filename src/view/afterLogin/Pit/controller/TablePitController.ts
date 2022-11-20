@@ -1,7 +1,7 @@
 import PitServices from "../../../../domain/services/PitServices/PitServices";
 import { useContext, useEffect, useState } from "react";
 import { InterfacePit } from "../interface/InterfacePit";
-import { IAlertDialogContext } from "../../../../component/IAlert/IAlertDialog";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 const TablePitController = () => {
@@ -9,7 +9,7 @@ const TablePitController = () => {
     const [ loading, setLoading ] = useState( false );
 
     const context = useContext( IAlertDialogContext );
-    
+
     const getData = async () => {
         setLoading( true )
         const resp = await PitServices.getData( context )

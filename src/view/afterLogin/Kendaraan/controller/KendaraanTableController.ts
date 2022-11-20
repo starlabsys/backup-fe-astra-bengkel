@@ -1,7 +1,7 @@
 import KendaraanServices from "../../../../domain/services/KendaraanServices/KendaraanServices";
 import { useContext, useEffect, useState } from "react";
 import { InterfaceKendaraan } from "../interfaces/InterfaceKendaraan";
-import { IAlertDialogContext } from "../../../../component/IAlert/IAlertDialog";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 const KendaraanTableController = () => {

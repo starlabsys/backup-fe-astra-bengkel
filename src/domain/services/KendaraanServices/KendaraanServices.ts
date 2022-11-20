@@ -1,5 +1,5 @@
 import MotoCycleRepository from "../../repository/motocycle/MotoCycleRepository";
-import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 
 
 class KendaraanServices {

@@ -1,7 +1,7 @@
 import { LoginInterface } from "./interface/LoginInterface";
 import { post } from "../../../core/api/api";
 import { ReturnResult } from "../../../core/api/interface/InterfaceResponseResult";
-import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
+import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 
 
 class AuthRepository {

@@ -3,7 +3,7 @@ import errorLottie from "../../../public/lottie/error.json";
 import successLottie from "../../../public/lottie/success.json";
 import IButton from "../IButton/IButton";
 import { createContext, useState } from "react";
-import { ThemeProvider } from "@material-tailwind/react";
+import { useRouter } from "next/router";
 
 
 export interface InterfaceError {
@@ -11,6 +11,7 @@ export interface InterfaceError {
     onError : ( data : boolean ) => void;
     giveMessage : ( data : string ) => void;
     onCLick : () => void
+    toRoute : ( data : string ) => void
 }
 
 export const IAlertDialogContext = createContext( {} as InterfaceError )
@@ -23,9 +24,15 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
     const [ open, setOpen ] = useState( false );
     const [ isError, setIsError ] = useState( false );
     const [ message, setMessage ] = useState( '' );
+    const route = useRouter();
 
     const onOk = () => {
         setOpen( false )
+    }
+
+    const toRoute = ( data : string ) => {
+        route.replace( data ).then( () => {
+        } )
     }
 
 
@@ -33,7 +40,8 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
         setOpen : setOpen,
         onError : setIsError,
         giveMessage : setMessage,
-        onCLick : onOk
+        onCLick : onOk,
+        toRoute : toRoute
     } }>
         { props.children }
         {

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AlertInterface } from "./interface/alert_interface";
 import AuthServices from "../../../../domain/services/AuthServices/AuthServices";
 import { ValidateLogin } from "./ValidateLogin";
@@ -7,6 +7,7 @@ import { IConstantEnum } from "../../../../utils/enum/IConstantEnum";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import { setDataStorage } from "../../../../utils/localStorage/LocalStorage";
 import { setICookies } from "../../../../utils/cookies/ICookies";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 export const LoginViewModel = () => {
@@ -16,33 +17,27 @@ export const LoginViewModel = () => {
     const [ loading, setLoading ] = useState( false );
     const [ hide, setHide ] = useState( true );
     const [ modal, setModal ] = useState( false );
-    const [ validator, setValidator ] = useState<AlertInterface>( {
-        status : false,
-        message : "",
-        isSuccess : false
-    } );
+    const context = useContext( IAlertDialogContext );
 
 
     const login = async () => {
+
         setLoading( true );
         const validate = ValidateLogin( { username, password } );
         if ( !validate ) {
-            setValidator( {
-                status : true,
-                message : "Username & Password is required",
-                isSuccess : false
-            } );
             setLoading( false );
+            context.giveMessage( "Username & password is required" )
+            context.setOpen( true )
+            context.onError( true )
             return;
         }
 
-        const resp = await AuthServices.login( {
+        const resp = await AuthServices.login( context, {
             username : username,
             password : password
         } )
 
         if ( resp.message === 'success' ) {
-            console.log( resp.data )
             await setDataStorage( IConstantEnum.username, resp.data.person.username );
             await setDataStorage( IConstantEnum.id, resp.data.person.id );
             await setDataStorage( IConstantEnum.role, resp.data.person.role === 'Admin' ? RoleEnum.Admin : RoleEnum.SuperAdmin );
@@ -52,11 +47,6 @@ export const LoginViewModel = () => {
             } )
         }
         else {
-            setValidator( {
-                status : true,
-                message : resp.data.message,
-                isSuccess : false
-            } )
             setLoading( false );
         }
     }
@@ -70,13 +60,10 @@ export const LoginViewModel = () => {
         setPassword,
         loading,
         setLoading,
-        validator,
-        setValidator,
         login,
         hide,
         setHide,
         modal,
         setModal,
-        // error
     }
 }

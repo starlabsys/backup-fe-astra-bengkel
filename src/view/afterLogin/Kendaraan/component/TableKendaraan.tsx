@@ -12,39 +12,6 @@ interface Interface {
 
 const TableKendaraan = ( props : Interface ) => {
     const controller = KendaraanTableController();
-    // const [ state, setState ] = useState( 1 );
-    // const [ start, setStart ] = useState( 0 );
-
-    // const length = controller.sparepart.length / 10
-    // const pagination = []
-
-    // const dataTable = controller.sparepart.filter( ( value, index, array ) => {
-    //     console.log( state === 1 ? (index < start) : (start < start * state) )
-    //     if ( state === 1 ) {
-    //         return index < 10
-    //     }
-    //     else {
-    //         // console.log( '2 ' + (start < (start * state)) )
-    //         // const dataStart = (start * state) - 10
-    //         // const dataMax = start * state
-    //         // console.log( 'dataStart ' + dataStart + '||' + dataMax )
-    //         return index >= 10 && index < 20
-    //     }
-    //     // return state === 1 ? () : (start < start * state)
-    // } )
-
-    // if ( length <= 5 ) {
-    //     for ( let i = 0; i < length; i++ ) {
-    //         pagination.push( <div key = { i } className = { `w-10 h-10 flex place-content-center
-    //                             place-items-center rounded-lg border border-primary hover:bg-primary hover:text-white
-    //                             cursor-pointer ${ (i + 1) === state ?
-    //             'bg-primary text-white' : '' }` } onClick = { () => {
-    //             setState( i + 1 )
-    //         } }>
-    //             { i + 1 }
-    //         </div> )
-    //     }
-    // }
 
     const loading : JSX.Element = <div className = { `w-full flex place-content-center py-5` }>
         <ISpinLoading/>
@@ -115,10 +82,6 @@ const TableKendaraan = ( props : Interface ) => {
         <div className = { `mt-5 px-5 flex gap-2 place-content-end` }>
             <div className = { `w-20 h-10 flex place-content-center place-items-center rounded-lg border border-primary cursor-pointer hover:bg-primary hover:text-white` }
                  onClick = { () => {
-                     // if ( state > 1 ) {
-                     //     setState( state - 1 )
-                     //
-                     // }
                  } }>
                 Prev
             </div>
@@ -127,8 +90,6 @@ const TableKendaraan = ( props : Interface ) => {
             }
             <div className = { `w-20 h-10 flex place-content-center place-items-center rounded-lg border border-primary cursor-pointer hover:bg-primary hover:text-white` }
                  onClick = { () => {
-                     // setState( state + 1 )
-                     // setStart( start + 10 )
                  } }>
                 Next
             </div>

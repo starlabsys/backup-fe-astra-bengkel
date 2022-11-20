@@ -1,20 +1,53 @@
+import { useContext } from "react";
+import { IAlertDialogContext, InterfaceError } from "../utils/error/IAlertDialog";
+
+
 interface ErrorProps {
     message : string;
-    statusCode : number;
 }
 
 class ErrorHandler {
-    errorResponse = ( props : ErrorProps ) => {
+    // context = useContext( IAlertDialogContext );
+
+    public errorResponse = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
-    timeout = () => {
+    public timeout = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
-    notAuthorized = () => {
+    public forbiddenAccess = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
-    networkError = () => {
-        console.log( 'Network Error' )
+    public notFound = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
-    internalError = () => {
-        console.log( 'Internal Error' )
+    public methodNotAllowed = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
+    }
+    public notAuthorized = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
+    }
+    public networkError = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
+    }
+    public internalError = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
 }
 

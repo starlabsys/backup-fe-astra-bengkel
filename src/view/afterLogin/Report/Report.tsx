@@ -8,7 +8,7 @@ import IButton from "../../../component/IButton/IButton";
 const ReportView = () => {
 
     return <div className = { `flex-1 relative` }>
-        <IBreadcrumbs title = { `Report` } subtitle = { `/ report` }/>
+        <IBreadcrumbs title = { `Report` } subtitle = { `report` }/>
         <ISizeBox height = { `h-5` }/>
         <div className = { `bg-white p-5 rounded-lg grid gap-5` }>
             <div className = { `${ body2 } text-primary mb-5` }>

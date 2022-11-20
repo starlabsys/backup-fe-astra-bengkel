@@ -25,6 +25,7 @@ export interface InterfaceTextFieldRounded {
     type : HTMLInputTypeAttribute
     onChange : ChangeEventHandler<HTMLInputElement>
     required? : boolean;
+    name? : string
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
 }
 
@@ -36,6 +37,7 @@ export interface InterfaceTextFieldDefault {
     onChange : ChangeEventHandler<HTMLInputElement>
     error? : boolean;
     placeholder : string;
+    name? : string
     label : string;
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
 }

@@ -1,9 +1,8 @@
-import { InterfaceSideBar } from "../interface/InterfaceSideBar";
 import { IoMdHome, IoIosFolderOpen, IoMdPeople, IoMdSwitch, IoIosWarning } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { getDataStorage } from "../../utils/localStorage/LocalStorage";
 import { IConstantEnum } from "../../utils/enum/IConstantEnum";
-import { getICookies } from "../../utils/cookies/ICookies";
+import { FaWrench } from "react-icons/fa";
 
 
 export const SideBarVM = () => {
@@ -30,6 +29,11 @@ export const SideBarVM = () => {
                     path : '/produk'
                 },
             ]
+        },
+        {
+            title : 'Services',
+            icon : <FaWrench color = { `white` } size = { 30 }/>,
+            path : '/services'
         },
         {
             title : 'Report',

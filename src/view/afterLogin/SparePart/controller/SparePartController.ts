@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InterfaceSparePart } from "../interfaces/InterfaceSparePart";
 import SparePartServices from "../../../../domain/services/SparePartServices/SparePartServices";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 const SparePartController = () => {
-
+    const context = useContext( IAlertDialogContext );
     const [ sparepart, setSparepart ] = useState<InterfaceSparePart[]>( [] as InterfaceSparePart[] );
     const [ loading, setLoading ] = useState( false );
 
     const getSparepart = async () => {
         setLoading( true )
-        const response = await SparePartServices.get();
+        const response = await SparePartServices.get( context );
         if ( response.message === "success" ) {
             const resp : [] = response.data
             const listData : InterfaceSparePart[] = resp.map( ( item : any, data ) => {

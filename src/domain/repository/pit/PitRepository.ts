@@ -1,16 +1,17 @@
 import { del, get, patch, post } from "../../../core/api/api"
 import { InterfacePit } from "./interface/InterfacePit";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class PitRepository {
-    public get = async () => {
-        return await get( {
+    public get = async ( context : InterfaceError ) => {
+        return await get( context, {
             url : '/workshop'
         } )
     }
 
-    public add = async ( props : InterfacePit ) => {
-        return await post( {
+    public add = async ( context : InterfaceError, props : InterfacePit ) => {
+        return await post( context, {
             url : '/workshop',
             reqBody : {
                 "user_id" : props.userId,
@@ -21,8 +22,8 @@ class PitRepository {
         } )
     }
 
-    public updated = async ( id : string, props : InterfacePit ) => {
-        return await patch( {
+    public updated = async ( context : InterfaceError, id : string, props : InterfacePit ) => {
+        return await patch( context, {
             url : '/workshop' + id.toString(),
             reqBody : {
                 "user_id" : props.userId,
@@ -33,8 +34,8 @@ class PitRepository {
         } )
     }
 
-    public delete = async ( id : string ) => {
-        return await del( {
+    public delete = async ( context : InterfaceError, id : string ) => {
+        return await del( context, {
             url : '/workshop' + id,
             reqBody : {}
         } )

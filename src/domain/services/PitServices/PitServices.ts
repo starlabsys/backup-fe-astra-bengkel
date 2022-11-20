@@ -1,9 +1,10 @@
 import PitRepository from "../../repository/pit/PitRepository";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class PitServices {
-    public getData = async () => {
-        return await PitRepository.get()
+    public getData = async ( context : InterfaceError ) => {
+        return await PitRepository.get( context )
     }
 }
 

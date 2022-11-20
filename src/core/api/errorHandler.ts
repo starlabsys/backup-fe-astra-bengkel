@@ -1,19 +1,27 @@
+import { useContext } from "react";
+import { IAlertDialogContext, InterfaceError } from "../../component/IAlert/IAlertDialog";
+
+
 interface ErrorProps {
     message : string;
-    statusCode : number;
 }
 
 class ErrorHandler {
-    errorResponse = ( props : ErrorProps ) => {
+    // context = useContext( IAlertDialogContext );
+
+    public errorResponse = ( context : InterfaceError, props : ErrorProps ) => {
     }
-    timeout = () => {
+    public timeout = ( context : InterfaceError, props : ErrorProps ) => {
     }
-    notAuthorized = () => {
+    public notAuthorized = ( context : InterfaceError, props : ErrorProps ) => {
+        context.giveMessage( props.message );
+        context.onError( true );
+        context.setOpen( true );
     }
-    networkError = () => {
+    public networkError = ( context : InterfaceError, props : ErrorProps ) => {
         console.log( 'Network Error' )
     }
-    internalError = () => {
+    public internalError = ( context : InterfaceError, props : ErrorProps ) => {
         console.log( 'Internal Error' )
     }
 }

@@ -1,16 +1,17 @@
 import { del, get, post } from "../../../core/api/api"
 import { InterfaceMotoCycle } from "./interface/InterfaceMotoCycle";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class MotoCycleRepository {
-    public get = async () => {
-        return await get( {
+    public get = async ( context : InterfaceError ) => {
+        return await get( context, {
             url : "/vehicle",
         } )
     }
 
-    public add = async ( props : InterfaceMotoCycle ) => {
-        return await post( {
+    public add = async ( context : InterfaceError, props : InterfaceMotoCycle ) => {
+        return await post( context, {
             url : "/vehicle",
             reqBody : {
                 "no_polisi" : props.noPolisi,
@@ -25,8 +26,8 @@ class MotoCycleRepository {
         } )
     }
 
-    public patch = async ( id : string, props : InterfaceMotoCycle ) => {
-        return await post( {
+    public patch = async ( context : InterfaceError, id : string, props : InterfaceMotoCycle ) => {
+        return await post( context, {
             url : "/vehicle" + id.toString(),
             reqBody : {
                 "no_polisi" : props.noPolisi,
@@ -41,8 +42,8 @@ class MotoCycleRepository {
         } )
     }
 
-    public delete = async ( id : string ) => {
-        return await del( {
+    public delete = async ( context : InterfaceError, id : string ) => {
+        return await del( context, {
             url : "/vehicle/" + id,
             reqBody : {}
         } )

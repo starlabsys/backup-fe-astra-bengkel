@@ -1,9 +1,10 @@
 import MotoCycleRepository from "../../repository/motocycle/MotoCycleRepository";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class KendaraanServices {
-    public getDataKendaraan = async () => {
-        return await MotoCycleRepository.get()
+    public getDataKendaraan = async ( context : InterfaceError ) => {
+        return await MotoCycleRepository.get( context )
     }
 }
 

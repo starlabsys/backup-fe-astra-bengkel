@@ -1,14 +1,18 @@
 import PitServices from "../../../../domain/services/PitServices/PitServices";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InterfacePit } from "../interface/InterfacePit";
+import { IAlertDialogContext } from "../../../../component/IAlert/IAlertDialog";
 
 
 const TablePitController = () => {
     const [ pit, setPit ] = useState<InterfacePit[]>( [] as InterfacePit[] );
     const [ loading, setLoading ] = useState( false );
+
+    const context = useContext( IAlertDialogContext );
+    
     const getData = async () => {
         setLoading( true )
-        const resp = await PitServices.getData()
+        const resp = await PitServices.getData( context )
         if ( resp.message === "success" ) {
             const data : [] = resp.data
             const result : InterfacePit[] = data.map( ( item : any ) => {

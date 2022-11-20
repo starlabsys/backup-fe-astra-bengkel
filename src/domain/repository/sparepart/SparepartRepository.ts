@@ -1,12 +1,13 @@
 import { InterfaceAddSparePart } from "./interfaces/InterfaceAddSparePart";
 import { del, get, patch, post } from "../../../core/api/api";
 import { InterfacePatchSparePart } from "./interfaces/InterfacePatchSparePart";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class SparepartRepository {
 
-    public add = async ( props : InterfaceAddSparePart ) : Promise<any> => {
-        return await post( {
+    public add = async ( context : InterfaceError, props : InterfaceAddSparePart ) : Promise<any> => {
+        return await post( context, {
             url : "/parts/store",
             reqBody : {
                 "parts_code" : props.partsCode,
@@ -17,14 +18,14 @@ class SparepartRepository {
         } )
     }
 
-    public get = async () : Promise<any> => {
-        return await get( {
+    public get = async ( context : InterfaceError ) : Promise<any> => {
+        return await get( context, {
             url : "/parts"
         } )
     }
 
-    public updated = async ( props : InterfacePatchSparePart ) : Promise<any> => {
-        return await patch( {
+    public updated = async ( context : InterfaceError, props : InterfacePatchSparePart ) : Promise<any> => {
+        return await patch( context, {
             url : '/parts/update',
             reqBody : {
                 'parts_id' : props.partsId,
@@ -36,8 +37,8 @@ class SparepartRepository {
         } )
     }
 
-    public deleted = async ( id : string ) : Promise<any> => {
-        return await del( {
+    public deleted = async ( context : InterfaceError, id : string ) : Promise<any> => {
+        return await del( context, {
             url : `/parts/delete/${ id }`,
             reqBody : {}
         } )

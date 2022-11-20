@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import ErrorHandler from "./errorHandler";
 import { baseUrl, header, timeOut } from "./baseApi";
 import { ReturnResult } from "./interface/InterfaceResponseResult";
+import { InterfaceError } from "../../component/IAlert/IAlertDialog";
 
 
 if ( process.env.ENV === 'dev' ) {
@@ -24,25 +25,9 @@ if ( process.env.ENV === 'dev' ) {
             return response;
         },
         error => {
-            console.log( error );
-            if ( error.response?.status === 400 ) {
-                ErrorHandler.errorResponse( { message : error.response.data, statusCode : error.response.status } );
-            }
-            if ( error.response?.status === 401 ) {
-                ErrorHandler.errorResponse( { message : error.response.data, statusCode : error.response.status } );
-            }
-            if ( error.response?.status === 403 ) {
-                ErrorHandler.timeout();
-            }
-            if ( error.response?.status === 504 ) {
-                ErrorHandler.internalError();
-            }
-            if ( error.message === 'Network Error' ) {
-                ErrorHandler.networkError();
-            }
-            if ( error.message === 'Timeout' ) {
-                ErrorHandler.timeout();
-            }
+            // ErrorHandler.notAuthorized();
+            // console.log( error );
+
             return Promise.reject( error );
         },
     );
@@ -54,7 +39,7 @@ interface ApiProps {
 }
 
 
-const fetchData = async ( config : AxiosRequestConfig ) : Promise<ReturnResult> => {
+const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig ) : Promise<ReturnResult> => {
     try {
         const resp = await axios( config );
         if ( resp.status === 200 ) {
@@ -79,6 +64,25 @@ const fetchData = async ( config : AxiosRequestConfig ) : Promise<ReturnResult> 
     } catch ( e ) {
         const error : AxiosError = e as AxiosError;
         console.debug( '::ERROR:: ', '\n' + e );
+        const data : any = error.response?.data;
+        if ( error.response?.status === 400 ) {
+            ErrorHandler.errorResponse( context, { message : data.message } );
+        }
+        if ( error.response?.status === 401 ) {
+            ErrorHandler.notAuthorized( context, { message : data.message } );
+        }
+        if ( error.response?.status === 403 ) {
+            ErrorHandler.timeout( context, { message : data.message } );
+        }
+        if ( error.response?.status === 504 ) {
+            ErrorHandler.internalError( context, { message : data.message } );
+        }
+        if ( error.message === 'Network Error' ) {
+            ErrorHandler.networkError( context, { message : "Network Error" } );
+        }
+        if ( error.message === 'Timeout' ) {
+            ErrorHandler.timeout( context, { message : "Request Time out" } );
+        }
         return {
             message : 'error',
             statusCode : error.response?.status ?? 500,
@@ -91,8 +95,8 @@ const fetchData = async ( config : AxiosRequestConfig ) : Promise<ReturnResult> 
     }
 }
 
-export const post = async ( props : ApiProps ) : Promise<any> => {
-    return await fetchData( {
+export const post = async ( context : InterfaceError, props : ApiProps ) : Promise<any> => {
+    return await fetchData( context, {
         method : 'POST',
         url : baseUrl() + props.url,
         data : props.reqBody,
@@ -103,8 +107,8 @@ export const post = async ( props : ApiProps ) : Promise<any> => {
     } );
 
 }
-export const get = async ( props : ApiProps ) : Promise<any> => {
-    return await fetchData( {
+export const get = async ( context : InterfaceError, props : ApiProps ) : Promise<any> => {
+    return await fetchData( context, {
         method : 'GET',
         url : baseUrl() + props.url,
         headers : await header(),
@@ -113,8 +117,8 @@ export const get = async ( props : ApiProps ) : Promise<any> => {
     } );
 
 }
-export const put = async ( props : ApiProps ) : Promise<any> => {
-    return await fetchData( {
+export const put = async ( context : InterfaceError, props : ApiProps ) : Promise<any> => {
+    return await fetchData( context, {
         method : 'PUT',
         url : baseUrl() + props.url,
         data : props.reqBody,
@@ -124,8 +128,8 @@ export const put = async ( props : ApiProps ) : Promise<any> => {
     } );
 
 }
-export const patch = async ( props : ApiProps ) : Promise<any> => {
-    return await fetchData( {
+export const patch = async ( context : InterfaceError, props : ApiProps ) : Promise<any> => {
+    return await fetchData( context, {
         method : 'PATCH',
         url : baseUrl() + props.url,
         data : props.reqBody,
@@ -135,8 +139,8 @@ export const patch = async ( props : ApiProps ) : Promise<any> => {
     } );
 
 }
-export const del = async ( props : ApiProps ) : Promise<any> => {
-    return await fetchData( {
+export const del = async ( context : InterfaceError, props : ApiProps ) : Promise<any> => {
+    return await fetchData( context, {
         method : 'DELETE',
         url : baseUrl() + props.url,
         data : props.reqBody,

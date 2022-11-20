@@ -1,23 +1,24 @@
 import { InterfaceAddSparePart } from "../../repository/sparepart/interfaces/InterfaceAddSparePart";
 import SparepartRepository from "../../repository/sparepart/SparepartRepository";
 import { InterfacePatchSparePart } from "../../repository/sparepart/interfaces/InterfacePatchSparePart";
+import { InterfaceError } from "../../../component/IAlert/IAlertDialog";
 
 
 class SparePartServices {
-    public add = async ( props : InterfaceAddSparePart ) : Promise<any> => {
-        return await SparepartRepository.add( props );
+    public add = async ( context : InterfaceError, props : InterfaceAddSparePart ) : Promise<any> => {
+        return await SparepartRepository.add( context, props );
     }
 
-    public get = async () : Promise<any> => {
-        return await SparepartRepository.get();
+    public get = async ( context : InterfaceError ) : Promise<any> => {
+        return await SparepartRepository.get( context );
     }
 
-    public updated = async ( props : InterfacePatchSparePart ) : Promise<any> => {
-        return await SparepartRepository.updated( props );
+    public updated = async ( context : InterfaceError, props : InterfacePatchSparePart ) : Promise<any> => {
+        return await SparepartRepository.updated( context, props );
     }
 
-    public deleted = async ( id : string ) : Promise<any> => {
-        return await SparepartRepository.deleted( id );
+    public deleted = async ( context : InterfaceError, id : string ) : Promise<any> => {
+        return await SparepartRepository.deleted( context, id );
     }
 }
 

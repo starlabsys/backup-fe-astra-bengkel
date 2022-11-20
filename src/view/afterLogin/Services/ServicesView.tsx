@@ -6,7 +6,6 @@ import IButton from "../../../component/IButton/IButton";
 import CardInformationData from "./component/CardInformationData";
 import ServicesController from "./controller/ServicesController";
 import TablePKB from "./component/TablePKB";
-import { IConstantEnum } from "../../../utils/enum/IConstantEnum";
 import { RoleEnum } from "../../../utils/enum/RoleEnum";
 import { useContext } from "react";
 import { DialogDataContext } from "../../../context/IDialogData";
@@ -134,7 +133,8 @@ const ServicesView = () => {
                             </>
                     }
                     <IButton size = { 'medium' } rounded = { 'full' } status = { 'success' } onClick = { () => {
-
+                        controller.route.push( '/services/tambah-pkb' ).then( () => {
+                        } )
                     } }>
                         Tambah PKB
                     </IButton>

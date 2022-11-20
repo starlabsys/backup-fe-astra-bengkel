@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IConstantEnum } from "../../../../utils/enum/IConstantEnum";
+import { useRouter } from "next/router";
 
 
 const ServicesController = () => {
@@ -21,6 +22,7 @@ const ServicesController = () => {
         },
     ]
     const [ role, setRole ] = useState( '' );
+    const route = useRouter()
     const getRole = async () => {
         const roleResult = await localStorage.getItem( IConstantEnum.role )
         setRole( roleResult ?? '' );
@@ -33,7 +35,8 @@ const ServicesController = () => {
     } )
     return {
         listCardInformationData,
-        role
+        role,
+        route
     }
 }
 export default ServicesController

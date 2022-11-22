@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 
 
 export interface IDialogDataContext {
+    setDisable : ( data : boolean ) => void;
     openDialog : ( data : boolean ) => void;
     setDialogData : ( data : JSX.Element ) => void;
 }
@@ -14,9 +15,14 @@ interface InterfaceBody {
 
 export const IDialogData = ( prop : InterfaceBody ) => {
     const [ state, setState ] = useState<JSX.Element>( <div></div> );
+    const [ disableBack, setDisableBack ] = useState( false );
     const [ open, setOpen ] = useState( false );
 
-    return <DialogDataContext.Provider value = { { openDialog : setOpen, setDialogData : setState } }>
+    return <DialogDataContext.Provider value = { {
+        openDialog : setOpen,
+        setDialogData : setState,
+        setDisable : setDisableBack
+    } }>
         { prop.children }
         {
             open ?
@@ -25,7 +31,8 @@ export const IDialogData = ( prop : InterfaceBody ) => {
                         { state }
                     </div>
                     <div className = { `absolute top-0 h-screen w-screen -z-10 bg-black opacity-50` }
-                         onClick = { () => {
+                         onClick = { disableBack ? () => {
+                         } : () => {
                              setOpen( false )
                          } }>
                     </div>

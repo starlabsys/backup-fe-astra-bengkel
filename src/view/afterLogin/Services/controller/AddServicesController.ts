@@ -6,6 +6,7 @@ const AddServicesController = () => {
     const [ excel, setExcel ] = useState<[]>( [] );
     const dialog = useContext( DialogDataContext )
     return {
+        excel,
         setExcel,
         dialog,
     }

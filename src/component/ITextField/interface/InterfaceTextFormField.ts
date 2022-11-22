@@ -34,11 +34,13 @@ export interface InterfaceTextFieldDefault {
     type : HTMLInputTypeAttribute;
     disabled? : boolean;
     required? : boolean;
-    onChange : ChangeEventHandler<HTMLInputElement>
+    onChange? : ChangeEventHandler<HTMLInputElement>
     error? : boolean;
-    placeholder : string;
+    placeholder? : string;
     name? : string
     label : string;
+    labelColor? : string;
+    backgroundLabel? : string;
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
 }
 

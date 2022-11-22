@@ -2,6 +2,7 @@ import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
 import IButton from "../../../../component/IButton/IButton";
 import AddServicesController from "../controller/AddServicesController";
+import { useState } from "react";
 
 
 const XLSX = require( "xlsx" );
@@ -41,9 +42,9 @@ const DialogAddExcel = () => {
                 Cancel
             </IButton>
             <IButton size = { 'small' } rounded = { 'full' } status = { 'success' } onClick = { () => {
-                // excel.map( ( data : any ) => {
-                //     return console.log( data );
-                // } )
+                controller.excel.map( ( data : any ) => {
+                    return console.log( data );
+                } )
             } }>
                 Tambah
             </IButton>

@@ -62,8 +62,8 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             data : resp.data
         };
     } catch ( e ) {
-        const error : AxiosError = e as AxiosError;
-        console.debug( '::ERROR:: ', '\n' + e );
+        const error = e as AxiosError;
+        console.debug( '::ERROR:: ', '\n' + error );
         const data : any = error.response?.data;
         if ( error.response?.status === 400 ) {
             ErrorHandler.errorResponse( context, { message : data.message } );
@@ -109,7 +109,6 @@ export const post = async ( context : InterfaceError, props : ApiProps ) : Promi
         headers : await header(),
         timeout : timeOut,
         timeoutErrorMessage : 'Timeout',
-
     } );
 
 }

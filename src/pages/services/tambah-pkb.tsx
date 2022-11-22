@@ -1,10 +1,10 @@
 import MainLayout from "../../layout/MainLayout";
-import AddServicesView from "../../view/afterLogin/Services/AddServicesView";
+import AddServicesPKBView from "../../view/afterLogin/Services/AddServicesPKBView";
 
 
 const TambahPkb = () => {
     return <MainLayout>
-        <AddServicesView/>
+        <AddServicesPKBView/>
     </MainLayout>
 }
 export default TambahPkb

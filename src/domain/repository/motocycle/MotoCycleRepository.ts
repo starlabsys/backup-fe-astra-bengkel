@@ -1,12 +1,15 @@
 import { del, get, post } from "../../../core/api/api"
 import { InterfaceMotoCycle } from "./interface/InterfaceMotoCycle";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
+import { InterfacePagination } from "../../interface/InterfacePagination";
 
 
 class MotoCycleRepository {
-    public get = async ( context : InterfaceError ) => {
+    public get = async ( context : InterfaceError, props : InterfacePagination ) => {
+        console.log( 'props.search' )
+        console.log( props.search )
         return await get( context, {
-            url : "/vehicle",
+            url : `/vehicle?page=${ props.page }&limit=${ props.limit }&search=${ props.search }`
         } )
     }
 

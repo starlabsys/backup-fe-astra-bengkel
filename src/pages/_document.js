@@ -4,10 +4,12 @@ import Document, {Html, Head, Main, NextScript} from 'next/document'
 class MyDocument extends Document {
     render() {
         return (
-            <Html>
+            <Html lang = {'id'}>
                 <Head>
                     {/* eslint-disable-next-line @next/next/no-title-in-document-head */}
                     <title>Astra Honda Pontianak</title>
+                    <meta name = "viewport"
+                          content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
                     <meta name = "description" content = {'Astra Honda Pontianak'}/>
                     <meta name = "keywords" content = {'Astra Honda Pontianak'}/>
                     <meta name = "viewport" content = {'width=device-width, initial-scale=1.0'}/>

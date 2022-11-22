@@ -20,11 +20,16 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
                    name = { props.name }
                    enterKeyHint = { props.onEnter }
                    required = { props.required }
-                   className = { `focus:outline-none bg-white w-full placeholder:text-sm` }
-                   placeholder = { props.placeholder } onChange = { props.onChange } disabled = { props.disabled }/>
+                   className = { `focus:outline-none bg-white w-full placeholder:text-sm bg-transparent` }
+                   placeholder = { props.placeholder ?? '' }
+                   onChange = { props.onChange }
+                   disabled = { props.disabled }/>
         </div>
         <div className = { `absolute flex top-0 left-4 transform -translate-x-1 -translate-y-1/2` }>
-            <label className = { `bg-white px-1 ${ props.error ? "text-danger" : 'text-primary' } text-sm` }>{ props.label }</label>
+            <label className = { `${ props.backgroundLabel ?? 'bg-white' } 
+            px-1 ${ props.error ? "text-danger" : props.labelColor ?? 'text-primary' } text-sm` }>
+                { props.label }
+            </label>
         </div>
     </div>
 }

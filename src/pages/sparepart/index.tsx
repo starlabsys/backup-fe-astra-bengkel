@@ -1,10 +1,11 @@
 import MainLayout from "../../layout/MainLayout";
-import SparePartView from "../../view/afterLogin/SparePart/SparePartView";
-
+import SparePartView from "../../view/afterLogin/SparePart/IndexView/SparePartView";
 
 const Sparepart = () => {
-    return <MainLayout>
-        <SparePartView/>
-    </MainLayout>
-}
-export default Sparepart
+	return (
+		<MainLayout>
+			<SparePartView />
+		</MainLayout>
+	);
+};
+export default Sparepart;

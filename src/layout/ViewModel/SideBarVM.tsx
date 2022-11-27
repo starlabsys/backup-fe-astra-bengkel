@@ -3,7 +3,8 @@ import {
 	IoIosFolderOpen,
 	IoMdPeople,
 	IoMdSwitch,
-	IoIosWarning
+	IoIosWarning,
+	IoIosKey
 } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { getDataStorage } from "../../utils/localStorage/LocalStorage";
@@ -45,6 +46,11 @@ export const SideBarVM = () => {
 			title: "Report",
 			icon: <IoIosWarning color={`white`} size={30} />,
 			path: "/report"
+		},
+		{
+			title: "Ubah Sandi",
+			icon: <IoIosKey color={`white`} size={30} />,
+			path: "/change-password"
 		}
 	]);
 

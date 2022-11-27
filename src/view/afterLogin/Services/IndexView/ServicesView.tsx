@@ -1,19 +1,19 @@
-import IBreadcrumbs from "../../../component/IBreadcrumbs/IBreadcrumbs";
-import ITitleMd from "../../../component/ITitle/ITitleMd";
-import { ITextFieldDefault } from "../../../component/ITextField/ITextField";
-import ISelectOption from "../../../component/ITextField/ISelectOption";
-import IButton from "../../../component/IButton/IButton";
-import CardInformationData from "./component/CardInformationData";
-import ServicesController from "./controller/ServicesController";
-import TablePKB from "./component/TablePKB";
-import { RoleEnum } from "../../../utils/enum/RoleEnum";
+import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import ITitleMd from "../../../../component/ITitle/ITitleMd";
+import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
+import ISelectOption from "../../../../component/ITextField/ISelectOption";
+import IButton from "../../../../component/IButton/IButton";
+import CardInformationData from "../component/CardInformationData";
+import ServicesController from "./ServicesController";
+import TablePKB from "../component/TablePKB";
+import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import { useContext } from "react";
-import { DialogDataContext } from "../../../context/IDialogData";
-import DialogAddExcel from "./component/DialogAddExcel";
+import { DialogDataContext } from "../../../../context/IDialogData";
+import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
 
 const ServicesView = () => {
 	const controller = ServicesController();
-	const dialog = useContext(DialogDataContext);
+
 	return (
 		<div className={`flex-1 grid gap-5`}>
 			<IBreadcrumbs title={"Services"} subtitle={"services"} />
@@ -127,8 +127,8 @@ const ServicesView = () => {
 									rounded={"full"}
 									status={"success"}
 									onClick={() => {
-										dialog.openDialog(true);
-										dialog.setDialogData(<DialogAddExcel />);
+										controller.dialog.openDialog(true);
+										controller.dialog.setDialogData(<DialogAddExcel />);
 									}}
 								>
 									Tambah Dari Excel

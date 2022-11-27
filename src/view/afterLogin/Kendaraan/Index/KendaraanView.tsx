@@ -1,9 +1,9 @@
-import IBreadcrumbs from "../../../component/IBreadcrumbs/IBreadcrumbs";
-import ITitleMd from "../../../component/ITitle/ITitleMd";
-import { ITextFieldDefault } from "../../../component/ITextField/ITextField";
-import IButton from "../../../component/IButton/IButton";
-import TableKendaraan from "./component/TableKendaraan";
-import KendaraanController from "./controller/KendaraanController";
+import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import ITitleMd from "../../../../component/ITitle/ITitleMd";
+import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
+import IButton from "../../../../component/IButton/IButton";
+import TableKendaraan from "../component/TableKendaraan/TableKendaraan";
+import KendaraanController from "./KendaraanController";
 
 const KendaraanView = () => {
 	const controller = KendaraanController();

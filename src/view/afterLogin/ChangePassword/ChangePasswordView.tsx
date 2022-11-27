@@ -3,10 +3,10 @@ import IButton from "../../../component/IButton/IButton";
 import { ITextFieldDefault } from "../../../component/ITextField/ITextField";
 import ITitleMd from "../../../component/ITitle/ITitleMd";
 
-const ProfileView = () => {
+const ChangePasswordView = () => {
 	return (
 		<div className={`flex-1 grid gap-5`}>
-			<IBreadcrumbs title={"Profile"} subtitle={"profile"} />
+			<IBreadcrumbs title={"Ubah Sandi"} subtitle={"ubah-sandi"} />
 			<div className="p-5 grid gap-10 bg-white rounded-lg">
 				<ITitleMd title={"Edit Password"} />
 				<div className="grid gap-5 w-6/12">
@@ -36,4 +36,4 @@ const ProfileView = () => {
 	);
 };
 
-export default ProfileView;
+export default ChangePasswordView;

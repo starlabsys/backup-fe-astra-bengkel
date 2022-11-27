@@ -4,7 +4,7 @@ import AuthAnimation from "../../../../../component/animation/auth/auth_animatio
 import SpinLoading from "../../../../../component/animation/ISpinLoading/ISpinLoading";
 import Image from "next/image";
 import { LoginViewModel } from "./LoginController";
-import logo from "../../../../public/img/logo2.png";
+import logo from "../../../../../../public/img/logo2.png";
 
 const LoginView = () => {
 	const controller = LoginViewModel();

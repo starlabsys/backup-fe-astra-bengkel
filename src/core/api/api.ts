@@ -66,22 +66,22 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
         console.debug( '::ERROR:: ', '\n' + error );
         const data : any = error.response?.data;
         if ( error.response?.status === 400 ) {
-            ErrorHandler.errorResponse( context, { message : data.message } );
+            ErrorHandler.errorResponse( context, { message : data.message.message } );
         }
         if ( error.response?.status === 401 ) {
-            ErrorHandler.notAuthorized( context, { message : data.message } );
+            ErrorHandler.notAuthorized( context, { message : data.message.message } );
         }
         if ( error.response?.status === 403 ) {
             ErrorHandler.forbiddenAccess( context, { message : data.message } );
         }
         if ( error.response?.status === 404 ) {
-            ErrorHandler.notFound( context, { message : data.message } );
+            ErrorHandler.notFound( context, { message : data.message.message } );
         }
         if ( error.response?.status === 405 ) {
-            ErrorHandler.methodNotAllowed( context, { message : data.message } );
+            ErrorHandler.methodNotAllowed( context, { message : data.message.message } );
         }
         if ( error.response?.status === 504 ) {
-            ErrorHandler.internalError( context, { message : data.message } );
+            ErrorHandler.internalError( context, { message : data.message.message } );
         }
         if ( error.message === 'Network Error' ) {
             ErrorHandler.networkError( context, { message : "Network Error" } );

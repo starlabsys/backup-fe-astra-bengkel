@@ -9,7 +9,7 @@ const LogoutVM = () => {
     const logout = async () => {
         await removeDataStorage()
         await removeICookies( IConstantEnum.token )
-        await route.replace( '/auth/login' )
+        return route.replace( '/auth/login' )
     }
     return {
         logout

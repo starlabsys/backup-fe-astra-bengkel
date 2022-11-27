@@ -38,6 +38,7 @@ class ErrorHandler {
         context.giveMessage( props.message );
         context.onError( true );
         context.setOpen( true );
+        context.router( true );
     }
     public networkError = ( context : InterfaceError, props : ErrorProps ) => {
         context.giveMessage( props.message );

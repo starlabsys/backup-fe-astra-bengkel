@@ -18,18 +18,69 @@ const TableKendaraan = ( props : Interface ) => {
 
     const page : JSX.Element[] = [];
     for ( let i = 0; i < controller.totalPage; i++ ) {
-        page.push( <div key = { i }
-                        className = { `w-10 h-10 flex place-content-center 
+        if ( i < 4 ) {
+            page.push( <div key = { i }
+                            className = { `w-10 h-10 flex place-content-center 
                                 place-items-center rounded-lg border border-primary hover:bg-primary hover:text-white
                                 cursor-pointer ${ controller.page == i ? 'bg-primary text-white' : '' } ` }
-                        onClick = { () => {
-                            controller.setPage( i );
-                            controller.getDataKendaraan( i, controller.dataRow, '' ).then( () => {
-                            } );
-                        } }>
-            { i + 1 }
-        </div> )
+                            onClick = { () => {
+                                controller.setPage( i );
+                                controller.getDataKendaraan( i, controller.dataRow, '' ).then( () => {
+                                } );
+                            } }>
+                { i + 1 }
+            </div> )
+        }
+        else if ( controller.page >= 4 ) {
+            page.splice( 0, 1 );
+            page.push( <div key = { i }
+                            className = { `w-10 h-10 flex place-content-center 
+                                place-items-center rounded-lg border border-primary hover:bg-primary hover:text-white
+                                cursor-pointer ${ controller.page == i ? 'bg-primary text-white' : '' } ` }
+                            onClick = { () => {
+                                controller.setPage( i );
+                                controller.getDataKendaraan( i, controller.dataRow, '' ).then( () => {
+                                } );
+                            } }>
+                { i + 1 }
+            </div> )
+
+
+            // page.unshift( page[ 0 ], <div>
+            //     ....
+            // </div> )
+            // page.push( <div>
+            //     ....
+            // </div> )
+        }
+        else {
+            // page.map( ( item, index ) => {
+            //     if ( !item.includes( item ) ) {
+            // page.splice( i, 0 );
+
+            // page.push( )
+
+            // page.map( ( item, index ) => {
+            //     if ( item !== point ) {
+            //     }
+            // } )
+            // page.filter( ( item, index ) => {
+            //     return item !== <div>
+            //         ....
+            //     </div>
+            // } )
+            // page.splice( i, 1 );
+            //     }
+            // } )
+        }
     }
+    if ( controller.totalPage !== controller.page + 1 ) {
+        const point = <div>
+            ......
+        </div>
+        page.push( point )
+    }
+
     return <div className = { `flex-1 grid pb-10` }>
         <div className = { `px-5` }>
             <div className = { `border border-primary w-12 py-2 pl-1 flex place-items-center place-content-center rounded-lg cursor-pointer` }
@@ -100,7 +151,6 @@ const TableKendaraan = ( props : Interface ) => {
             <div className = { `w-20 h-10 flex place-content-center place-items-center rounded-lg border border-primary cursor-pointer hover:bg-primary hover:text-white` }
                  onClick = { () => {
                      if ( controller.page >= 1 ) {
-                         // console.log( `minus ${ controller.page }` )
                          controller.setPage( controller.page -= 1 );
                          controller.getDataKendaraan( controller.page, controller.dataRow, '' ).then( () => {
                          } )
@@ -108,15 +158,18 @@ const TableKendaraan = ( props : Interface ) => {
                  } }>
                 Prev
             </div>
-            {
-                page
-            }
+            <div className = { `grid grid-cols-2 gap-2 tablet:flex` }>
+                {
+                    page
+                }
+            </div>
             <div className = { `w-20 h-10 flex place-content-center place-items-center rounded-lg border border-primary cursor-pointer hover:bg-primary hover:text-white` }
                  onClick = { () => {
-                     // console.log( controller.page += 1 )
-                     controller.setPage( controller.page += 1 );
-                     controller.getDataKendaraan( controller.page, controller.dataRow, '' ).then( () => {
-                     } )
+                     if ( controller.page + 1 < controller.totalPage ) {
+                         controller.setPage( controller.page += 1 );
+                         controller.getDataKendaraan( controller.page, controller.dataRow, '' ).then( () => {
+                         } )
+                     }
                  } }>
                 Next
             </div>

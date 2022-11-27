@@ -1,4 +1,4 @@
-import LoginView from "../../../view/beforeLogin/Auth/Login/IndexView/LoginView";
+import LoginView from "../../../view/beforeLogin/Auth/Login/IndexView";
 import IAlertDialog from "../../../core/utils/error/IAlertDialog";
 
 const Login = () => {

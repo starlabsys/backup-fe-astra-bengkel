@@ -9,9 +9,9 @@ import logo from '../../../../public/img/logo2.png';
 
 const LoginView = () => {
     const controller = LoginViewModel()
-    
 
-    return <div className = { `bg-bgLogin w-screen h-screen bg-contain tablet:bg-none tablet:bg-white-secondary5 relative` }
+
+    return <div className = { `bg-bgLogin w-screen min-h-screen max-h-fit bg-contain tablet:bg-none tablet:bg-white-secondary5 relative overflow-y-scroll` }
                 style = { {
                     backgroundSize : "cover",
                     backgroundAttachment : "fixed",

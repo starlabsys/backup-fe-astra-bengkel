@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { useState } from 'react';
 
 
@@ -30,11 +32,22 @@ const AddServicesPKBController = () => {
     const [gudang, setGudang] = useState('')
     const [stnk, setStnk] = useState('')
     const [customerDatang, setCustomerDatang] = useState('')
-    const [lat, setLat] = useState('')
-    const [lng, setLng] = useState('')
+    const [lat, setLat] = useState(0)
+    const [lng, setLng] = useState(0)
     const [keluhan, setKeluhan] = useState('')
     const [gejala, setGejala] = useState('')
     const [uangMuka, setUangMuka] = useState('')
+
+    useEffect(() => {
+        getLat();
+    }, [])
+
+    const getLat = async () => {
+        await navigator.geolocation.getCurrentPosition((position) => {
+            setLat(position.coords.latitude)
+            setLng(position.coords.longitude)
+        })
+    }
 
     return {
         tanggal, setTanggal,
@@ -69,7 +82,8 @@ const AddServicesPKBController = () => {
         lng, setLng,
         keluhan, setKeluhan,
         gejala, setGejala,
-        uangMuka, setUangMuka
+        uangMuka, setUangMuka,
+        getLat
     }
 }
 

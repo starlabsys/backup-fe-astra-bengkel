@@ -28,6 +28,7 @@ const AddServicesPKBView = () => {
 		}
 	];
 	const controller = AddServicesPKBController();
+	// controller.getLat();
 	return (
 		<div className={`flex-1 grid gap-5`}>
 			<IBreadcrumbs title={"Pendaftaran Servis"} subtitle={" Tambah PKB"} />
@@ -529,16 +530,20 @@ const AddServicesPKBView = () => {
 					<div className={`grid grid-cols-2 gap-5 place-items-end`}>
 						<ITextFieldDefault
 							type={"text"}
+							disabled={true}
+							value={controller.lat}
 							onChange={(value) => {
-								controller.setLat(value.target.value);
+								// controller.getLat();
 							}}
 							label={"Latitude"}
 							onEnter={"next"}
 						/>
 						<ITextFieldDefault
 							type={"text"}
+							disabled={true}
+							value={controller.lng}
 							onChange={(value) => {
-								controller.setLng(value.target.value);
+								// controller.getLat();
 							}}
 							label={"Longitude"}
 							onEnter={"next"}

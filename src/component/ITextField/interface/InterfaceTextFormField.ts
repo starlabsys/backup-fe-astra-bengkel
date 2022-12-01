@@ -43,6 +43,7 @@ export interface InterfaceTextFieldDefault {
     backgroundLabel?: string;
     onEnter: "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
     errorMessages?: string;
+    value?: string | number | readonly string[] | undefined;
 }
 
 export interface InterfaceSelectOption {

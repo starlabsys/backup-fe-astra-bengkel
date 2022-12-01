@@ -37,6 +37,7 @@ export const ITextFieldDefault = (props: InterfaceTextFieldDefault) => {
 					placeholder={props.placeholder ?? ""}
 					onChange={props.onChange}
 					disabled={props.disabled}
+					value={props.value}
 				/>
 			</div>
 			<div

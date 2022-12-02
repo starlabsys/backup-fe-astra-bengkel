@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { IAlertDialogContext, InterfaceError } from "../utils/error/IAlertDialog";
+import { InterfaceError } from "../utils/error/IAlertDialog";
 
 
 interface ErrorProps {
@@ -49,6 +48,12 @@ class ErrorHandler {
         context.giveMessage( props.message );
         context.onError( true );
         context.setOpen( true );
+    }
+    public errorPost = ( context : InterfaceError, props : [] ) => {
+        props.map( ( item : any ) => {
+            context.openToast( true );
+            context.giveMessage( item.message );
+        } )
     }
 }
 

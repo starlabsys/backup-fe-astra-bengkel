@@ -26,7 +26,12 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     required = { props.required }
                     onClick = { () => {
                         setValue( undefined );
+                        setOpen( true )
                     } }
+                    onPointerEnter = { () => {
+                        setOpen( false )
+                    } }
+
                     value = { value }
                     className = { `focus:outline-none bg-white w-full placeholder:text-sm bg-transparent` }
                     placeholder = { props.placeholder }

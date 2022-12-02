@@ -6,37 +6,35 @@ import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 class PitRepository {
     public get = async ( context : InterfaceError ) => {
         return await get( context, {
-            url : '/workshop'
+            url : '/pit'
         } )
     }
 
     public add = async ( context : InterfaceError, props : InterfacePit ) => {
         return await post( context, {
-            url : '/workshop',
+            url : '/pit',
             reqBody : {
-                "user_id" : props.userId,
-                "dealer_number" : props.dealerNumber,
-                "dealer_name" : props.dealerName,
-                "address" : props.address,
+                "kode_pit" : props.kode_pit,
+                "tipe_pit" : props.tipe_pit,
+                "is_active" : props.is_active,
             }
         } )
     }
 
     public updated = async ( context : InterfaceError, id : string, props : InterfacePit ) => {
         return await patch( context, {
-            url : '/workshop' + id.toString(),
+            url : '/pit' + id.toString(),
             reqBody : {
-                "user_id" : props.userId,
-                "dealer_number" : props.dealerNumber,
-                "dealer_name" : props.dealerName,
-                "address" : props.address,
+                "kode_pit" : props.kode_pit,
+                "tipe_pit" : props.tipe_pit,
+                "is_active" : props.is_active,
             }
         } )
     }
 
     public delete = async ( context : InterfaceError, id : string ) => {
         return await del( context, {
-            url : '/workshop' + id,
+            url : '/pit' + id,
             reqBody : {}
         } )
     }

@@ -1,36 +1,48 @@
-import { useState } from "react";
+import { Header1 } from "../styles/Style";
+import IButton from "../IButton/IButton";
+import { IDialogDataContext } from "../../context/IDialogData";
+import ISpinLoading from "../animation/ISpinLoading/ISpinLoading";
 
 
 interface InterfaceIDialog {
-    children? : JSX.Element;
-    header? : JSX.Element;
+    dialog : IDialogDataContext
+    titleHeader : string
+    children : JSX.Element
+    textButton? : string
+    textButtonCancel? : string
+    onClick? : () => void
+    onClickCancel? : () => void
+    oneButton? : boolean
+    loading? : boolean
 }
 
-
-const IDialog = ( props : InterfaceIDialog ) => {
-    const [ open, setOpen ] = useState( true );
-    return (
-        <>
+export const IDialog = ( props : InterfaceIDialog ) => {
+    const closeDialog = () => {
+        props.dialog.openDialog( false )
+    }
+    const text = props.textButton ?? 'Simpan'
+    const loading = <ISpinLoading/>;
+    return <div className = { `grid gap-10` }>
+        <div className = { `${ Header1 } grid gap-2` }>
+            { props.titleHeader }
+            <hr/>
+        </div>
+        <div>
+            { props.children }
+        </div>
+        <hr/>
+        <div className = { `flex gap-5 place-content-end` }>
             {
-                open ? <div>
-                    <div
-                        className = "justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-                    >
-                        <div className = "relative w-auto my-6 mx-auto max-w-3xl">
-                            <div className = "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                {
-                                    props.header ?? null
-                                }
-                                <div className = "relative p-6 flex-auto">
-                                    { props.children }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className = "opacity-25 fixed inset-0 z-40 bg-black"></div>
-                </div> : null
+                props.oneButton ? null : <IButton size = { 'small' }
+                                                  rounded = { "full" }
+                                                  status = { "primary" }
+                                                  onClick = { props.onClickCancel ?? closeDialog }>
+                    { props.textButtonCancel ?? 'Close' }
+                </IButton>
             }
-        </>
-    );
+            <IButton size = { 'small' } rounded = { "full" } status = { "success" } onClick = { props.onClick }>
+                { props.loading ? loading : text }
+            </IButton>
+        </div>
+    </div>
 }
-export default IDialog

@@ -4,7 +4,7 @@ import { MouseEventHandler } from "react";
 
 interface Interface {
     size : 'small' | 'medium' | 'large';
-    children : string;
+    children : string | JSX.Element;
     rounded : 'full' | 'lg';
     textColor? : string
     status? : 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';

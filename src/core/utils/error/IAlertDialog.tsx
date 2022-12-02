@@ -2,9 +2,11 @@ import ImageLottie from "../../../component/lottie/image-lottie";
 import errorLottie from "../../../../public/lottie/error.json";
 import successLottie from "../../../../public/lottie/success.json";
 import IButton from "../../../component/IButton/IButton";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LogoutVM from "../../../layout/ViewModel/LogoutVM";
+import { body3, Title2 } from "../../../component/styles/Style";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 
 export interface InterfaceError {
@@ -13,6 +15,8 @@ export interface InterfaceError {
     giveMessage : ( data : string ) => void;
     router : ( data : boolean ) => void;
     onCLick : () => void
+    openToast : ( data : boolean ) => void;
+    toastMessage : ( data : string ) => void;
 
     // toRoute : ( data : string ) => void
 }
@@ -31,6 +35,17 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
     const logout = LogoutVM();
     const route = useRouter();
 
+    const [ openToast, setOpenToast ] = useState( false );
+    const [ messageToast, setMessageToast ] = useState( '' );
+
+    useEffect( () => {
+        if ( openToast ) {
+            setTimeout( () => {
+                setOpenToast( false )
+            }, 3000 )
+        }
+    }, [ openToast ] )
+
     const onOk = () => {
         if ( onRoute ) {
             return logout.logout().then( () => {
@@ -46,7 +61,9 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
         onError : setIsError,
         giveMessage : setMessage,
         onCLick : onOk,
-        router : setOnRoute
+        router : setOnRoute,
+        openToast : setOpenToast,
+        toastMessage : setMessageToast
         // toRoute : toRoute
     } }>
         { props.children }
@@ -70,6 +87,20 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
                         </div>
                     </div>
                     <div className = { `h-screen w-screen absolute top-0 bg-black opacity-50` } onClick = { onOk }>
+                    </div>
+                </div>
+            </div> : null
+        }
+        {
+            openToast ? <div className = { `absolute top-0 top-24` }>
+                <div className = { `w-screen flex place-content-center tablet:place-content-end` }>
+                    <div className = { `w-11/12 tablet:w-6/12 laptop:w-4/12 shadow-2xl bg-success rounded-lg px-5 py-3 ${ Title2 } text-white tablet:mr-5` }>
+                        Success <br/> <span className = { `${ body3 }` }>{ messageToast }</span>
+                    </div>
+                    <div className = { `absolute right-5 top-0` }>
+                        <AiFillCloseCircle color = { 'white' } onClick = { () => {
+                            setOpenToast( false )
+                        } }/>
                     </div>
                 </div>
             </div> : null

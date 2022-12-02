@@ -25,9 +25,6 @@ if ( process.env.ENV === 'dev' ) {
             return response;
         },
         error => {
-            // ErrorHandler.notAuthorized();
-            // console.log( error );
-
             return Promise.reject( error );
         },
     );
@@ -69,7 +66,8 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.errorResponse( context, { message : data.message.message } );
         }
         if ( error.response?.status === 401 ) {
-            ErrorHandler.notAuthorized( context, { message : data.message.message } );
+            const dataList : [] = data.result;
+            ErrorHandler.errorPost( context, dataList );
         }
         if ( error.response?.status === 403 ) {
             ErrorHandler.forbiddenAccess( context, { message : data.message } );

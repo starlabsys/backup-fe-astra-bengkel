@@ -37,7 +37,8 @@ const TablePitController = () => {
     }, [] )
     return {
         pit,
-        loading
+        loading,
+        getData
     }
 }
 export default TablePitController

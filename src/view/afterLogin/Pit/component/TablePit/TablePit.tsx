@@ -12,12 +12,13 @@ import { InterfacePit } from "../../interface/InterfacePit";
 
 interface Interface {
     updated : ( data : InterfacePit ) => void;
+    controller : { pit : InterfacePit[], loading : boolean };
 }
 
 const TablePit = ( props : Interface ) => {
-    const controller = TablePitController();
 
-    return controller.loading ? (
+    // const controller = TablePitController();
+    return props.controller.loading ? (
         <div className = { `w-full flex place-content-center py-5` }>
             <ISpinLoading/>
         </div>
@@ -44,7 +45,7 @@ const TablePit = ( props : Interface ) => {
                 </thead>
 
                 <tbody>
-                { controller.pit.map( ( item, index ) => {
+                { props.controller.pit.map( ( item, index ) => {
                     return (
                         <tr
                             key = { index }

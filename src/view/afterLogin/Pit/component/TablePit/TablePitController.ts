@@ -5,37 +5,36 @@ import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialo
 
 
 const TablePitController = () => {
-    const [pit, setPit] = useState<InterfacePit[]>([] as InterfacePit[]);
-    const [loading, setLoading] = useState(false);
+    const [ pit, setPit ] = useState<InterfacePit[]>( [] as InterfacePit[] );
+    const [ loading, setLoading ] = useState( false );
 
-    const context = useContext(IAlertDialogContext);
+    const context = useContext( IAlertDialogContext );
 
     const getData = async () => {
-        setLoading(true)
-        const resp = await PitServices.getData(context)
-        if (resp.message === "success") {
-            const data: [] = resp.data
-            const result: InterfacePit[] = data.map((item: any) => {
+        setLoading( true )
+        const resp = await PitServices.getData( context )
+        if ( resp.message === "success" ) {
+            const data : [] = resp.data
+            const result : InterfacePit[] = data.map( ( item : any ) => {
                 return {
-                    id: item.id,
-                    userId: item.user_id,
-                    name: item.dealer_number,
-                    dealerId: item.dealer_name,
-                    address: item.address
+                    id : item.id,
+                    kode_pit : item.kode_pit,
+                    tipe_pit : item.tipe_pit,
+                    is_active : item.is_active
                 }
-            })
-            setPit(result)
+            } )
+            setPit( result )
         }
-        setLoading(false)
+        setLoading( false )
     }
 
-    useEffect(() => {
-        getData().then(() => {
-        })
+    useEffect( () => {
+        getData().then( () => {
+        } )
         return () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [] )
     return {
         pit,
         loading

@@ -1,6 +1,5 @@
 export interface InterfacePit {
-    userId : number,
-    dealerNumber : number,
-    dealerName : string,
-    address : string,
+    kode_pit : string,
+    tipe_pit : string,
+    is_active : boolean,
 }

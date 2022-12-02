@@ -7,8 +7,6 @@ import CardInformationData from "../component/CardInformationData";
 import ServicesController from "./ServicesController";
 import TablePKB from "../component/TablePKB";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
-import { useContext } from "react";
-import { DialogDataContext } from "../../../../context/IDialogData";
 import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
 
 const ServicesView = () => {
@@ -148,7 +146,7 @@ const ServicesView = () => {
 							size={"medium"}
 							rounded={"full"}
 							status={"success"}
-							onClick={() => {
+							onClick={async () => {
 								controller.route.push("/services/tambah-pkb").then(() => {});
 							}}
 						>

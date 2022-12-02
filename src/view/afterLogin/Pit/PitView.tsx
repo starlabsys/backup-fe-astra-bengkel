@@ -83,8 +83,8 @@ const PitView = () => {
                                              } ).then( ( value ) => {
                                                  dialog.openDialog( false );
                                                  toast.openToast( true )
-                                                 toast.toastMessage( "Berhasil tambah data PIT" )
                                                  navigator.reload()
+                                                 toast.toastMessage( "Berhasil tambah data PIT" )
                                                  // console.log( 'value ' + value )
                                              } )
                                          } }>

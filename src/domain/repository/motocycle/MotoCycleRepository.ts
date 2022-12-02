@@ -6,8 +6,6 @@ import { InterfacePagination } from "../../interface/InterfacePagination";
 
 class MotoCycleRepository {
     public get = async ( context : InterfaceError, props : InterfacePagination ) => {
-        console.log( 'props.search' )
-        console.log( props.search )
         return await get( context, {
             url : `/vehicle?page=${ props.page }&limit=${ props.limit }&search=${ props.search }`
         } )

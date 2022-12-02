@@ -12,6 +12,7 @@ import { AddPitController } from "./controller/AddPitController";
 import ISpinLoading from "../../../component/animation/ISpinLoading/ISpinLoading";
 import { IToastContext } from "../../../context/IToast";
 import { useRouter } from "next/router";
+import TablePitController from "./component/TablePit/TablePitController";
 
 
 const PitView = () => {
@@ -19,7 +20,7 @@ const PitView = () => {
     const addPit = AddPitController()
     const toast = useContext( IToastContext )
     const navigator = useRouter()
-
+    const getDataPit = TablePitController()
     const onSaved = () => {
         let kodePit = '';
         let tipePit = '';
@@ -80,10 +81,12 @@ const PitView = () => {
                                                  kodePit : kodePit,
                                                  tipePit : tipePit,
                                                  isActive : isActive
-                                             } ).then( ( value ) => {
+                                             } ).then( async ( value ) => {
                                                  dialog.openDialog( false );
+                                                 // await navigator.reload()
+                                                 getDataPit.getData().then( ( value ) => {
+                                                 } )
                                                  toast.openToast( true )
-                                                 navigator.reload()
                                                  toast.toastMessage( "Berhasil tambah data PIT" )
                                                  // console.log( 'value ' + value )
                                              } )
@@ -108,7 +111,10 @@ const PitView = () => {
                         </IButton>
                     </div>
                 </div>
-                <TablePit updated = { data => {
+                <TablePit controller = { {
+                    pit : getDataPit.pit,
+                    loading : getDataPit.loading,
+                } } updated = { data => {
                     console.log( 'data ' + data.id )
                 } }/>
             </div>

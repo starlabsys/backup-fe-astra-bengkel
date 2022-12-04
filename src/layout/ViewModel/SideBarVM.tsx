@@ -25,18 +25,18 @@ export const SideBarVM = () => {
             icon : <IoIosFolderOpen color = { `white` } size = { 30 }/>,
             path : "/master-data",
             status : false,
-            // children: [
-            // 	{
-            // 		title: "Customer",
-            // 		icon: <IoMdPeople color={`white`} size={25} />,
-            // 		path: "/customer"
-            // 	},
-            // 	{
-            // 		title: "Produk",
-            // 		icon: <IoMdSwitch color={`white`} size={25} />,
-            // 		path: "/produk"
-            // 	}
-            // ]
+            children : [
+                // {
+                // 	title: "Customer",
+                // 	icon: <IoMdPeople color={`white`} size={25} />,
+                // 	path: "/customer"
+                // },
+                // {
+                // 	title: "Produk",
+                // 	icon: <IoMdSwitch color={`white`} size={25} />,
+                // 	path: "/produk"
+                // }
+            ]
         },
         {
             title : "Services",

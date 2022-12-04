@@ -1,5 +1,4 @@
-import { createContext, useContext, useState } from "react";
-import { string } from "prop-types";
+import { createContext, useContext } from "react";
 
 
 interface InterfaceSideBarContext {

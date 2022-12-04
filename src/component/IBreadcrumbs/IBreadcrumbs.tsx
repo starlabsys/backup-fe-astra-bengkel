@@ -14,12 +14,22 @@ const IBreadcrumbs = ( props : Interface ) => {
         route.push( '/' ).then( () => {
         } )
     }
+    const stringData = props.subtitle.split( '/' )
     return (
         <div className = { `flex place-content-between place-items-center text-primary` }>
             <div className = { `${ body2 }` }>{ props.title }</div>
             <div className = { `${ body3 } flex place-content-center place-items-center gap-2 cursor-pointer` }>
                 <AiOutlineHome onClick = { toHome }/>
-                /{ props.subtitle }
+                {
+                    stringData.map( ( data, index ) => {
+                        return <div key = { index } onClick = { () => {
+                            if ( index === 0 ) {
+                                route.push( `/${ data }` ).then( () => {
+                                } )
+                            }
+                        } }>{ `/${ data }` }</div>
+                    } )
+                }
             </div>
         </div>
     )

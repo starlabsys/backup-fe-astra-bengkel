@@ -41,6 +41,7 @@ export const IDialogData = ( prop : InterfaceBody ) => {
             open ?
                 <div className = { `absolute w-screen h-screen top-0 flex z-20 place-content-center place-items-center p-10` }>
                     <div className = { `w-full tablet:w-10/12 laptop:${ size === EnumSizeDialog.large ? 'w-6/12' : 'w-5/12' } max-h-full bg-white p-5 rounded-lg overflow-auto grid gap-5` }>
+                        {/*<form action = { `#` }>*/ }
                         <div className = { `grid gap-10` }>
                             <div className = { `${ Header1 } grid gap-2` }>
                                 { header }
@@ -50,9 +51,9 @@ export const IDialogData = ( prop : InterfaceBody ) => {
                                 { body }
                             </div>
                             <hr/>
-                            <div className = { `flex gap-5 place-content-end` }>
+                            <div className = { `grid grid-cols-1 gap-5 tablet:flex place-content-end` }>
                                 {
-                                    <IButton size = { 'small' }
+                                    <IButton size = { 'medium' }
                                              rounded = { "full" }
                                              status = { "primary" }
                                              onClick = { () => {
@@ -64,6 +65,7 @@ export const IDialogData = ( prop : InterfaceBody ) => {
                                 { footer }
                             </div>
                         </div>
+                        {/*</form>*/ }
                     </div>
                     <div className = { `absolute top-0 h-screen w-screen -z-10 bg-black opacity-50` }
                          onClick = { disableBack ? () => {

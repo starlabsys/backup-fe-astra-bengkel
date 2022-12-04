@@ -1,74 +1,75 @@
+import { FormElement } from "@nextui-org/react";
 import { ChangeEventHandler, HTMLInputTypeAttribute, MouseEventHandler } from "react";
 import { InterfaceListSelectOption } from "./InterfaceListSelectOption";
 
 
 export interface InterfaceIndicator {
-    label : string;
-    value : string;
-    onChange : ChangeEventHandler<HTMLInputElement>;
+    label: string;
+    value: string;
+    onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 export interface InterfaceRadio {
-    label? : string;
-    value : string
-    value1? : string;
-    value2? : string;
-    onClickValue1? : MouseEventHandler<HTMLDivElement>
-    onClickValue2? : MouseEventHandler<HTMLDivElement>
+    label?: string;
+    value: string
+    value1?: string;
+    value2?: string;
+    onClickValue1?: MouseEventHandler<HTMLDivElement>
+    onClickValue2?: MouseEventHandler<HTMLDivElement>
 }
 
 
 export interface InterfaceTextFieldRounded {
-    placeholder : string;
-    autoComplete? : string;
-    hidden? : boolean;
-    type : HTMLInputTypeAttribute
-    onChange : ChangeEventHandler<HTMLInputElement>
-    required? : boolean;
-    name? : string
-    onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
+    placeholder: string;
+    autoComplete?: string;
+    hidden?: boolean;
+    type: HTMLInputTypeAttribute
+    onChange: ChangeEventHandler<HTMLInputElement>
+    required?: boolean;
+    name?: string
+    onEnter: "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
 }
 
 
 export interface InterfaceTextFieldDefault {
-    type : HTMLInputTypeAttribute;
-    disabled? : boolean;
-    required? : boolean;
-    onChange? : ChangeEventHandler<HTMLInputElement>
-    error? : boolean;
-    placeholder? : string;
-    name? : string
-    label : string;
-    labelColor? : string;
-    backgroundLabel? : string;
-    onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
-    errorMessages? : string;
-    value? : string | number | readonly string[] | undefined;
+    type: HTMLInputTypeAttribute;
+    disabled?: boolean;
+    required?: boolean;
+    onChange?: (e: React.ChangeEvent<FormElement>) => void
+    error?: boolean;
+    placeholder?: string;
+    name?: string
+    label: string;
+    labelColor?: string;
+    backgroundLabel?: string;
+    onEnter: "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
+    errorMessages?: string;
+    value?: string | number | readonly string[] | undefined;
 }
 
 export interface InterfaceSelectOption {
-    label? : string;
-    placeHolder? : string;
-    type? : "email" | "search" | "tel" | "text" | "url" | "none" | "numeric" | "decimal" | undefined
-    onSelect? : ChangeEventHandler<HTMLSelectElement>
-    listOption : InterfaceListSelectOption[]
-    name? : string
+    label?: string;
+    placeHolder?: string;
+    type?: "email" | "search" | "tel" | "text" | "url" | "none" | "numeric" | "decimal" | undefined
+    onSelect?: ChangeEventHandler<HTMLSelectElement>
+    listOption: InterfaceListSelectOption[]
+    name?: string
 }
 
 
 export interface InterfaceRadioSingle {
-    label? : string;
-    value1? : string;
-    status : boolean;
-    setStatus : ( data : boolean ) => void
+    label?: string;
+    value1?: string;
+    status: boolean;
+    setStatus: (data: boolean) => void
 }
 
 export interface InterfaceTextArea {
-    label? : string;
-    name? : string;
-    placeHolder? : string;
-    type? : HTMLInputTypeAttribute
-    onChange? : ChangeEventHandler<HTMLTextAreaElement>
-    error? : true | undefined
+    label?: string;
+    name?: string;
+    placeHolder?: string;
+    type?: HTMLInputTypeAttribute
+    onChange?: ChangeEventHandler<HTMLTextAreaElement>
+    error?: true | undefined
 }
 

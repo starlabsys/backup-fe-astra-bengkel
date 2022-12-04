@@ -52,8 +52,8 @@ const MasterDataController = () => {
             icon : <MdOutlineMiscellaneousServices size = { 60 } color = { `#1E2F65` }/>
         },
         {
-            title : "PIT Mekanik",
-            link : "/master-data/pit-mekanik",
+            title : "PIT Karyawan",
+            link : "/master-data/pit-karyawan",
             icon : <MdAccountBox size = { 60 } color = { `#1E2F65` }/>
         },
 

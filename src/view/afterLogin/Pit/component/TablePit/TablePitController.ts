@@ -14,6 +14,29 @@ const TablePitController = () => {
 
     const context = useContext( IAlertDialogContext );
 
+    const header = [
+        {
+            label : '#',
+            name : '#',
+        },
+        {
+            label : 'Kode PIT',
+            name : 'kode_pit',
+        },
+        {
+            label : 'Type PIT',
+            name : 'tipe_pit',
+        },
+        {
+            label : 'Status',
+            name : 'is_active',
+        },
+        {
+            label : 'Action',
+            name : 'action',
+        }
+    ]
+
 
     const getData = async ( props : InterfacePagination ) => {
         setLoading( true )
@@ -50,6 +73,7 @@ const TablePitController = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] )
     return {
+        header,
         pit,
         loading,
         getData,

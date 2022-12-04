@@ -8,7 +8,6 @@ import { IRadioSingle } from "../../../component/ITextField/IRadio";
 import { AddPitController } from "./controller/AddPitController";
 import ISpinLoading from "../../../component/animation/ISpinLoading/ISpinLoading";
 import TablePitController from "./component/TablePit/TablePitController";
-import ITablePit from "./component/TablePit/TableNextPit";
 import { SearchPitController } from "./controller/SearchPitController";
 import { ITableData } from "../../../component/ITable/ITableNextUI";
 
@@ -147,12 +146,13 @@ const PitView = () => {
                         .then( async ( value : any ) => {
                             addPit.dialog.openDialog( false );
                             if ( value === null ) {
-                                // getDataPit
-                                // 	.getData({
-                                // 		page: 0,
-                                // 		limit: 10
-                                // 	})
-                                // 	.then((value) => {});
+                                getDataPit
+                                    .getData( {
+                                        page : 0,
+                                        limit : 10
+                                    } )
+                                    .then( ( value ) => {
+                                    } );
                             }
                             else {
                                 addPit.dialog.openDialog( false );

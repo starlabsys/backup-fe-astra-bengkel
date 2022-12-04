@@ -1,10 +1,10 @@
 import MainLayout from "../../layout/MainLayout";
-import CustomerView from "../../view/afterLogin/Customer/CustomerView";
+import MasterDataView from "../../view/afterLogin/MasterData/MasterDataView";
 
 
 const Customer = () => {
     return <MainLayout>
-        <CustomerView/>
+        <MasterDataView/>
     </MainLayout>;
 }
 export default Customer

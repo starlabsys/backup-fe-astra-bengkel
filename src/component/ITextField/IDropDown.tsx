@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { InterfaceDropDown } from "./interface/InterfaceDropDown";
+import { Input } from "@nextui-org/react";
 
 
 export interface InterfacePropsDropDown {
@@ -13,28 +14,25 @@ const IDropDown = ( props : InterfaceDropDown ) => {
     const [ value, setValue ] = useState<string | undefined>( undefined );
 
     return (
-        <div className = { `relative rounded-md w-full` }>
+        <div className = { `relative rounded-md w-full grid gap-2` }>
             <div
-                className = { `w-full border ${
-                    props.error ? "border-danger" : "border-primary"
-                } rounded-md gap-2 pt-2.5 pb-2 px-3 flex` }
+                className = { `w-full` }
             >
-                <input
-                    type = { props.type }
-                    name = { props.name }
-                    enterKeyHint = { props.onEnter }
+                <Input
+                    bordered = { true }
+                    clearable = { true }
+                    animated = { true }
+                    width = "100%"
+                    label = { props.label }
                     required = { props.required }
                     onClick = { () => {
                         setValue( undefined );
                         setOpen( true )
                     } }
-                    onPointerEnter = { () => {
-                        setOpen( false )
-                    } }
-
-                    value = { value }
-                    className = { `focus:outline-none bg-white w-full placeholder:text-sm bg-transparent` }
                     placeholder = { props.placeholder }
+                    className = "border border-primary"
+                    value = { value }
+                    type = { props.type }
                     onChange = { ( value ) => {
                         if ( value.target.value === "" ) {
                             setValue( undefined );
@@ -45,24 +43,12 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         }
                         props.onValueChange( value.target.value );
                     } }
-                    disabled = { props.disabled }
                 />
             </div>
-            <div
-                className = { `absolute flex top-0 left-4 transform -translate-x-1 -translate-y-1/2` }
-            >
-                <label
-                    className = { `${
-                        props.error ? "text-danger" : props.labelColor ?? "text-primary"
-                    } ${ props.backgroundLabel ?? "bg-white" } 
-            text-primary px-1  text-sm` }
-                >
-                    { props.label }
-                </label>
-            </div>
+
             { open ? (
                 <div
-                    className = { `absolute top-12 bg-white max-h-48 rounded-b-lg z-20 w-full overflow-auto grid shadow-md` }
+                    className = { `absolute top-20 bg-white max-h-48 rounded-b-lg z-20 w-full overflow-auto grid shadow-md` }
                 >
                     { props.data.map( ( data, index ) => {
                         return (

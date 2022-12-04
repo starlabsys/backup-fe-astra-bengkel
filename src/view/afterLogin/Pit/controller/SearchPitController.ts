@@ -1,25 +1,24 @@
-import PitServices from "../../../../../domain/services/PitServices/PitServices";
-import { useContext, useEffect, useState } from "react";
-import { InterfacePit } from "../../interface/InterfacePit";
-import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
-import { InterfacePagination } from "../../../../../domain/interface/InterfacePagination";
+import { useContext, useState } from "react";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
+import PitServices from "../../../../domain/services/PitServices/PitServices";
+import { InterfacePit } from "../interface/InterfacePit";
+import { InterfacePagination } from "../../../../domain/interface/InterfacePagination";
 
 
-const TablePitController = () => {
+export const SearchPitController = () => {
     const [ totalPage, setTotalPage ] = useState( 0 );
     const [ setPage, setSetPage ] = useState( 0 );
     const [ totalRow, setTotalRow ] = useState( 0 );
     const [ pit, setPit ] = useState<InterfacePit[]>( [] );
     const [ loading, setLoading ] = useState( false );
-
+    const [ search, setSearch ] = useState( '' );
     const context = useContext( IAlertDialogContext );
-
-
-    const getData = async ( props : InterfacePagination ) => {
+    const searchData = async ( props : InterfacePagination ) => {
         setLoading( true )
         const resp = await PitServices.getData( context, {
             page : props.page,
             limit : props.limit,
+            search : props.search
         } )
         if ( resp.message === "success" ) {
             const data : [] = resp.data.result
@@ -37,25 +36,16 @@ const TablePitController = () => {
         }
         setLoading( false )
     }
-
-    useEffect( () => {
-        return () => {
-            getData( {
-                page : 0,
-                limit : 10,
-            } ).then( () => {
-            } )
-
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [] )
     return {
+        search,
+        setSearch,
+        searchData,
         pit,
         loading,
-        getData,
         totalPage,
         totalRow,
-        context, setPage, setSetPage
+        context, setPage, setSetPage,
+        setTotalPage, setTotalRow, setPit, setLoading
     }
+
 }
-export default TablePitController

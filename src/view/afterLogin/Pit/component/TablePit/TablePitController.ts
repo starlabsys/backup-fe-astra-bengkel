@@ -62,6 +62,11 @@ const TablePitController = () => {
     }
 
     useEffect( () => {
+        getData( {
+            page : 0,
+            limit : 10,
+        } ).then( () => {
+        } )
         return () => {
             getData( {
                 page : 0,

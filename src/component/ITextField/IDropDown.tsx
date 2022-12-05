@@ -11,7 +11,7 @@ export interface InterfacePropsDropDown {
 
 const IDropDown = ( props : InterfaceDropDown ) => {
     const [ open, setOpen ] = useState( false );
-    const [ value, setValue ] = useState<string | undefined>( undefined );
+    const [ value, setValue ] = useState<string | undefined>( props.value ?? undefined );
 
     return (
         <div className = { `relative rounded-md w-full grid gap-2` }>

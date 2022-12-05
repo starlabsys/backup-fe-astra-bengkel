@@ -27,9 +27,9 @@ class PitRepository {
         } )
     }
 
-    public updated = async ( context : InterfaceError, id : string, props : InterfacePit ) => {
+    public updated = async ( context : InterfaceError, id : number, props : InterfacePit ) => {
         return await patch( context, {
-            url : '/pit' + id.toString(),
+            url : '/pit/' + id.toString(),
             reqBody : {
                 "kode_pit" : props.kode_pit,
                 "tipe_pit" : props.tipe_pit,

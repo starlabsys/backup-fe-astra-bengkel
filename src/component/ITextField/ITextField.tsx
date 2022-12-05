@@ -35,7 +35,8 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
             // labelPlaceholder = { props.label }
             placeholder = { props.placeholder }
             className = "border border-primary"
-            initialValue = ""
+            // initialValue = { props.value }
+            value = { props.value }
             // inputMode={props.inputMode}
             type = { props.type }
             onChange = { props.onChange }

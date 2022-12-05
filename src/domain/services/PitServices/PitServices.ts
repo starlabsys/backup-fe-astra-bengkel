@@ -9,12 +9,12 @@ class PitServices {
         return await PitRepository.get( context, props )
     }
 
-    // public searchData = async ( context : InterfaceError, search : string ) => {
-    //     return await PitRepository.search( context, search )
-    // }
-
     public addData = async ( context : InterfaceError, data : InterfacePit ) => {
         return await PitRepository.add( context, data )
+    }
+
+    public updateData = async ( context : InterfaceError, id : number, data : InterfacePit ) => {
+        return await PitRepository.updated( context, id, data )
     }
 }
 

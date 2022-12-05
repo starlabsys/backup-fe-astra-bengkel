@@ -19,4 +19,5 @@ export interface InterfaceDropDown {
     onValue : ( value : InterfacePropsDropDown ) => void;
     activeAddOn? : boolean;
     onClickAddOn? : () => void;
+    value? : string | undefined;
 }

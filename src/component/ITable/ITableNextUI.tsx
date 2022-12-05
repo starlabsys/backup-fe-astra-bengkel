@@ -18,6 +18,7 @@ interface Interface {
     info? : (( data : any ) => void) | undefined;
     delete? : (( data : any ) => void) | undefined;
     page : number;
+    selectionMode? : "single" | "multiple" | "none";
 }
 
 export const ITableData = ( props : Interface ) => {
@@ -87,7 +88,7 @@ export const ITableData = ( props : Interface ) => {
                 shadow = { false }
                 bordered = { true }
                 border = { 0 }
-                selectionMode = { "single" }
+                selectionMode = { props.selectionMode === 'single' ? "single" : props.selectionMode === 'multiple' ? "multiple" : "none" }
                 aria-label = "Example static collection table"
                 css = { {
                     height : "auto",

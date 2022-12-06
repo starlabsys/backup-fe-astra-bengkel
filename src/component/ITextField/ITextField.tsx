@@ -31,11 +31,13 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
             name = { props.name }
             width = "100%"
             label = { props.label }
+            disabled = { props.disabled }
             required = { props.required }
             // labelPlaceholder = { props.label }
             placeholder = { props.placeholder }
             className = "border border-primary"
-            initialValue = ""
+            // initialValue = { props.value }
+            value = { props.value }
             // inputMode={props.inputMode}
             type = { props.type }
             onChange = { props.onChange }

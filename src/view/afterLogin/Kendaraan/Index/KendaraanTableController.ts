@@ -30,9 +30,9 @@ const KendaraanTableController = ( search : string ) => {
                     noPolisi : item.no_polisi,
                     noMesin : item.no_mesin,
                     customer : item.tipe_coming_customer,
-                    status : '',
+                    status : true,
                     type : item.kode_tipe_unit,
-                    warna : '',
+                    warna : 'Merah',
                     noRangka : item.no_rangka,
                     tahunRakit : item.tahun_motor
                 }
@@ -57,7 +57,7 @@ const KendaraanTableController = ( search : string ) => {
                     noPolisi : item.no_polisi,
                     noMesin : item.no_mesin,
                     customer : item.tipe_coming_customer,
-                    status : '',
+                    status : true,
                     type : item.kode_tipe_unit,
                     warna : '',
                     noRangka : item.no_rangka,
@@ -69,7 +69,6 @@ const KendaraanTableController = ( search : string ) => {
     }
 
     useEffect( () => {
-        console.log( 'aaaaaaazzzzzzzz   ' + search )
         if ( search === '' ) {
             getDataKendaraan( page, dataRow, '' ).then( () => {
             } )

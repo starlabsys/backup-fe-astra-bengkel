@@ -3,10 +3,15 @@ import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
 import IButton from "../../../../component/IButton/IButton";
 import KendaraanController from "./KendaraanController";
+import { ITableData } from "../../../../component/ITable/ITableNextUI";
+import KendaraanTableController from "./KendaraanTableController";
+import { useRouter } from "next/router";
 
 
 const KendaraanView = () => {
     const controller = KendaraanController();
+    const kendaraanTableController = KendaraanTableController( controller.search );
+    const router = useRouter();
     return (
         <div className = { `flex-1 grid gap-5` }>
             <IBreadcrumbs title = { "Kendaraan" } subtitle = { "kendaraan" }/>
@@ -28,14 +33,97 @@ const KendaraanView = () => {
                             />
                         </div>
                         <div className = { `flex place-content-end ` }>
-                            <IButton size = { "small" } rounded = { "lg" } status = { "success" }>
+                            <IButton size = { "medium" } rounded = { "lg" } status = { "success" } onClick = { () => {
+                                router.push( "/master-data/kendaraan/tambah-kendaraan" ).then( () => {
+                                } );
+                            } }>
                                 + Tambah Kendaraan
                             </IButton>
                         </div>
                     </div>
+                    {
+                        tableData()
+                    }
                 </div>
             </div>
         </div>
     );
+
+    function tableData() {
+        return <ITableData page = { kendaraanTableController.page }
+                           totalPage = { kendaraanTableController.totalPage }
+                           loading = { kendaraanTableController.loading }
+                           changePage = { index => {
+                               if ( controller.search === "" ) {
+                                   kendaraanTableController.setPage( index - 1 );
+                                   const pageNumber = index - 1;
+                                   kendaraanTableController.getDataKendaraan( pageNumber, 10, '' ).then( () => {
+                                   } );
+                                   //     page : index - 1,
+                                   //     limit : 10
+                                   // } )
+                                   // .then( ( value ) => {
+                                   // } );
+                               }
+                               else {
+                                   kendaraanTableController.setPage( index - 1 );
+                                   kendaraanTableController
+                                       .getSearch( controller.search )
+                                       .then( ( value ) => {
+                                       } );
+                               }
+                           } }
+                           updated = { ( data ) => {
+                               router.push( {
+                                   pathname : "/master-data/kendaraan/tambah-kendaraan",
+                                   query : data
+                               } ).then( () => {
+                               } );
+                           } }
+                           header = { [
+                               {
+                                   label : "#",
+                                   name : "#",
+                               },
+                               {
+                                   label : 'No Polisi',
+                                   name : 'noPolisi',
+                               },
+                               {
+                                   label : 'No Mesin',
+                                   name : 'noMesin',
+                               },
+                               {
+                                   label : 'No Rangka',
+                                   name : 'noRangka',
+                               },
+                               {
+                                   label : 'Customer',
+                                   name : 'customer',
+                               },
+                               {
+                                   label : 'Type',
+                                   name : 'type',
+                               },
+                               {
+                                   label : 'Warna',
+                                   name : 'warna',
+                               },
+                               {
+                                   label : 'Tahun Rakit',
+                                   name : 'tahunRakit',
+                               },
+                               {
+                                   label : 'Status',
+                                   name : 'status',
+                               },
+                               {
+                                   label : 'Action',
+                                   name : 'action',
+                               },
+                           ] }
+                           data = { kendaraanTableController.kendaraan }/>
+
+    }
 };
 export default KendaraanView;

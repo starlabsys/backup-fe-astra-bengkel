@@ -66,11 +66,12 @@ const PitView = () => {
         </div>
     );
 
-    function onSaved() {
-        let kodePit = "";
-        let tipePit = "";
-        let isActive = true;
+    function onSaved( data? : any ) {
+        let kodePit = data.kode_pit ?? undefined;
+        let tipePit = data.tipe_pit ?? undefined;
+        let isActive = data.is_active ?? true;
         let loading = false;
+        console.log( data );
         addPit.dialog.openDialog( true );
         addPit.dialog.setSizeDialog( EnumSizeDialog.small );
         addPit.dialog.setHeaderDialog( "Tambah PIT" );
@@ -82,6 +83,7 @@ const PitView = () => {
                     type = { "text" }
                     label = { "Kode PIT" }
                     placeholder = { "Masukkan kode PIT" }
+                    value = { kodePit }
                     onChange = { ( event ) => {
                         kodePit = event.target.value;
                     } }
@@ -91,6 +93,7 @@ const PitView = () => {
                     required = { true }
                     type = { "text" }
                     label = { "Tipe PIT" }
+                    value = { tipePit }
                     data = { [
                         {
                             id : 1,
@@ -137,13 +140,38 @@ const PitView = () => {
                 rounded = { "full" }
                 status = { "success" }
                 onClick = { () => {
-                    addPit
-                        .savePit( {
+                    if ( data.id === undefined ) {
+                        addPit
+                            .savePit( {
+                                kodePit : kodePit,
+                                tipePit : tipePit,
+                                isActive : isActive
+                            } )
+                            .then( async ( value : any ) => {
+                                addPit.dialog.openDialog( false );
+                                if ( value === null ) {
+                                    getDataPit
+                                        .getData( {
+                                            page : 0,
+                                            limit : 10
+                                        } )
+                                        .then( ( value ) => {
+                                        } );
+                                }
+                                else {
+                                    addPit.dialog.openDialog( false );
+                                    getDataPit.context.setOpen( true );
+                                    getDataPit.context.onError( true );
+                                    getDataPit.context.giveMessage( value );
+                                }
+                            } );
+                    }
+                    else {
+                        addPit.updatedPit( data.id, {
                             kodePit : kodePit,
                             tipePit : tipePit,
                             isActive : isActive
-                        } )
-                        .then( async ( value : any ) => {
+                        } ).then( ( value : any ) => {
                             addPit.dialog.openDialog( false );
                             if ( value === null ) {
                                 getDataPit
@@ -160,7 +188,9 @@ const PitView = () => {
                                 getDataPit.context.onError( true );
                                 getDataPit.context.giveMessage( value );
                             }
-                        } );
+                        } )
+                    }
+
                 } }
             >
                 { loading ? <ISpinLoading/> : "Simpan" }
@@ -195,9 +225,9 @@ const PitView = () => {
                                        } );
                                }
                            } }
-                           info = { () => {
-                           } }
-                           updated = { () => {
+                           updated = { ( data ) => {
+                               // console.log( data );
+                               onSaved( data );
                            } }
                            header = { getDataPit.header }
                            data = { search.search === "" ? getDataPit.pit : search.pit }/>

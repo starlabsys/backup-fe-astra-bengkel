@@ -2,11 +2,11 @@ import IBreadcrumbs from "../../../component/IBreadcrumbs/IBreadcrumbs";
 import ITitle from "../../../component/ITitle/ITitle";
 import ISizeBox from "../../../component/ISizeBox/ISizeBox";
 import ICard from "../../../component/ICard/ICard";
-import MasterDataController from "./interfaces/controller/MasterDataController";
+import MasterDataViewModel from "./VIewModel/MasterDataViewModel";
 
 
 const MasterDataView = () => {
-    const controller = MasterDataController()
+    const controller = MasterDataViewModel()
     return <div className = { `flex-1 grid gap-5` }>
         <IBreadcrumbs title = { 'Master Data' } subtitle = { 'master-data' }/>
         <div className = { `bg-white p-5 rounded-lg grid gap-5` }>

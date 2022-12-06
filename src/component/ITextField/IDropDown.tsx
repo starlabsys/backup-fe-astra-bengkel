@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { InterfaceDropDown } from "./interface/InterfaceDropDown";
 import { Input } from "@nextui-org/react";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
 
 export interface InterfacePropsDropDown {
@@ -11,7 +12,7 @@ export interface InterfacePropsDropDown {
 
 const IDropDown = ( props : InterfaceDropDown ) => {
     const [ open, setOpen ] = useState( false );
-    const [ value, setValue ] = useState<string | undefined>( undefined );
+    const [ value, setValue ] = useState<string | undefined>( props.value ?? undefined );
 
     return (
         <div className = { `relative rounded-md w-full grid gap-2` }>
@@ -33,6 +34,12 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     className = "border border-primary"
                     value = { value }
                     type = { props.type }
+                    contentClickable = { true }
+                    onContentClick = { ( key, e ) => {
+                        if ( key === 'right' ) {
+                            setOpen( !open );
+                        }
+                    } }
                     onChange = { ( value ) => {
                         if ( value.target.value === "" ) {
                             setValue( undefined );
@@ -43,6 +50,11 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         }
                         props.onValueChange( value.target.value );
                     } }
+                    contentRight = { <div>
+                        {
+                            open ? <AiFillCaretUp/> : <AiFillCaretDown/>
+                        }
+                    </div> }
                 />
             </div>
 
@@ -56,7 +68,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                                 key = { index }
                                 onClick = { () => {
                                     setOpen( false );
-                                    setValue( data.value );
+                                    setValue( data.name );
                                     return props.onValue( data );
                                 } }
                                 className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }

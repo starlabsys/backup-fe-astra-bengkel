@@ -44,12 +44,6 @@ export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
     return (
         <div
             className = { `w-full grid font-Archivo text-sm gap-2` }
-            onClick = {
-                () => {
-                    setValue( !value );
-                    return props.setStatus( !value );
-                }
-            }
         >
             { props.label !== undefined ? (
                 <label htmlFor = "" className = { `text-primary` }>
@@ -57,7 +51,10 @@ export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
                 </label>
             ) : null }
             <div className = { `flex gap-20` }>
-                <div className = { `flex gap-2 place-items-center` }>
+                <div className = { `flex gap-2 place-items-center` } onClick = { () => {
+                    setValue( !value );
+                    return props.setStatus( !value );
+                } }>
                     <div
                         className = { `w-5 h-5 rounded-full border border-primary border-2 p-0.5` }
                     >

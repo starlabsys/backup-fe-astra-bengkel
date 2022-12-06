@@ -88,6 +88,8 @@ export const ITableData = ( props : Interface ) => {
                 shadow = { false }
                 bordered = { true }
                 border = { 0 }
+                striped = { true }
+                fixed = { true }
                 selectionMode = { props.selectionMode === 'single' ? "single" : props.selectionMode === 'multiple' ? "multiple" : "none" }
                 aria-label = "Example static collection table"
                 css = { {

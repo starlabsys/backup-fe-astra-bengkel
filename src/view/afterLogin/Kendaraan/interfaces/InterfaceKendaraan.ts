@@ -7,5 +7,5 @@ export interface InterfaceKendaraan {
     type : string
     warna : string
     tahunRakit : number
-    status : string
+    status : boolean
 }

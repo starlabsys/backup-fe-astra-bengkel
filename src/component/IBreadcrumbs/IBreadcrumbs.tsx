@@ -27,6 +27,10 @@ const IBreadcrumbs = ( props : Interface ) => {
                                 route.push( `/${ data }` ).then( () => {
                                 } )
                             }
+                            if ( index === 1 ) {
+                                route.push( `/${ stringData[ 0 ] }/${ stringData[ 1 ] }` ).then( () => {
+                                } )
+                            }
                         } }>{ `/${ data }` }</div>
                     } )
                 }

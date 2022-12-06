@@ -56,7 +56,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                                 key = { index }
                                 onClick = { () => {
                                     setOpen( false );
-                                    setValue( data.value );
+                                    setValue( data.name );
                                     return props.onValue( data );
                                 } }
                                 className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }

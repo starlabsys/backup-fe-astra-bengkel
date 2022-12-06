@@ -25,7 +25,7 @@ const DialogAddExcel = () => {
                         // 		const worksheet = workbook.Sheets[sheetName];
                         // 		const json = XLSX.utils.sheet_to_json(worksheet);
                         // 		console.log(json);
-                        // 		controller.setExcel(json);
+                        // 		VIewModel.setExcel(json);
                         // 	};
                         // 	reader.readAsArrayBuffer(e.target.files[0]);
                         // }

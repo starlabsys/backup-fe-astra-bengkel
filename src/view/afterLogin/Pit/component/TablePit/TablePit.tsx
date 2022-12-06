@@ -17,7 +17,7 @@ interface Interface {
 
 const TablePit = ( props : Interface ) => {
 
-    // const controller = TablePitController();
+    // const VIewModel = TablePitController();
     return props.controller.loading ? (
         <div className = { `w-full flex place-content-center py-5` }>
             <ISpinLoading/>

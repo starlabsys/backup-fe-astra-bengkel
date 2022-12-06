@@ -2,6 +2,7 @@ import { InterfaceAddSparePart } from "./interfaces/InterfaceAddSparePart";
 import { del, get, patch, post } from "../../../core/api/api";
 import { InterfacePatchSparePart } from "./interfaces/InterfacePatchSparePart";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
+import { InterfacePagination } from "../../interface/InterfacePagination";
 
 
 class SparepartRepository {
@@ -18,9 +19,9 @@ class SparepartRepository {
         } )
     }
 
-    public get = async ( context : InterfaceError ) : Promise<any> => {
+    public get = async ( context : InterfaceError, props : InterfacePagination ) : Promise<any> => {
         return await get( context, {
-            url : "/parts"
+            url : `/parts?page=${ props.page }&limit=${ props.limit }&search=${ props.search ?? '' }`
         } )
     }
 

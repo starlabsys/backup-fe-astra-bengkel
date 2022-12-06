@@ -1,12 +1,13 @@
-import { InterfaceListMenuMasterData } from "../InterfaceListMenuMasterData";
+import { InterfaceListMenuMasterData } from "../interfaces/InterfaceListMenuMasterData";
 import { MdAccountBox, MdOutlineMiscellaneousServices, MdSupervisorAccount } from "react-icons/md";
 import { BiCycling } from "react-icons/bi";
 import { FaDharmachakra } from "react-icons/fa";
 import { IoIosBuild } from "react-icons/io";
 import { IoAccessibility, IoCogSharp, IoPeopleCircle } from "react-icons/io5";
+import { AiFillShop } from "react-icons/ai";
 
 
-const MasterDataController = () => {
+const MasterDataViewModel = () => {
     const listMenuCustomer : InterfaceListMenuMasterData[] = [
         {
             title : "Customer",
@@ -56,6 +57,11 @@ const MasterDataController = () => {
             link : "/master-data/pit-karyawan",
             icon : <MdAccountBox size = { 60 } color = { `#1E2F65` }/>
         },
+        {
+            title : "Bengkel",
+            link : "/master-data/Bengkel",
+            icon : <AiFillShop size = { 60 } color = { `#1E2F65` }/>
+        },
 
     ]
 
@@ -64,4 +70,4 @@ const MasterDataController = () => {
         listMenuProduk
     }
 }
-export default MasterDataController
+export default MasterDataViewModel

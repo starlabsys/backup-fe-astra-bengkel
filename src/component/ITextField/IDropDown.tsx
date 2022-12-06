@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { InterfaceDropDown } from "./interface/InterfaceDropDown";
 import { Input } from "@nextui-org/react";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
 
 export interface InterfacePropsDropDown {
@@ -33,6 +34,12 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     className = "border border-primary"
                     value = { value }
                     type = { props.type }
+                    contentClickable = { true }
+                    onContentClick = { ( key, e ) => {
+                        if ( key === 'right' ) {
+                            setOpen( !open );
+                        }
+                    } }
                     onChange = { ( value ) => {
                         if ( value.target.value === "" ) {
                             setValue( undefined );
@@ -43,6 +50,11 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         }
                         props.onValueChange( value.target.value );
                     } }
+                    contentRight = { <div>
+                        {
+                            open ? <AiFillCaretUp/> : <AiFillCaretDown/>
+                        }
+                    </div> }
                 />
             </div>
 

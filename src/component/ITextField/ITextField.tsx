@@ -31,6 +31,7 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
             name = { props.name }
             width = "100%"
             label = { props.label }
+            disabled = { props.disabled }
             required = { props.required }
             // labelPlaceholder = { props.label }
             placeholder = { props.placeholder }

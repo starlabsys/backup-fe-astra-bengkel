@@ -21,6 +21,8 @@ const SparePartView = () => {
                     >
                         <div className = { `flex tablet:w-9/12 laptop:w-6/12` }>
                             <ITextFieldDefault
+                                error = { false }
+                                value = { undefined }
                                 type = { "text" }
                                 onChange = { ( event ) => {
                                 } }

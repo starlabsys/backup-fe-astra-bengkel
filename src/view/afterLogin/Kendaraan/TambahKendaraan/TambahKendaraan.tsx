@@ -52,6 +52,7 @@ const TambahKendaraanView = () => {
                            label = { 'Nama Pemilik *' }
                            required = { true }
                            value = { controller.namaPemilik }
+                           error = { false }
                            data = { [
                                {
                                    id : 1,
@@ -70,6 +71,7 @@ const TambahKendaraanView = () => {
                                    label = { 'No Polisi *' }
                                    onEnter = { 'next' }
                                    value = { controller.noPolisi }
+                                   error = { false }
                                    onChange = { ( event ) => {
                                        controller.setNoPolisi( event.target.value );
                                    } }
@@ -89,12 +91,13 @@ const TambahKendaraanView = () => {
                            onValueChange = { ( value ) => {
 
                            } }
+                           error = { false }
                            onValue = { value => {
                                controller.setCustomer( value.value );
                            } }/>
                 <IRadioSingle status = { controller.status } setStatus = { () => {
                     controller.setStatus( !controller.status );
-                } } label = { 'Status' } value1 = { 'Aktif' }/>
+                } } label = { 'Status' } value1 = { 'Aktif' } error = { false }/>
             </div>
         </div>
     }
@@ -106,6 +109,9 @@ const TambahKendaraanView = () => {
                 <IDropDown type = { 'text' }
                            label = { 'Nama Tipe Kendaraan *' }
                            required = { true }
+                           onChange = { () => {
+                           } }
+                           error = { false }
                            value = { controller.typeKendaraan }
                            data = { [
                                {
@@ -132,6 +138,9 @@ const TambahKendaraanView = () => {
                                    name : 'Pemilik 1'
                                }
                            ] }
+                           onChange = { () => {
+                           } }
+                           error = { false }
                            onEnter = { 'next' }
                            onValueChange = { ( value ) => {
 
@@ -143,6 +152,7 @@ const TambahKendaraanView = () => {
                                    label = { 'Tahun Rakit *' }
                                    onEnter = { 'next' }
                                    value = { controller.tahunRakit }
+                                   error = { false }
                                    onChange = { ( event ) => {
                                        controller.setTahunRakit( event.target.value );
                                    } }
@@ -151,6 +161,7 @@ const TambahKendaraanView = () => {
                                    label = { 'No Rangka *' }
                                    onEnter = { 'next' }
                                    value = { controller.noRangka }
+                                   error = { false }
                                    onChange = { ( event ) => {
                                        controller.setNoRangka( event.target.value );
                                    } }
@@ -158,6 +169,7 @@ const TambahKendaraanView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'No Mesin *' }
                                    onEnter = { 'next' }
+                                   error = { false }
                                    value = { controller.noMesin }
                                    onChange = { ( event ) => {
                                        controller.setNoMesin( event.target.value );

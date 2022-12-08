@@ -14,6 +14,7 @@ export interface InterfaceRadio {
     value : string
     value1? : string;
     value2? : string;
+    error : boolean;
     onClickValue1? : MouseEventHandler<HTMLDivElement>
     onClickValue2? : MouseEventHandler<HTMLDivElement>
 }
@@ -34,9 +35,10 @@ export interface InterfaceTextFieldRounded {
 export interface InterfaceTextFieldDefault {
     type : HTMLInputTypeAttribute;
     disabled? : boolean;
+    autoCapitalize? : string;
     required? : boolean;
-    onChange? : ( e : ChangeEvent<FormElement> ) => void
-    error? : boolean;
+    onChange : ( e : ChangeEvent<FormElement> ) => void
+    error : boolean;
     placeholder? : string;
     name? : string
     label : string;
@@ -44,11 +46,13 @@ export interface InterfaceTextFieldDefault {
     backgroundLabel? : string;
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
     errorMessages? : string;
-    value? : string | number | readonly string[] | undefined;
+    value : string | number | readonly string[] | undefined;
+    onblur? : ( e : ChangeEvent<FormElement> ) => void
 }
 
 export interface InterfaceSelectOption {
     label? : string;
+    error? : boolean;
     placeHolder? : string;
     type? : "email" | "search" | "tel" | "text" | "url" | "none" | "numeric" | "decimal" | undefined
     onSelect? : ChangeEventHandler<HTMLSelectElement>
@@ -61,15 +65,19 @@ export interface InterfaceRadioSingle {
     label? : string;
     value1? : string;
     status : boolean;
+    error : boolean;
     setStatus : ( data : boolean ) => void
 }
 
 export interface InterfaceTextArea {
     label? : string;
     name? : string;
+    value? : string | number | readonly string[] | undefined;
     placeHolder? : string;
     type? : HTMLInputTypeAttribute
-    onChange? : ChangeEventHandler<HTMLTextAreaElement>
-    error? : true | undefined
+    onChange? : ((( e : ChangeEvent<HTMLTextAreaElement> ) => void) & (( e : ChangeEvent<FormElement> ) => void)) | undefined
+    error : boolean
+    errorMessages? : string;
+    disabled? : boolean;
 }
 

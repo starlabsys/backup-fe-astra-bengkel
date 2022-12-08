@@ -14,6 +14,8 @@ const DialogAddExcel = () => {
             <div className = { `` }>
                 <ITextFieldDefault
                     type = { "file" }
+                    error = { false }
+                    value = { undefined }
                     onChange = { ( e ) => {
                         // e.preventDefault();
                         // if (e.target.) {

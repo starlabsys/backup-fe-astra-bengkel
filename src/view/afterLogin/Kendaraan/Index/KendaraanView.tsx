@@ -28,6 +28,8 @@ const KendaraanView = () => {
                                     controller.setSearch( event.target.value );
                                 } }
                                 placeholder = { "Cari..." }
+                                value = { undefined }
+                                error = { false }
                                 label = { "Cari" }
                                 onEnter = { "enter" }
                             />

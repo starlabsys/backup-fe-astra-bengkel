@@ -46,7 +46,7 @@ export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
             className = { `w-full grid font-Archivo text-sm gap-2` }
         >
             { props.label !== undefined ? (
-                <label htmlFor = "" className = { `text-primary` }>
+                <label htmlFor = "" className = { `${ props.error ? 'text-danger' : 'text-primary' }` }>
                     { props.label }
                 </label>
             ) : null }

@@ -7,7 +7,7 @@ export interface InterfaceDropDown {
     disabled? : boolean;
     required? : boolean;
     onChange? : ChangeEventHandler<HTMLInputElement>
-    error? : boolean;
+    error : boolean;
     placeholder? : string;
     name? : string
     label : string;
@@ -20,4 +20,5 @@ export interface InterfaceDropDown {
     activeAddOn? : boolean;
     onClickAddOn? : () => void;
     value? : string | undefined;
+    errorMessages? : string;
 }

@@ -9,154 +9,170 @@ import TablePKB from "../component/TablePKB";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
 
-const ServicesView = () => {
-	const controller = ServicesController();
 
-	return (
-		<div className={`flex-1 grid gap-5`}>
-			<IBreadcrumbs title={"Services"} subtitle={"services"} />
-			<div className={`flex-1 p-5 bg-white rounded-lg grid gap-10`}>
-				<ITitleMd title={"Pencarian PKB"} />
-				<div className={`flex-1 grid gap-5 laptop:grid-cols-3`}>
-					<ITextFieldDefault
-						type={"text"}
-						label={"No PKB"}
-						onEnter={"next"}
-						name={"pkb"}
-						placeholder={"Masukan Nomor PKB"}
-						onChange={() => {}}
-					/>
-					<ITextFieldDefault
-						type={"date"}
-						label={"Tanggal Mulai"}
-						onEnter={"next"}
-						name={"tglMulai"}
-						placeholder={"Masukan Nomor PKB"}
-						onChange={() => {}}
-					/>
-					<ITextFieldDefault
-						type={"date"}
-						label={"Tanggal Sampai"}
-						onEnter={"next"}
-						name={"tglSampai"}
-						placeholder={"Masukan Nomor PKB"}
-						onChange={() => {}}
-					/>
-					<ITextFieldDefault
-						type={"No Polisi"}
-						label={"PKB"}
-						onEnter={"next"}
-						name={"plat"}
-						placeholder={"Masukan Nomor PKB"}
-						onChange={() => {}}
-					/>
-					<ISelectOption
-						type={"text"}
-						label={"Status Pembayaran"}
-						name={"statusPembayaran"}
-						placeHolder={"-- Select Status --"}
-						listOption={[
-							{ value: "", viewValue: "-- Select Status --" },
-							{ value: "1", viewValue: "Lunas" },
-							{ value: "2", viewValue: "Belum Lunas" }
-						]}
-						onSelect={() => {}}
-					/>
-				</div>
-				<div className={`flex-1 flex place-content-end gap-2`}>
-					<IButton size={"small"} rounded={"full"} status={"danger"}>
-						Reset
-					</IButton>
-					<IButton size={"small"} rounded={"full"}>
-						Cari
-					</IButton>
-				</div>
-			</div>
-			<div className={`flex-1 bg-white rounded-lg grid gap-10 py-5 relative`}>
-				<div className={`w-full flex px-5`}>
-					<ITitleMd title={"List Data PKB"} />
-				</div>
-				{controller.role === RoleEnum.SuperAdmin ? (
-					<>
-						<div
-							className={`grid w-full gap-2 px-5 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center`}
-						>
-							{controller.listCardInformationData.map((item, index) => {
-								return (
-									<CardInformationData
-										key={index}
-										title={item.title}
-										total={item.total.toString()}
-										color={item.color}
-									/>
-								);
-							})}
-						</div>
-					</>
-				) : null}
-				<div
-					className={`w-full grid gap-5 laptop:grid-cols-2 laptop:place-items-center laptop:place-content-between`}
-				>
-					<div className={`px-5 laptop:w-fit`}>
-						{controller.role === RoleEnum.SuperAdmin ? null : (
-							<div
-								className={`grid gap-2 border border-primary py-4 px-5 relative rounded-md tablet:grid-cols-2 laptop:flex`}
-							>
-								<IButton size={"small"} rounded={"full"} status={"warning"}>
-									Proses
-								</IButton>
-								<IButton size={"small"} rounded={"full"} status={"danger"}>
-									Pause
-								</IButton>
-								<IButton size={"small"} rounded={"full"} status={"success"}>
-									Selesai
-								</IButton>
-								<div className={`absolute -top-3 left-4 bg-white`}>Status</div>
-							</div>
-						)}
-					</div>
-					<div
-						className={`w-full grid gap-2 px-5 laptop:flex tablet:grid-cols-2 laptop:grid-cols-3 laptop:place-content-end laptop:py-5`}
-					>
-						{controller.role === RoleEnum.SuperAdmin ? (
-							<>
-								<IButton
-									size={"medium"}
-									rounded={"full"}
-									status={"success"}
-									onClick={() => {
-										controller.dialog.openDialog(true);
-										controller.dialog.setDialogData(<DialogAddExcel />);
-									}}
-								>
-									Tambah Dari Excel
-								</IButton>
-							</>
-						) : (
-							<>
-								<IButton size={"medium"} rounded={"full"} status={"danger"}>
-									Batal Selesai Services
-								</IButton>
-								<IButton size={"medium"} rounded={"full"} status={"danger"}>
-									Batal PKB
-								</IButton>
-							</>
-						)}
-						<IButton
-							size={"medium"}
-							rounded={"full"}
-							status={"success"}
-							onClick={async () => {
-								controller.route.push("/services/tambah-pkb").then(() => {});
-							}}
-						>
-							Tambah PKB
-						</IButton>
-					</div>
-				</div>
-				<TablePKB />
-			</div>
-		</div>
-	);
+const ServicesView = () => {
+    const controller = ServicesController();
+
+    return (
+        <div className = { `flex-1 grid gap-5` }>
+            <IBreadcrumbs title = { "Services" } subtitle = { "services" }/>
+            <div className = { `flex-1 p-5 bg-white rounded-lg grid gap-10` }>
+                <ITitleMd title = { "Pencarian PKB" }/>
+                <div className = { `flex-1 grid gap-5 laptop:grid-cols-3` }>
+                    <ITextFieldDefault
+                        type = { "text" }
+                        error = { false }
+                        value = { undefined }
+                        label = { "No PKB" }
+                        onEnter = { "next" }
+                        name = { "pkb" }
+                        placeholder = { "Masukan Nomor PKB" }
+                        onChange = { () => {
+                        } }
+                    />
+                    <ITextFieldDefault
+                        type = { "date" }
+                        label = { "Tanggal Mulai" }
+                        onEnter = { "next" }
+                        name = { "tglMulai" }
+                        error = { false }
+                        value = { undefined }
+                        placeholder = { "Masukan Nomor PKB" }
+                        onChange = { () => {
+                        } }
+                    />
+                    <ITextFieldDefault
+                        type = { "date" }
+                        label = { "Tanggal Sampai" }
+                        onEnter = { "next" }
+                        name = { "tglSampai" }
+                        error = { false }
+                        value = { undefined }
+                        placeholder = { "Masukan Nomor PKB" }
+                        onChange = { () => {
+                        } }
+                    />
+                    <ITextFieldDefault
+                        type = { "No Polisi" }
+                        label = { "PKB" }
+                        onEnter = { "next" }
+                        name = { "plat" }
+                        error = { false }
+                        value = { undefined }
+                        placeholder = { "Masukan Nomor PKB" }
+                        onChange = { () => {
+                        } }
+                    />
+                    <ISelectOption
+                        type = { "text" }
+                        label = { "Status Pembayaran" }
+                        error = { false }
+                        name = { "statusPembayaran" }
+                        placeHolder = { "-- Select Status --" }
+                        listOption = { [
+                            { value : "", viewValue : "-- Select Status --" },
+                            { value : "1", viewValue : "Lunas" },
+                            { value : "2", viewValue : "Belum Lunas" }
+                        ] }
+                        onSelect = { () => {
+                        } }
+                    />
+                </div>
+                <div className = { `flex-1 flex place-content-end gap-2` }>
+                    <IButton size = { "small" } rounded = { "full" } status = { "danger" }>
+                        Reset
+                    </IButton>
+                    <IButton size = { "small" } rounded = { "full" }>
+                        Cari
+                    </IButton>
+                </div>
+            </div>
+            <div className = { `flex-1 bg-white rounded-lg grid gap-10 py-5 relative` }>
+                <div className = { `w-full flex px-5` }>
+                    <ITitleMd title = { "List Data PKB" }/>
+                </div>
+                { controller.role === RoleEnum.SuperAdmin ? (
+                    <>
+                        <div
+                            className = { `grid w-full gap-2 px-5 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center` }
+                        >
+                            { controller.listCardInformationData.map( ( item, index ) => {
+                                return (
+                                    <CardInformationData
+                                        key = { index }
+                                        title = { item.title }
+                                        total = { item.total.toString() }
+                                        color = { item.color }
+                                    />
+                                );
+                            } ) }
+                        </div>
+                    </>
+                ) : null }
+                <div
+                    className = { `w-full grid gap-5 laptop:grid-cols-2 laptop:place-items-center laptop:place-content-between` }
+                >
+                    <div className = { `px-5 laptop:w-fit` }>
+                        { controller.role === RoleEnum.SuperAdmin ? null : (
+                            <div
+                                className = { `grid gap-2 border border-primary py-4 px-5 relative rounded-md tablet:grid-cols-2 laptop:flex` }
+                            >
+                                <IButton size = { "small" } rounded = { "full" } status = { "warning" }>
+                                    Proses
+                                </IButton>
+                                <IButton size = { "small" } rounded = { "full" } status = { "danger" }>
+                                    Pause
+                                </IButton>
+                                <IButton size = { "small" } rounded = { "full" } status = { "success" }>
+                                    Selesai
+                                </IButton>
+                                <div className = { `absolute -top-3 left-4 bg-white` }>Status</div>
+                            </div>
+                        ) }
+                    </div>
+                    <div
+                        className = { `w-full grid gap-2 px-5 laptop:flex tablet:grid-cols-2 laptop:grid-cols-3 laptop:place-content-end laptop:py-5` }
+                    >
+                        { controller.role === RoleEnum.SuperAdmin ? (
+                            <>
+                                <IButton
+                                    size = { "medium" }
+                                    rounded = { "full" }
+                                    status = { "success" }
+                                    onClick = { () => {
+                                        controller.dialog.openDialog( true );
+                                        controller.dialog.setDialogData( <DialogAddExcel/> );
+                                    } }
+                                >
+                                    Tambah Dari Excel
+                                </IButton>
+                            </>
+                        ) : (
+                            <>
+                                <IButton size = { "medium" } rounded = { "full" } status = { "danger" }>
+                                    Batal Selesai Services
+                                </IButton>
+                                <IButton size = { "medium" } rounded = { "full" } status = { "danger" }>
+                                    Batal PKB
+                                </IButton>
+                            </>
+                        ) }
+                        <IButton
+                            size = { "medium" }
+                            rounded = { "full" }
+                            status = { "success" }
+                            onClick = { async () => {
+                                controller.route.push( "/services/tambah-pkb" ).then( () => {
+                                } );
+                            } }
+                        >
+                            Tambah PKB
+                        </IButton>
+                    </div>
+                </div>
+                <TablePKB/>
+            </div>
+        </div>
+    );
 };
 export default ServicesView;

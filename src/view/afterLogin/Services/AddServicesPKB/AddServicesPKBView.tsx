@@ -78,6 +78,8 @@ const AddServicesPKBView = () => {
                 <ITitleMd title = { "ETA" }/>
                 <div className = "grid tablet:grid-cols-2">
                     <ITextFieldDefault
+                        value = { undefined }
+                        error = { false }
                         type = { "datetime-local" }
                         onChange = { ( value ) => {
                             controller.setTanggal( value.target.value );
@@ -100,6 +102,7 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                         label = { "Mekanik" }
                         data = { testData }
+                        error = { false }
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
@@ -112,6 +115,7 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                         label = { "Service Advisor *" }
                         data = { testData }
+                        error = { false }
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
@@ -127,6 +131,8 @@ const AddServicesPKBView = () => {
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
+                        value = { undefined }
+                        error = { false }
                         onValueChange = { ( value ) => {
                             controller.setAntrian( value );
                         } }
@@ -194,6 +200,8 @@ const AddServicesPKBView = () => {
                 <ITitleMd title = { "Uang Muka" }/>
                 <div className = "grid tablet:grid-cols-2">
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setUangMuka( value.target.value );
@@ -213,6 +221,8 @@ const AddServicesPKBView = () => {
                     type = { "text" }
                     onChange = { () => {
                     } }
+                    error = { false }
+                    value = { undefined }
                     placeholder = { "No PKB" }
                     label = { "PKB" }
                     labelColor = { "text-white" }
@@ -223,6 +233,8 @@ const AddServicesPKBView = () => {
                     type = { "text" }
                     onChange = { () => {
                     } }
+                    error = { false }
+                    value = { undefined }
                     placeholder = { "No Antrian" }
                     label = { "Antrian" }
                     labelColor = { "text-white" }
@@ -234,6 +246,8 @@ const AddServicesPKBView = () => {
                     onChange = { () => {
                     } }
                     placeholder = { "PKB Return" }
+                    error = { false }
+                    value = { undefined }
                     label = { "PKB Return" }
                     labelColor = { "text-white" }
                     backgroundLabel = { "bg-primary" }
@@ -252,6 +266,8 @@ const AddServicesPKBView = () => {
                         onChange = { ( value ) => {
                             controller.setTanggal( value.target.value );
                         } }
+                        error = { false }
+                        value = { undefined }
                         label = { "Tanggal" }
                         onEnter = { "next" }
                     />
@@ -260,11 +276,15 @@ const AddServicesPKBView = () => {
                         onChange = { ( value ) => {
                             controller.setJamKedatangan( value.target.value );
                         } }
+                        error = { false }
+                        value = { undefined }
                         label = { "Jam Kedatangan Cutomer *" }
                         onEnter = { "next" }
                     />
                     <IDropDown
                         type = { "text" }
+                        error = { false }
+                        value = { undefined }
                         onEnter = { "next" }
                         label = { "No Polisi / No Mesin *" }
                         data = { state.activeSearch ? state.searchProvince : state.province }
@@ -283,6 +303,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                         label = { "Type Antrian *" }
                         data = { testData }
+                        error = { false }
+                        value = { undefined }
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
@@ -294,6 +316,8 @@ const AddServicesPKBView = () => {
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "Type Kedatangan *" }
+                        error = { false }
+                        value = { undefined }
                         data = { testData }
                         onValue = { ( value ) => {
                             console.log( value );
@@ -306,6 +330,8 @@ const AddServicesPKBView = () => {
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "Activity Capacity *" }
+                        error = { false }
+                        value = { undefined }
                         data = { testData }
                         onValue = { ( value ) => {
                             console.log( value );
@@ -318,6 +344,8 @@ const AddServicesPKBView = () => {
                 <div className = { `grid tablet:grid-cols-2 gap-5` }>
                     <ITextFieldDefault
                         type = { "text" }
+                        error = { false }
+                        value = { undefined }
                         onChange = { ( value ) => {
                             controller.setPemilik( value.target.value );
                         } }
@@ -325,6 +353,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setHp( value.target.value );
@@ -333,6 +363,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setMesin( value.target.value );
@@ -341,6 +373,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setMotor( value.target.value );
@@ -351,6 +385,8 @@ const AddServicesPKBView = () => {
                 </div>
                 <div className = { `grid tablet:grid-cols-2 gap-5` }>
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setPembawa( value.target.value );
@@ -359,6 +395,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setPembawaHP( value.target.value );
@@ -367,6 +405,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setPembawaKtp( value.target.value );
@@ -375,6 +415,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setPembawaAlamat( value.target.value );
@@ -383,6 +425,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setPembawaAlamat( value.target.value );
@@ -391,6 +435,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setKota( value.target.value );
@@ -399,6 +445,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setKecamatan( value.target.value );
@@ -407,6 +455,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                     />
                     <IDropDown
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "Hubungan Dengan Pemilik *" }
@@ -421,6 +471,8 @@ const AddServicesPKBView = () => {
                 </div>
                 <div className = { `grid tablet:grid-cols-2 gap-5` }>
                     <IDropDown
+                        error = { false }
+                        value = { undefined }
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "Alasan Ke AHASS *" }
@@ -433,6 +485,7 @@ const AddServicesPKBView = () => {
                         } }
                     />
                     <IRadio
+                        error = { false }
                         label = "Dari Dealer Sendiri"
                         value = { controller.dariDealerSendiri }
                         value1 = { "Ya" }
@@ -445,6 +498,7 @@ const AddServicesPKBView = () => {
                         } }
                     />
                     <IRadio
+                        error = { false }
                         label = "Konfirmasi Pergantian Part"
                         value = { controller.gantiPart }
                         value1 = { "Langsung" }
@@ -457,6 +511,7 @@ const AddServicesPKBView = () => {
                         } }
                     />
                     <IRadio
+                        error = { false }
                         label = "Part Bekas Dibawa Pulang"
                         value = { controller.partBekas }
                         value1 = { "Ya" }
@@ -480,6 +535,8 @@ const AddServicesPKBView = () => {
                     <div className = { `grid grid-cols-2 gap-5 place-items-end` }>
                         <ITextFieldDefault
                             type = { "text" }
+                            error = { false }
+                            value = { undefined }
                             onChange = { ( value ) => {
                                 controller.setKmNow( value.target.value );
                             } }
@@ -488,6 +545,8 @@ const AddServicesPKBView = () => {
                         />
                         <ITextFieldDefault
                             type = { "text" }
+                            error = { false }
+                            value = { undefined }
                             onChange = { ( value ) => {
                                 controller.setKmNext( value.target.value );
                             } }
@@ -500,6 +559,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                         label = { "Gudang" }
                         data = { testData }
+                        error = { false }
+                        value = { undefined }
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
@@ -512,6 +573,8 @@ const AddServicesPKBView = () => {
                         onEnter = { "next" }
                         label = { "No STNK" }
                         data = { testData }
+                        error = { false }
+                        value = { undefined }
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
@@ -527,6 +590,8 @@ const AddServicesPKBView = () => {
                         onValue = { ( value ) => {
                             console.log( value );
                         } }
+                        error = { false }
+                        value = { undefined }
                         onValueChange = { ( value ) => {
                             controller.setCustomerDatang( value );
                         } }
@@ -535,6 +600,7 @@ const AddServicesPKBView = () => {
                         <ITextFieldDefault
                             type = { "text" }
                             disabled = { true }
+                            error = { false }
                             value = { controller.lat }
                             onChange = { ( value ) => {
                                 // VIewModel.getLat();
@@ -546,6 +612,7 @@ const AddServicesPKBView = () => {
                             type = { "text" }
                             disabled = { true }
                             value = { controller.lng }
+                            error = { false }
                             onChange = { ( value ) => {
                                 // VIewModel.getLat();
                             } }
@@ -557,11 +624,13 @@ const AddServicesPKBView = () => {
                 <div className = { `grid grid-cols-1 gap-5` }>
                     <ITextArea
                         label = { `Keluhan *` }
+                        error = { false }
                         onChange = { ( value ) => {
                             controller.setKeluhan( value.target.value );
                         } }
                     />
                     <ITextArea
+                        error = { false }
                         label = { `Gejala (Analisa Service Advisor) *` }
                         onChange = { ( value ) => {
                             controller.setGejala( value.target.value );

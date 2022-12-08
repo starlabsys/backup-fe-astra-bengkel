@@ -32,6 +32,8 @@ const PitView = () => {
                                 label = { "Cari" }
                                 placeholder = { "Cari..." }
                                 onEnter = { "enter" }
+                                value = { undefined }
+                                error = { false }
                                 onChange = { ( event ) => {
                                     search.setSearch( event.target.value );
                                     search
@@ -82,6 +84,7 @@ const PitView = () => {
                     required = { true }
                     type = { "text" }
                     label = { "Kode PIT" }
+                    error = { false }
                     placeholder = { "Masukkan kode PIT" }
                     value = { kodePit }
                     onChange = { ( event ) => {
@@ -116,6 +119,7 @@ const PitView = () => {
                             name : "HIGH END"
                         }
                     ] }
+                    error = { false }
                     onEnter = { "next" }
                     onValue = { ( value ) => {
                         tipePit = value.value;
@@ -124,6 +128,7 @@ const PitView = () => {
                     } }
                 />
                 <IRadioSingle
+                    error = { false }
                     label = { "Status" }
                     value1 = { "Aktif" }
                     status = { isActive }

@@ -12,14 +12,15 @@ export interface InterfacePropsDropDown {
 
 const IDropDown = ( props : InterfaceDropDown ) => {
     const [ open, setOpen ] = useState( false );
-    const [ value, setValue ] = useState<string | undefined>( props.value ?? undefined );
-
+    const [ value, setValue ] = useState<string | undefined>( undefined );
     return (
         <div className = { `relative rounded-md w-full grid gap-2` }>
             <div
                 className = { `w-full` }
             >
                 <Input
+                    helperColor = { props.error ? 'error' : 'primary' }
+                    helperText = { props.errorMessages }
                     bordered = { true }
                     clearable = { true }
                     animated = { true }
@@ -30,9 +31,10 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         setValue( undefined );
                         setOpen( true )
                     } }
+                    color = { props.error ? 'error' : 'primary' }
                     placeholder = { props.placeholder }
-                    className = "border border-primary"
-                    value = { value }
+                    className = { `border ${ props.error ? 'border-red-900' : 'border-primary' }  ${ props.disabled ? 'bg-gray-300' : '' }` }
+                    value = { props.value ?? value }
                     type = { props.type }
                     contentClickable = { true }
                     onContentClick = { ( key, e ) => {

@@ -68,8 +68,8 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.successPost( context, resp.data.message );
             return {
                 message : 'success',
-                statusCode : resp.status,
-                data : resp.data.data
+                statusCode : 201,
+                data : resp.data.message
             };
         }
         return {
@@ -88,7 +88,7 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.errorResponse( context, { message : 'Error, Tambah data' } );
         }
         if ( error.response?.status === 403 ) {
-            ErrorHandler.notAuthorized( context, { message : data.message } );
+            ErrorHandler.notAuthorized( context, { message : data.message.name } );
         }
         if ( error.response?.status === 404 ) {
             ErrorHandler.notFound( context, { message : data.message.message } );

@@ -12,7 +12,7 @@ const theme = createTheme( {
             primaryLight : '#1E2F65',
             primaryLightHover : '#5138ED',
             primaryLightActive : '#20A8D8',
-            primaryLightContrast : 'white',
+            primaryLightContrast : '#1E2F65',
             primary : '#1E2F65',
             primaryBorder : '#1E2F65',
             primaryBorderHover : '#5138ED',

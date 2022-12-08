@@ -22,28 +22,33 @@ export const ITextFieldRounded = ( props : InterfaceTextFieldRounded ) => {
 };
 
 export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
+    // console.log( props.label + '--' + props.error )
 
     return (
-        <Input
-            bordered = { true }
-            clearable = { true }
-            animated = { true }
-            name = { props.name }
-            width = "100%"
-            label = { props.label }
-            disabled = { props.disabled }
-            required = { props.required }
-            // labelPlaceholder = { props.label }
-            placeholder = { props.placeholder }
-            className = "border border-primary"
-            // initialValue = { props.value }
-            value = { props.value }
-            // inputMode={props.inputMode}
-            type = { props.type }
-            onChange = { props.onChange }
-        />
-        // <div className = "h-fit">
-        //
-        // </div>
+        <div className = { `w-full grid` }>
+            <Input
+                bordered = { true }
+                clearable = { true }
+                animated = { true }
+                autoCapitalize = { props.autoCapitalize }
+                name = { props.name }
+                width = "100%"
+                label = { props.label }
+                disabled = { props.disabled }
+                color = { props.error ? 'error' : 'primary' }
+                required = { props.required }
+                placeholder = { props.placeholder }
+                className = { `border ${ props.error ? 'border-red-900' : 'border-primary' }  ${ props.disabled ? 'bg-gray-300' : '' }` }
+                value = { props.value }
+                type = { props.type }
+                onChange = { props.onChange }
+                shadow = { true }
+                status = { props.error ? 'error' : 'primary' }
+                borderWeight = { 'normal' }
+                helperColor = { props.error ? 'error' : 'primary' }
+                helperText = { props.errorMessages }
+            />
+
+        </div>
     );
 };

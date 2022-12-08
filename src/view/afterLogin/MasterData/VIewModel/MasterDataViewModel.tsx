@@ -43,7 +43,7 @@ const MasterDataViewModel = () => {
             icon : <IoAccessibility size = { 60 } color = { `#1E2F65` }/>
         },
         {
-            title : "Karyawan",
+            title : "Mekanik",
             link : "/master-data/karyawan",
             icon : <IoPeopleCircle size = { 60 } color = { `#1E2F65` }/>
         },
@@ -53,13 +53,13 @@ const MasterDataViewModel = () => {
             icon : <MdOutlineMiscellaneousServices size = { 60 } color = { `#1E2F65` }/>
         },
         {
-            title : "PIT Karyawan",
-            link : "/master-data/pit-karyawan",
+            title : "PIT Mekanik",
+            link : "/master-data/pit-mekanik",
             icon : <MdAccountBox size = { 60 } color = { `#1E2F65` }/>
         },
         {
             title : "Bengkel",
-            link : "/master-data/Bengkel",
+            link : "/master-data/bengkel",
             icon : <AiFillShop size = { 60 } color = { `#1E2F65` }/>
         },
 

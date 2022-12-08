@@ -1,11 +1,11 @@
 import MainLayout from "../../../layout/MainLayout";
-import DataCustomerView from "../../../view/afterLogin/DataCustomer/IndexView";
+import CustomerView from "../../../view/afterLogin/DataCustomer/CustomerView/CustomerView";
 
 
 const DataCustomer = () => {
     return (
         <MainLayout>
-            <DataCustomerView/>
+            <CustomerView/>
         </MainLayout>
     );
 };

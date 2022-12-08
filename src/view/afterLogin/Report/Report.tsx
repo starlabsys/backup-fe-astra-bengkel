@@ -15,15 +15,29 @@ const ReportView = () => {
                 Pencarian Sparepart
             </div>
             <div className = { `grid gap-5 laptop:grid-cols-2` }>
-                <ITextFieldDefault placeholder = { 'Masukan Kode' } type = { "text" } onChange = { () => {
+                <ITextFieldDefault placeholder = { 'Masukan Kode' }
+                                   value = { undefined }
+                                   error = { false }
+                                   type = { "text" } onChange = { () => {
                 } } onEnter = { 'next' } label = { 'Kode' }/>
-                <ITextFieldDefault placeholder = { 'Masukan Nama' } type = { "text" } onChange = { () => {
+                <ITextFieldDefault placeholder = { 'Masukan Nama' }
+                                   value = { undefined }
+                                   error = { false }
+                                   type = { "text" } onChange = { () => {
                 } } onEnter = { 'next' } label = { 'Nama' }/>
-                <ITextFieldDefault placeholder = { 'Masukan Alamat' } type = { "text" } onChange = { () => {
+                <ITextFieldDefault placeholder = { 'Masukan Alamat' }
+                                   value = { undefined }
+                                   error = { false }
+                                   type = { "text" } onChange = { () => {
                 } } onEnter = { 'next' } label = { 'Alamat' }/>
-                <ITextFieldDefault placeholder = { 'Masukan Kota' } type = { "text" } onChange = { () => {
+                <ITextFieldDefault placeholder = { 'Masukan Kota' } value = { undefined }
+                                   error = { false }
+                                   type = { "text" } onChange = { () => {
                 } } onEnter = { 'next' } label = { 'Kota' }/>
-                <ITextFieldDefault placeholder = { 'Masukan Jabatan' } type = { "text" } onChange = { () => {
+                <ITextFieldDefault placeholder = { 'Masukan Jabatan' }
+                                   value = { undefined }
+                                   error = { false }
+                                   type = { "text" } onChange = { () => {
                 } } onEnter = { 'next' } label = { 'Jabatan' }/>
             </div>
             <div className = { `flex gap-2 place-content-end mb-5` }>
@@ -44,8 +58,11 @@ const ReportView = () => {
             </div>
             <div className = { `laptop:flex place-items-center place-content-between mb-5` }>
                 <div className = { `laptop:w-4/12 mb-5` }>
-                    <ITextFieldDefault type = { "text" } onChange = { event => {
-                    } } placeholder = { 'Cari...' } label = { 'Cari' } onEnter = { "enter" }/>
+                    <ITextFieldDefault type = { "text" }
+                                       value = { undefined }
+                                       error = { false }
+                                       onChange = { event => {
+                                       } } placeholder = { 'Cari...' } label = { 'Cari' } onEnter = { "enter" }/>
                 </div>
                 <div className = { `flex place-content-end ` }>
                     <IButton size = { "small" } rounded = { "lg" } status = { 'success' }>+ Tambah Sparepart</IButton>

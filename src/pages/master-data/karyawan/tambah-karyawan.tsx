@@ -1,10 +1,10 @@
 import MainLayout from "../../../layout/MainLayout";
-import { TambahKaryawanView } from "../../../view/afterLogin/Karyawan/TambahKaryawanView/TambahKaryawanView";
+import { TambahMekanikView } from "../../../view/afterLogin/Mekanik/TambahMekanikView/TambahMekanikView";
 
 
 const TambahKaryawan = () => {
     return <MainLayout>
-        <TambahKaryawanView/>
+        <TambahMekanikView/>
     </MainLayout>
 }
 

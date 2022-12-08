@@ -13,10 +13,16 @@ export const TambahSparepartView = () => {
             <ITitleMd title = { 'Sparepart' }/>
             <div className = { `grid grid-cols-2 gap-5 place-items-start` }>
                 <div className = { `grid gap-5 w-full` }>
-                    <ITextFieldDefault type = { 'text' } label = { 'Kode *' } onEnter = { 'next' }/>
+                    <ITextFieldDefault type = { 'text' }
+                                       error = { false }
+                                       onChange = { ( event ) => {
+                                       } }
+                                       value = { undefined }
+                                       label = { 'Kode *' } onEnter = { 'next' }/>
                     <div className = { `grid grid-cols-2 place-items-end` }>
                         <IRadioSingle status = { false }
                                       label = { 'Status' }
+                                      error = { false }
                                       value1 = { 'Aktif' }
                                       setStatus = { () => {
                                       } }/>
@@ -25,18 +31,39 @@ export const TambahSparepartView = () => {
                         </IButton>
                     </div>
                 </div>
-                <ITextFieldDefault type = { 'text' } label = { 'Nama *' } onEnter = { 'next' }/>
-                <ITextFieldDefault type = { 'text' } label = { 'Nama Lokal' } onEnter = { 'next' }/>
+                <ITextFieldDefault type = { 'text' }
+                                   error = { false }
+                                   value = { undefined }
+                                   onChange = { ( e ) => {
+                                   } }
+                                   label = { 'Nama *' } onEnter = { 'next' }/>
+                <ITextFieldDefault type = { 'text' }
+                                   error = { false }
+                                   value = { undefined }
+                                   onChange = { ( e ) => {
+                                   } }
+                                   label = { 'Nama Lokal' } onEnter = { 'next' }/>
                 <IDropDown type = { 'text' }
                            label = { 'Group *' }
                            data = { [] }
+                           error = { false }
                            onEnter = { 'next' }
                            onValueChange = { () => {
                            } }
                            onValue = { () => {
                            } }/>
-                <ITextFieldDefault type = { 'text' } label = { 'Harga Lokal (Ahass) *' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
+                                   error = { false }
+                                   value = { undefined }
+                                   onChange = { ( e ) => {
+                                   } }
+                                   label = { 'Harga Lokal (Ahass) *' }
+                                   onEnter = { 'next' }/>
+                <ITextFieldDefault type = { 'text' }
+                                   error = { false }
+                                   value = { undefined }
+                                   onChange = { ( e ) => {
+                                   } }
                                    label = { 'Harga Nasional (HET) *' }
                                    disabled = { true }
                                    onEnter = { 'next' }/>
@@ -49,6 +76,7 @@ export const TambahSparepartView = () => {
                                    name : 'PCS'
                                }
                            ] }
+                           error = { false }
                            onEnter = { 'next' }
                            onValueChange = { () => {
                            } }

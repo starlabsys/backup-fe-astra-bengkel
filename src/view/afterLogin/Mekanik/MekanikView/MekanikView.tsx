@@ -12,23 +12,27 @@ const MekanikView = () => {
     const route = useRouter()
 
     return <div className = { `grid gap-5` }>
-        <IBreadcrumbs title = { 'Karyawan' } subtitle = { 'master-data/karyawan' }/>
+        <IBreadcrumbs title = { 'Mekanik' } subtitle = { 'master-data/karyawan' }/>
         <div className = { `bg-white rounded-lg w-full p-5 grid gap-5` }>
-            <ITitleMd title = { 'List Data Karyawan' }/>
+            <ITitleMd title = { 'List Data Mekanik' }/>
             <div className = { `grid gap-5` }>
                 <div className = { `w-full grid gap-5 tablet:flex tablet:place-content-between tablet:place-items-end` }>
                     <div className = { `w-full tablet:w-6/12` }>
                         <ITextFieldDefault type = { 'text' }
                                            label = { 'Cari' }
                                            onEnter = { 'enter' }
-                                           placeholder = { 'Cari Karyawan' }/>
+                                           onChange = { () => {
+                                           } }
+                                           value = { undefined }
+                                           error = { false }
+                                           placeholder = { 'Cari Mekanik' }/>
                     </div>
                     <div>
                         <IButton size = { 'medium' } status = { "success" } onClick = { () => {
                             route.push( '/master-data/karyawan/tambah-karyawan' ).then( () => {
                             } )
                         } }>
-                            + Tambah Mekanik
+                            + Tambah Karyawan
                         </IButton>
                     </div>
                 </div>
@@ -48,7 +52,12 @@ const MekanikView = () => {
                            } }
                            info = { () => {
                            } }
-                           updated = { () => {
+                           updated = { ( data ) => {
+                               route.push( {
+                                   pathname : '/master-data/karyawan/edit-karyawan',
+                                   query : data
+                               } ).then( () => {
+                               } )
                            } }
                            header = { [
                                {
@@ -74,12 +83,12 @@ const MekanikView = () => {
                            ] }
                            data = { [
                                {
-                                   nama : 'Karyawan 1',
+                                   nama : 'Mekanik 1',
                                    alamat : 'Jl. Mekan',
                                    no_telp : '08123456789'
                                },
                                {
-                                   nama : 'Karyawan 2',
+                                   nama : 'Mekanik 2',
                                    alamat : 'Jl. Mekanx',
                                    no_telp : '08123456781'
                                },

@@ -38,7 +38,7 @@ export interface InterfaceTextFieldDefault {
     autoCapitalize? : string;
     required? : boolean;
     onChange : ( e : ChangeEvent<FormElement> ) => void
-    error : boolean;
+    error? : boolean;
     placeholder? : string;
     name? : string
     label : string;

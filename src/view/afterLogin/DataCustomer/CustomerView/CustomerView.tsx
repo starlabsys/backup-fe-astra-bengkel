@@ -19,7 +19,6 @@ const CustomerView = () => {
                     <ITextFieldDefault type = { 'text' }
                                        label = { 'Cari' }
                                        onEnter = { 'enter' }
-                                       error
                                        value = { undefined } onChange = { ( a ) => {
                     } }/>
                 </div>

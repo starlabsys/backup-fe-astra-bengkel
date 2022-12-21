@@ -8,6 +8,8 @@ import ServicesController from "./ServicesController";
 import TablePKB from "../component/TablePKB";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
+import IDropDown from "../../../../component/ITextField/IDropDown";
+import { ITableData } from "../../../../component/ITable/ITableNextUI";
 
 
 const ServicesView = () => {
@@ -63,38 +65,39 @@ const ServicesView = () => {
                         onChange = { () => {
                         } }
                     />
-                    <ISelectOption
-                        type = { "text" }
-                        label = { "Status Pembayaran" }
-                        error = { false }
-                        name = { "statusPembayaran" }
-                        placeHolder = { "-- Select Status --" }
-                        listOption = { [
-                            { value : "", viewValue : "-- Select Status --" },
-                            { value : "1", viewValue : "Lunas" },
-                            { value : "2", viewValue : "Belum Lunas" }
-                        ] }
-                        onSelect = { () => {
-                        } }
-                    />
+                    <IDropDown type = { "text" }
+                               error = { false }
+                               label = { 'Status Pembayaran' }
+                               placeholder = { '-- Select Status --' }
+                               data = { [
+                                   { id : 1, value : "1", name : "Lunas" },
+                                   { id : 2, value : "2", name : "Belum Lunas" }
+                               ] }
+                               onEnter = { 'next' }
+                               onValueChange = { () => {
+                               } }
+                               onValue = { () => {
+                               } }/>
                 </div>
-                <div className = { `flex-1 flex place-content-end gap-2` }>
-                    <IButton size = { "small" } rounded = { "full" } status = { "danger" }>
-                        Reset
-                    </IButton>
-                    <IButton size = { "small" } rounded = { "full" }>
-                        Cari
-                    </IButton>
+                <div className = { `w-full flex place-content-end` }>
+                    <div className = { `w-full tablet:w-9/12 laptop:w-5/12 flex place-content-end gap-2` }>
+                        <IButton rounded = { "full" } status = { "danger" }>
+                            Reset
+                        </IButton>
+                        <IButton rounded = { "full" }>
+                            Cari
+                        </IButton>
+                    </div>
                 </div>
             </div>
-            <div className = { `flex-1 bg-white rounded-lg grid gap-10 py-5 relative` }>
-                <div className = { `w-full flex px-5` }>
+            <div className = { `flex-1 bg-white rounded-lg grid gap-10 p-5 relative` }>
+                <div className = { `w-full flex` }>
                     <ITitleMd title = { "List Data PKB" }/>
                 </div>
                 { controller.role === RoleEnum.SuperAdmin ? (
                     <>
                         <div
-                            className = { `grid w-full gap-2 px-5 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center` }
+                            className = { `grid w-full gap-2 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center` }
                         >
                             { controller.listCardInformationData.map( ( item, index ) => {
                                 return (
@@ -112,10 +115,10 @@ const ServicesView = () => {
                 <div
                     className = { `w-full grid gap-5 laptop:grid-cols-2 laptop:place-items-center laptop:place-content-between` }
                 >
-                    <div className = { `px-5 laptop:w-fit` }>
+                    <div className = { `laptop:w-fit` }>
                         { controller.role === RoleEnum.SuperAdmin ? null : (
                             <div
-                                className = { `grid gap-2 border border-primary py-4 px-5 relative rounded-md tablet:grid-cols-2 laptop:flex` }
+                                className = { `grid gap-2 border border-primary py-4 relative rounded-md tablet:grid-cols-2 laptop:flex` }
                             >
                                 <IButton size = { "small" } rounded = { "full" } status = { "warning" }>
                                     Proses
@@ -131,7 +134,7 @@ const ServicesView = () => {
                         ) }
                     </div>
                     <div
-                        className = { `w-full grid gap-2 px-5 laptop:flex tablet:grid-cols-2 laptop:grid-cols-3 laptop:place-content-end laptop:py-5` }
+                        className = { `w-full grid gap-2 laptop:flex tablet:grid-cols-2 laptop:grid-cols-3 laptop:place-content-end laptop:py-5` }
                     >
                         { controller.role === RoleEnum.SuperAdmin ? (
                             <>
@@ -170,9 +173,85 @@ const ServicesView = () => {
                         </IButton>
                     </div>
                 </div>
-                <TablePKB/>
+                { tableData() }
             </div>
         </div>
     );
+
+    function tableData() {
+        return <ITableData
+            selectionMode = { 'multiple' }
+            page = { 0 }
+            totalPage = { 1 }
+            loading = { false }
+            changePage = { index => {
+                console.log( index )
+            } }
+            updated = { ( data ) => {
+            } }
+            header = { [
+                {
+                    label : '#',
+                    name : '#',
+                },
+                {
+                    label : 'Action',
+                    name : 'action',
+                },
+                {
+                    label : 'Status PKB',
+                    name : 'status_pkb',
+                },
+                {
+                    label : 'Status Pekerjaan',
+                    name : 'status_pekerjaan',
+                },
+                {
+                    label : 'Nama Mekanik',
+                    name : 'nama_mekanik',
+                },
+                {
+                    label : 'Nama Pemilik',
+                    name : 'nama_pemilik',
+                },
+                {
+                    label : 'No Antrian',
+                    name : 'no_antrian',
+                },
+                {
+                    label : 'No PKB',
+                    name : 'no_pkb',
+                },
+                {
+                    label : 'No Polisi',
+                    name : 'no_polisi',
+                },
+                {
+                    label : 'Engine No',
+                    name : 'engine_no',
+                },
+                {
+                    label : 'Tanggal',
+                    name : 'tanggal',
+                },
+                {
+                    label : 'Waktu Tunggu',
+                    name : 'waktu_tunggu',
+                },
+                {
+                    label : 'Durasi Pengerjaan',
+                    name : 'durasi_pengerjan',
+                },
+                {
+                    label : 'Jenis Pekerjaan',
+                    name : 'jenis_pekerjaan',
+                },
+                {
+                    label : 'PIT',
+                    name : 'pit',
+                },
+            ] }
+            data = { [] }/>
+    }
 };
 export default ServicesView;

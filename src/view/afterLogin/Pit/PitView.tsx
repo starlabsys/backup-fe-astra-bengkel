@@ -19,7 +19,7 @@ const PitView = () => {
 
     return (
         <div className = { `flex-1 grid gap-5` }>
-            <IBreadcrumbs title = { "PIT" } subtitle = { "pit" }/>
+            <IBreadcrumbs title = { "PIT" } subtitle = { "master-data/pit" }/>
             <div className = { `w-full bg-white rounded-lg grid gap-5 relative` }>
                 <div className = { `w-full grid gap-10 p-5` }>
                     <ITitleMd title = { "List Data PIT" }/>

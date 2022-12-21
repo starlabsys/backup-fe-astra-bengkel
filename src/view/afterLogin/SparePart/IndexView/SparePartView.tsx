@@ -5,6 +5,7 @@ import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import SparePartController from "./SparePartController";
 import { useRouter } from "next/router";
+import { InterfaceSparePart } from "../interfaces/InterfaceSparePart";
 
 
 const SparePartView = () => {
@@ -12,7 +13,7 @@ const SparePartView = () => {
     const route = useRouter();
     return (
         <div className = { `w-full grid gap-5` }>
-            <IBreadcrumbs title = { `Sparepart` } subtitle = { `sparepart` }/>
+            <IBreadcrumbs title = { `Sparepart` } subtitle = { `master-data/sparepart` }/>
             <div className = { `w-full rounded-lg bg-white grid relative` }>
                 <div className = { `w-full p-5 grid gap-10` }>
                     <ITitleMd title = { "List Sparepart" }/>
@@ -25,6 +26,10 @@ const SparePartView = () => {
                                 value = { undefined }
                                 type = { "text" }
                                 onChange = { ( event ) => {
+                                    controller.changePage( {
+                                        page : 0,
+                                        search : event.target.value
+                                    } )
                                 } }
                                 placeholder = { "Cari..." }
                                 label = { "Cari" }
@@ -41,12 +46,6 @@ const SparePartView = () => {
                         </div>
                     </div>
                     <ITableData header = { [
-                        // code: item.parts_code,
-                        // name: item.parts_name,
-                        // group: item.parts_name,
-                        // qty: item.parts_qty.toString,
-                        // price: `Rp. ${item.parts_price}`,
-                        // priceNasional: `Rp. ${item.parts_price}`
                         {
                             label : "#",
                             name : "#",
@@ -71,19 +70,28 @@ const SparePartView = () => {
                             label : "Harga Nasional (HET)",
                             name : "priceNasional",
                         },
-                        // {
-                        //     label : "Jumlah",
-                        //     name : "qty",
-                        // },
                         {
                             label : "Action",
                             name : "action"
                         }
                     ] } data = { controller.sparepart }
                                 loading = { controller.loading }
-                                totalPage = { 2 }
-                                page = { 0 }
-                                updated = { ( data ) => {
+                                totalPage = { controller.totalPage }
+                                page = { controller.page }
+                                changePage = { ( data ) => {
+                                    controller.changePage( {
+                                        page : data - 1,
+                                        search : ''
+                                    } );
+                                } }
+                                updated = { () => {
+                                } }
+                                info = { ( data ) => {
+                                    route.push( {
+                                        pathname : '/master-data/sparepart/edit-sparepart',
+                                        query : data
+                                    } ).then( () => {
+                                    } );
                                 } }
                     />
                 </div>

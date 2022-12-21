@@ -22,7 +22,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     helperColor = { props.error ? 'error' : 'primary' }
                     helperText = { props.errorMessages }
                     bordered = { true }
-                    clearable = { true }
+                    clearable = { !props.disabled }
                     animated = { true }
                     width = "100%"
                     label = { props.label }
@@ -31,6 +31,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         setValue( undefined );
                         setOpen( true )
                     } }
+                    readOnly = { props.disabled }
                     color = { props.error ? 'error' : 'primary' }
                     placeholder = { props.placeholder }
                     className = { `border ${ props.error ? 'border-red-900' : 'border-primary' }  ${ props.disabled ? 'bg-gray-300' : '' }` }
@@ -50,7 +51,9 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         else {
                             setOpen( true );
                         }
-                        props.onValueChange( value.target.value );
+                        if ( props.onValueChange ) {
+                            props.onValueChange( value.target.value );
+                        }
                     } }
                     contentRight = { <div>
                         {
@@ -59,41 +62,45 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     </div> }
                 />
             </div>
-
-            { open ? (
-                <div
-                    className = { `absolute top-20 bg-white max-h-48 rounded-b-lg z-20 w-full overflow-auto grid shadow-md` }
-                >
-                    { props.data.map( ( data, index ) => {
-                        return (
-                            <div
-                                key = { index }
-                                onClick = { () => {
-                                    setOpen( false );
-                                    setValue( data.name );
-                                    return props.onValue( data );
-                                } }
-                                className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }
-                            >
-                                { data.name }
-                            </div>
-                        );
-                    } ) }
-                    { props.activeAddOn ? (
-                        <>
-                            {
-                                props.data.length !== 0 ? null :
-                                    <div
-                                        className = "p-2 bg-primary text-white text-center mt-2 cursor-pointer"
-                                        onClick = { props.onClickAddOn }
-                                    >
-                                        Tambah
-                                    </div>
-                            }
-                        </>
-                    ) : null }
-                </div>
-            ) : null }
+            {
+                (open ? (
+                    <div
+                        className = { `absolute top-20 bg-white max-h-48 rounded-b-lg z-50 w-full overflow-auto grid shadow-md` }
+                        style = { {
+                            zIndex : 9999
+                        } }
+                    >
+                        { props.children ?? props.data.map( ( data, index ) => {
+                            return (
+                                <div
+                                    key = { index }
+                                    onClick = { () => {
+                                        setOpen( false );
+                                        setValue( data.name );
+                                        return props.onValue( data );
+                                    } }
+                                    className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }
+                                >
+                                    { data.name }
+                                </div>
+                            );
+                        } ) }
+                        { props.activeAddOn ? (
+                            <>
+                                {
+                                    props.data.length !== 0 ? null :
+                                        <div
+                                            className = "p-2 bg-primary text-white text-center mt-2 cursor-pointer"
+                                            onClick = { props.onClickAddOn }
+                                        >
+                                            Tambah
+                                        </div>
+                                }
+                            </>
+                        ) : null }
+                    </div>
+                ) : null)
+            }
         </div>
     );
 };

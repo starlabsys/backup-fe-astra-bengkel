@@ -14,7 +14,7 @@ const KendaraanView = () => {
     const router = useRouter();
     return (
         <div className = { `flex-1 grid gap-5` }>
-            <IBreadcrumbs title = { "Kendaraan" } subtitle = { "kendaraan" }/>
+            <IBreadcrumbs title = { "Kendaraan" } subtitle = { "master-data/kendaraan" }/>
             <div className = { `w-full rounded-lg bg-white grid relative` }>
                 <div className = { `w-full p-5 grid gap-10` }>
                     <ITitleMd title = { "List Kendaraan" }/>

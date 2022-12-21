@@ -1,8 +1,9 @@
 import { InterfaceAddSparePart } from "./interfaces/InterfaceAddSparePart";
-import { del, get, patch, post } from "../../../core/api/api";
+import { del, patch, post } from "../../../core/api/api";
 import { InterfacePatchSparePart } from "./interfaces/InterfacePatchSparePart";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
-import { InterfacePagination } from "../../interface/InterfacePagination";
+import { InterfaceGetSparepart } from "./interfaces/InterfaceGetSparepart";
+import { ConvertModelListSparePart, ModelListSparePart } from "../../models/SparePart/ModelListSparePart";
 
 
 class SparepartRepository {
@@ -19,10 +20,16 @@ class SparepartRepository {
         } )
     }
 
-    public get = async ( context : InterfaceError, props : InterfacePagination ) : Promise<any> => {
-        return await get( context, {
-            url : `/parts?page=${ props.page }&limit=${ props.limit }&search=${ props.search ?? '' }`
+    public get = async ( context : InterfaceError, props : InterfaceGetSparepart ) : Promise<ModelListSparePart | null> => {
+        const resp = await post( context, {
+            url : '/sparepart/get',
+            reqBody : props
         } )
+
+        if ( resp !== null ) {
+            return ConvertModelListSparePart.toModelListSparePart( resp );
+        }
+        return null;
     }
 
     public updated = async ( context : InterfaceError, props : InterfacePatchSparePart ) : Promise<any> => {

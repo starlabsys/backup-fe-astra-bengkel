@@ -37,7 +37,6 @@ export interface InterfaceTextFieldDefault {
     disabled? : boolean;
     autoCapitalize? : string;
     required? : boolean;
-    onChange : ( e : ChangeEvent<FormElement> ) => void
     error? : boolean;
     placeholder? : string;
     name? : string
@@ -48,6 +47,8 @@ export interface InterfaceTextFieldDefault {
     errorMessages? : string;
     value : string | number | readonly string[] | undefined;
     onblur? : ( e : ChangeEvent<FormElement> ) => void
+    helperColor? : "error" | "primary" | "default" | "secondary" | "success" | "warning" | undefined;
+    onChange : ( e : ChangeEvent<FormElement> ) => void
 }
 
 export interface InterfaceSelectOption {

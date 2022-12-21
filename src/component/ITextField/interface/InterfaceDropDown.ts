@@ -6,7 +6,7 @@ export interface InterfaceDropDown {
     type : HTMLInputTypeAttribute;
     disabled? : boolean;
     required? : boolean;
-    onChange? : ChangeEventHandler<HTMLInputElement>
+    // onChange? : ChangeEventHandler<HTMLInputElement>
     error : boolean;
     placeholder? : string;
     name? : string
@@ -15,10 +15,11 @@ export interface InterfaceDropDown {
     backgroundLabel? : string;
     data : InterfacePropsDropDown[]
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
-    onValueChange : ( value : string ) => void;
+    onValueChange? : ( value : string ) => void;
     onValue : ( value : InterfacePropsDropDown ) => void;
     activeAddOn? : boolean;
     onClickAddOn? : () => void;
     value? : string | undefined;
     errorMessages? : string;
+    children? : JSX.Element;
 }

@@ -6,6 +6,7 @@ import IAlertDialog from "../core/utils/error/IAlertDialog";
 import { AlertSuccess } from "../core/utils/error/AlertSuccess";
 import { IDialogData } from "../context/IDialogData";
 import { IToast } from "../context/IToast";
+import { ILoading } from "../component/ILoading/ILoading";
 
 
 interface InterfaceMainLayout {
@@ -20,12 +21,14 @@ const MainLayout = ( props : InterfaceMainLayout ) => {
                     <IDrawer>
                         <AlertSuccess>
                             <IToast>
-                                <div className = { `w-screen h-screen flex fixed` }>
-                                    <ISideBar/>
-                                    <IBody>
-                                        { props.children }
-                                    </IBody>
-                                </div>
+                                <ILoading>
+                                    <div className = { `w-screen h-screen flex fixed` }>
+                                        <ISideBar/>
+                                        <IBody>
+                                            { props.children }
+                                        </IBody>
+                                    </div>
+                                </ILoading>
                             </IToast>
                         </AlertSuccess>
                     </IDrawer>

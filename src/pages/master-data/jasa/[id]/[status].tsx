@@ -1,5 +1,5 @@
 import MainLayout from "../../../../layout/MainLayout";
-import EditJasaView from "../../../../view/afterLogin/Jasa/EditJasa/EditJasaView";
+import EditJasaView from "../../../../view/afterLogin/Jasa/InfoEditJasa/EditJasaView";
 
 
 const EditJasa = () => {

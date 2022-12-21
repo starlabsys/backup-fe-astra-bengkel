@@ -220,15 +220,14 @@ const EditJasaViewModel = ( id : number, action : number ) => {
     }
 
     const changeDataListSparePart = ( index : number, qty : number, aktif : boolean ) => {
-        const listData = listSparePart;
-        listData.map( ( item, indexItem ) => {
+        listSparePart.map( ( item, indexItem ) => {
             if ( item.idRefMaterial === index ) {
                 item.quantity = qty;
                 item.labelAktif = aktif ? 'Aktif' : 'Tidak Aktif';
                 item.aktif = aktif;
             }
         } )
-        setListSparePart( listData );
+        setListSparePart( ( prevState ) => [ ...prevState ] );
     }
 
     useEffect( () => {

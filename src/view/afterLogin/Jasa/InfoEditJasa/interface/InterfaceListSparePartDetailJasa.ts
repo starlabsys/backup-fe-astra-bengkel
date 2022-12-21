@@ -8,6 +8,6 @@ export interface InterfaceListSparePartDetailJasa {
     isDisabel : boolean,
     labelAktif : string,
     stok : number,
-    isFreeService : boolean
+    isFreeService? : boolean
     isEdit : boolean
 }

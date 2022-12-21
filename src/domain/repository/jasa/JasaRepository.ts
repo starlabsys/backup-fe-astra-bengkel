@@ -5,6 +5,7 @@ import { ConvertModelJasa, ModelJasa } from "../../models/Jasa/ModelJasa";
 import { InterfaceDetailJasa } from "./interface/InterfaceDetailJasa";
 import { ConvertModelDetailJasa, DataModelDetailJasa, ModelDetailJasa } from "../../models/Jasa/ModelDetailJasa";
 import { ModelPutJasa } from "./interface/InterfacePutJasa";
+import { InterfaceAddJasa } from "./interface/InterfaceAddJasa";
 
 
 class JasaRepository {
@@ -55,6 +56,14 @@ class JasaRepository {
                 reqBody : props
             }
         )
+        return resp;
+    }
+
+    public addJasa = async ( context : InterfaceError, props : InterfaceAddJasa ) => {
+        const resp = await post( context, {
+            url : '/jasa/add',
+            reqBody : props
+        } )
         return resp;
     }
 

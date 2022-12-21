@@ -15,95 +15,78 @@ import { ListSparePart } from "../../../../domain/repository/jasa/interface/Inte
 
 const EditJasaView = () => {
     const route = useRouter();
-    const { id } = route.query;
+    const { id, status } = route.query;
     const dataId = id as string;
+    const statusData = status as string;
     const controller = EditJasaViewModel( Number( dataId ), 1 );
     const updated = updatedJasaViewModel();
 
 
     return <div className = { `flex-1 grid gap-5` }>
-        <IBreadcrumbs title = { 'Jasa' } subtitle = { 'master-data/jasa/edit-jasa' }/>
+        <IBreadcrumbs title = { 'Jasa' }
+                      subtitle = { `master-data/jasa/ ${ statusData === 'edit' ? 'edit-jasa' : 'info-jasa' }` }/>
         { editJasa() }
         { komisi() }
         <div className = { `grid gap-5 bg-white rounded-lg p-5` }>
-            <ITitleMd title = { 'Tambah Sparepart' }/>
+            <ITitleMd title = { statusData === 'edit' ? 'Tambah Sparepart' : 'Sparepart' }/>
             <div className = { `w-full flex place-content-start` }>
-                <div className = { `w-full` }>
-                    { dropDown() }
-                    {
-                        controller.sparePart !== null ?
-                            <>
-                                <div className = { `grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-5 mt-5` }>
-                                    <ITextFieldDefault type = { 'text' }
-                                                       label = { 'Nama Sparepart' }
-                                                       onEnter = { 'next' }
-                                                       disabled = { true }
-                                                       value = { controller.sparePart.namaSparepart }
-                                                       onChange = { () => {
+                {
+                    statusData === 'edit' ? <div className = { `w-full` }>
+                        { dropDown() }
+                        {
+                            controller.sparePart !== null ?
+                                <>
+                                    <div className = { `grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-5 mt-5` }>
+                                        <ITextFieldDefault type = { 'text' }
+                                                           label = { 'Kode Sparepart' }
+                                                           onEnter = { 'next' }
+                                                           disabled = { true }
+                                                           value = { controller.sparePart.kodeSparepart }
+                                                           onChange = { () => {
 
-                                                       } }/>
-                                    <ITextFieldDefault type = { 'number' }
-                                                       label = { 'QTY' }
-                                                       onEnter = { 'next' }
-                                                       value = { controller.sparePart.quantity }
-                                                       onChange = { ( value ) => {
-                                                           controller.setQtySparepart( Number( value.target.value ) );
-                                                       } }/>
-                                    <IRadioSingle status = { controller.sparePart.aktif }
-                                                  error = { false }
-                                                  label = { 'Status' }
-                                                  value1 = { controller.sparePart.aktif ? 'Aktif' : 'Tidak Aktif' }
-                                                  setStatus = { () => {
-                                                      controller.setSparePart( {
-                                                          stok : controller.sparePart?.stok ?? 0,
-                                                          isEdit : true,
-                                                          namaSparepart : controller.sparePart?.namaSparepart ?? '',
-                                                          quantity : controller.sparePart?.quantity ?? 0,
-                                                          aktif : !controller.sparePart?.aktif,
-                                                          hargaJual : controller.sparePart?.hargaJual ?? 0,
-                                                          isFreeService : controller.sparePart?.isFreeService ?? false,
-                                                          idRefMaterial : controller.sparePart?.idRefMaterial ?? 0,
-                                                          isDisabel : controller.sparePart?.isDisabel ?? false,
-                                                          labelAktif : controller.sparePart?.labelAktif ?? '',
-                                                          kodeSparepart : controller.sparePart?.kodeSparepart ?? '',
+                                                           } }/>
+                                        <ITextFieldDefault type = { 'text' }
+                                                           label = { 'Nama Sparepart' }
+                                                           onEnter = { 'next' }
+                                                           disabled = { true }
+                                                           value = { controller.sparePart.namaSparepart }
+                                                           onChange = { () => {
 
-                                                      } )
-                                                  } }/>
-                                </div>
-                                <div className = { `w-full flex place-content-end mt-5` }>
-                                    <div className = { `w-4/12` }>
-                                        {
-                                            controller.sparePart.isEdit ? <IButton onClick = { () => {
-                                                controller.changeDataListSparePart( controller.sparePart?.idRefMaterial ?? 0, controller.qtySparepart, controller.sparePart?.aktif ?? false );
-                                            } }>
-                                                Edit
-                                            </IButton> : <IButton status = { `success` } onClick = { () => {
-                                                controller.setListSparePart( ( prevState ) => [
-                                                    ...prevState,
-                                                    {
-                                                        idRefMaterial : controller.sparePart?.idRefMaterial ?? 0,
-                                                        kodeSparepart : controller.sparePart?.kodeSparepart ?? '',
-                                                        namaSparepart : controller.sparePart?.namaSparepart ?? '',
-                                                        quantity : controller.qtySparepart,
-                                                        stok : controller.sparePart?.stok ?? 0,
-                                                        labelAktif : 'Aktif',
-                                                        hargaJual : controller.sparePart?.hargaJual ?? 0,
-                                                        isDisabel : true,
-                                                        aktif : controller.sparePart?.aktif ?? false,
-                                                        isFreeService : controller.detailJasa.isFreeService,
-                                                        isEdit : true,
-                                                    }
-                                                ] )
-                                            } }>
-                                                Tambah Sparepart
-                                            </IButton>
-                                        }
+                                                           } }/>
+                                        <ITextFieldDefault type = { 'number' }
+                                                           label = { 'QTY' }
+                                                           onEnter = { 'next' }
+                                                           value = { controller.qtySparepart }
+                                                           onChange = { ( value ) => {
+                                                               controller.setQtySparepart( Number( value.target.value ) );
+                                                           } }/>
+                                        <IRadioSingle status = { controller.sparePart.aktif }
+                                                      error = { false }
+                                                      label = { 'Status' }
+                                                      value1 = { controller.sparePart.aktif ? 'Aktif' : 'Tidak Aktif' }
+                                                      setStatus = { () => {
+                                                          controller.setSparePart( {
+                                                              stok : controller.sparePart?.stok ?? 0,
+                                                              isEdit : true,
+                                                              namaSparepart : controller.sparePart?.namaSparepart ?? '',
+                                                              quantity : controller.sparePart?.quantity ?? 0,
+                                                              aktif : !controller.sparePart?.aktif,
+                                                              hargaJual : controller.sparePart?.hargaJual ?? 0,
+                                                              isFreeService : controller.sparePart?.isFreeService ?? false,
+                                                              idRefMaterial : controller.sparePart?.idRefMaterial ?? 0,
+                                                              isDisabel : controller.sparePart?.isDisabel ?? false,
+                                                              labelAktif : controller.sparePart?.labelAktif ?? '',
+                                                              kodeSparepart : controller.sparePart?.kodeSparepart ?? '',
+
+                                                          } )
+                                                      } }/>
                                     </div>
-                                </div>
-                            </>
-                            : null
-                    }
-                </div>
+                                    { buttonSubmitEdit() }
+                                </>
+                                : null
+                        }
+                    </div> : null
+                }
             </div>
             { tableData() }
         </div>
@@ -113,50 +96,110 @@ const EditJasaView = () => {
             } }>
                 Kembali
             </IButton>
-            <IButton status = { 'success' } onClick = { () => {
-                updated.updatedJasa( controller.context, {
-                    action : 1,
-                    id : controller.detailJasa.id,
-                    kodeJasa : controller.detailJasa.kodeJasa,
-                    namaJasa : controller.nama,
-                    grupJasa : controller.listGroup.find( ( item ) => Number( item.value ) === controller.group )?.value.toString() ?? '0',
-                    subGrup : controller.subGroup ?? '',
-                    satuanKomisi : controller.listSatuanKomisi.find( ( item ) => item.value === controller.satuanKomisi.toString() )?.value.toString() ?? '0',
-                    nilaiKomisi : controller.nominalKomisi,
-                    catatan : controller.deskripsi,
-                    aktif : controller.status,
-                    kategoriPekerjaanID : Number( controller.listKategoriPekerjaan.find( ( item ) => item.value === controller.kategoriPekerjaan.toString() )?.value ) ?? 0,
-                    waktuKerja : controller.waktuKerja,
-                    hargaJual : Number( Currency.idrToString( controller.hargaJasa ) ),
-                    pajakJual : controller.pajak,
-                    listSparePart : controller.listSparePart.map( ( item ) : ListSparePart => {
-                        return {
-                            aktif : item.aktif,
-                            isFreeService : item.isFreeService,
-                            idRefMaterial : item.idRefMaterial,
-                            kodeSparepart : item.kodeSparepart,
-                            namaSparepart : item.namaSparepart,
-                            quantity : item.quantity,
-                            stok : item.stok,
-                            labelAktif : item.labelAktif,
-                            hargaJual : item.hargaJual,
-                            isDisabel : item.isDisabel,
-                            guid : '00000',
-                        }
-                    } ),
-                    oumKerja : controller.satuanWaktuKerja,
-                    tipeKomisi : controller.typeKomisi,
-                } ).then( ( res ) => {
-                    controller.getDetail( Number( dataId ), 1 ).then( ( res ) => {
-                        controller.loadingLottie.openLoading( false )
+            {
+                statusData === 'edit' ? <IButton status = { 'success' } onClick = { () => {
+                    updated.updatedJasa( controller.context, {
+                        action : 1,
+                        id : controller.detailJasa.id,
+                        kodeJasa : controller.detailJasa.kodeJasa,
+                        namaJasa : controller.nama,
+                        grupJasa : controller.listGroup.find( ( item ) => Number( item.value ) === controller.group )?.value.toString() ?? '0',
+                        subGrup : controller.subGroup ?? '',
+                        satuanKomisi : controller.listSatuanKomisi.find( ( item ) => item.value === controller.satuanKomisi.toString() )?.value.toString() ?? '0',
+                        nilaiKomisi : controller.nominalKomisi,
+                        catatan : controller.deskripsi,
+                        aktif : controller.status,
+                        kategoriPekerjaanID : Number( controller.listKategoriPekerjaan.find( ( item ) => item.value === controller.kategoriPekerjaan.toString() )?.value ) ?? 0,
+                        waktuKerja : controller.waktuKerja,
+                        hargaJual : Number( Currency.idrToString( controller.hargaJasa ) ),
+                        pajakJual : controller.pajak,
+                        listSparePart : controller.listSparePart.map( ( item ) : ListSparePart => {
+                            return {
+                                aktif : item.aktif,
+                                isFreeService : item.isFreeService ?? false,
+                                idRefMaterial : item.idRefMaterial,
+                                kodeSparepart : item.kodeSparepart,
+                                namaSparepart : item.namaSparepart,
+                                quantity : item.quantity,
+                                stok : item.stok,
+                                labelAktif : item.labelAktif,
+                                hargaJual : item.hargaJual,
+                                isDisabel : item.isDisabel,
+                                guid : '00000',
+                            }
+                        } ),
+                        oumKerja : controller.satuanWaktuKerja,
+                        tipeKomisi : controller.typeKomisi,
+                    } ).then( ( res ) => {
+                        controller.getDetail( Number( dataId ), 1 ).then( ( res ) => {
+                            controller.loadingLottie.openLoading( false )
+                        } );
                     } );
-                } );
-            } }>
-                Simpan
-            </IButton>
+                } }>
+                    Simpan
+                </IButton> : null
+            }
         </div>
     </div>
 
+
+    function buttonSubmitEdit() {
+        return <div className = { `w-full flex place-content-end mt-5` }>
+            <div className = { `w-4/12` }>
+                {
+                    controller.sparePart?.isEdit ? <IButton onClick = { () => {
+                        controller.changeDataListSparePart( controller.sparePart?.idRefMaterial ?? 0, controller.qtySparepart, controller.sparePart?.aktif ?? false );
+                    } }>
+                        Edit
+                    </IButton> : <IButton status = { `success` } onClick = { () => {
+                        if ( controller.listSparePart.length === 0 ) {
+                            controller.setListSparePart( ( prevState ) => [
+                                ...prevState,
+                                {
+                                    idRefMaterial : controller.sparePart?.idRefMaterial ?? 0,
+                                    kodeSparepart : controller.sparePart?.kodeSparepart ?? '',
+                                    namaSparepart : controller.sparePart?.namaSparepart ?? '',
+                                    quantity : controller.qtySparepart,
+                                    stok : controller.sparePart?.stok ?? 0,
+                                    labelAktif : 'Aktif',
+                                    hargaJual : controller.sparePart?.hargaJual ?? 0,
+                                    isDisabel : true,
+                                    aktif : controller.sparePart?.aktif ?? false,
+                                    isFreeService : controller.detailJasa.isFreeService,
+                                    isEdit : true,
+                                }
+                            ] )
+                        }
+                        else {
+                            controller.listSparePart.map( ( item, index ) => {
+                                if ( item.idRefMaterial !== controller.sparePart?.idRefMaterial ) {
+                                    // console.log( 'masuk' );
+                                    controller.setListSparePart( ( prevState ) => [
+                                        ...prevState,
+                                        {
+                                            idRefMaterial : controller.sparePart?.idRefMaterial ?? 0,
+                                            kodeSparepart : controller.sparePart?.kodeSparepart ?? '',
+                                            namaSparepart : controller.sparePart?.namaSparepart ?? '',
+                                            quantity : controller.qtySparepart,
+                                            stok : controller.sparePart?.stok ?? 0,
+                                            labelAktif : 'Aktif',
+                                            hargaJual : controller.sparePart?.hargaJual ?? 0,
+                                            isDisabel : true,
+                                            aktif : controller.sparePart?.aktif ?? false,
+                                            isEdit : true,
+                                        }
+                                    ] )
+                                }
+                            } );
+                        }
+
+                    } }>
+                        Tambah Sparepart
+                    </IButton>
+                }
+            </div>
+        </div>
+    }
 
     function dropDown() {
         return <IDropDown type = { "text" }
@@ -188,7 +231,7 @@ const EditJasaView = () => {
                 <IDropDown type = { "text" }
                            error = { false }
                            disabled = { true }
-                           value = { controller.typeKomisi === 1 ? 'Persentase' : 'Nominal' }
+                           value = { controller.typeKomisi === 1 ? 'Persentase' : controller.typeKomisi === 2 ? 'Nominal' : '' }
                            label = { 'Pemberian Komisi *' }
                            data = { [
                                {
@@ -246,7 +289,7 @@ const EditJasaView = () => {
 
     function editJasa() {
         return <div className = { `grid gap-5 bg-white rounded-lg p-5` }>
-            <ITitleMd title = { 'Edit Jasa' }/>
+            <ITitleMd title = { statusData === 'edit' ? 'Edit Jasa' : 'Info Jasa' }/>
             <div className = { `grid tablet:grid-cols-2 gap-5 place-items-start` }>
                 <div className = { `grid gap-2 w-full` }>
                     <ITextFieldDefault type = { "text" }
@@ -277,6 +320,7 @@ const EditJasaView = () => {
                 <IDropDown type = { "text" }
                            error = { false }
                            label = { 'Group *' }
+                           disabled = { true }
                            data = { controller.listGroup }
                            value = { controller.listGroup.find( ( item ) => Number( item.value ) === controller.group )?.name }
                            onEnter = { "next" }
@@ -294,6 +338,7 @@ const EditJasaView = () => {
                                    value = { controller.subGroup }/>
                 <IDropDown type = { "text" }
                            error = { false }
+                           disabled = { true }
                            label = { 'Kategori Pekerjaan' }
                            data = { controller.listKategoriPekerjaan }
                            value = { controller.listKategoriPekerjaan.find( ( item ) => item.value === controller.kategoriPekerjaan.toString() )?.name }
@@ -323,6 +368,7 @@ const EditJasaView = () => {
                                        value = { controller.waktuKerja }/>
                     <IDropDown type = { "text" }
                                error = { false }
+                               disabled = { true }
                                label = { 'Hari/Jam/waktu *' }
                                data = { controller.listSatuanWaktu }
                                value = { controller.listSatuanWaktu.find( ( data ) => data.value === controller.satuanWaktuKerja.toString() )?.name }
@@ -349,10 +395,8 @@ const EditJasaView = () => {
                            totalPage = { 1 }
                            loading = { false }
                            changePage = { index => {
-                               console.log( index )
                            } }
                            updated = { ( data ) => {
-                               console.log( data )
                                controller.setSparePart( data );
                            } }
             // delete = { ( data : InterfaceListSparePartDetailJasa ) => {

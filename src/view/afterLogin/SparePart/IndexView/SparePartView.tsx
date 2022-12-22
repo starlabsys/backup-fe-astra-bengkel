@@ -26,13 +26,10 @@ const SparePartView = () => {
                                 value = { undefined }
                                 type = { "text" }
                                 onChange = { ( event ) => {
-                                    controller.changePage( {
-                                        page : 0,
-                                        search : event.target.value
-                                    } )
+                                    controller.getSparepart( 1, event.target.value )
                                 } }
                                 placeholder = { "Cari..." }
-                                label = { "Cari" }
+                                label = { "Cari Kode Sparepart" }
                                 onEnter = { "enter" }
                             />
                         </div>
@@ -45,53 +42,21 @@ const SparePartView = () => {
                             </IButton>
                         </div>
                     </div>
-                    <ITableData header = { [
-                        {
-                            label : "#",
-                            name : "#",
-                        },
-                        {
-                            label : "Kode",
-                            name : "code",
-                        },
-                        {
-                            label : "Nama",
-                            name : "name",
-                        },
-                        {
-                            label : "Group",
-                            name : "group",
-                        },
-                        {
-                            label : "Harga Ahass",
-                            name : "price",
-                        },
-                        {
-                            label : "Harga Nasional (HET)",
-                            name : "priceNasional",
-                        },
-                        {
-                            label : "Action",
-                            name : "action"
-                        }
-                    ] } data = { controller.sparepart }
+                    <ITableData header = { controller.header }
+                                data = { controller.sparepart }
                                 loading = { controller.loading }
                                 totalPage = { controller.totalPage }
-                                page = { controller.page }
+                                page = { controller.page - 1 }
                                 changePage = { ( data ) => {
-                                    controller.changePage( {
-                                        page : data - 1,
-                                        search : ''
-                                    } );
+                                    controller.setPage( data );
+                                    controller.getSparepart( data, '' );
                                 } }
                                 updated = { () => {
                                 } }
                                 info = { ( data ) => {
                                     route.push( {
-                                        pathname : '/master-data/sparepart/edit-sparepart',
-                                        query : data
-                                    } ).then( () => {
-                                    } );
+                                        pathname : '/master-data/sparepart/' + data.id + '/info',
+                                    } )
                                 } }
                     />
                 </div>

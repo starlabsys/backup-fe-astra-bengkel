@@ -289,7 +289,7 @@ const EditJasaView = () => {
 
     function editJasa() {
         return <div className = { `grid gap-5 bg-white rounded-lg p-5` }>
-            <ITitleMd title = { statusData === 'edit' ? 'Edit Jasa' : 'Info Jasa' }/>
+            <ITitleMd title = { statusData === 'edit' ? 'Status Jasa' : 'Info Jasa' }/>
             <div className = { `grid tablet:grid-cols-2 gap-5 place-items-start` }>
                 <div className = { `grid gap-2 w-full` }>
                     <ITextFieldDefault type = { "text" }

@@ -2,10 +2,11 @@ export interface InterfaceSparePart {
     id : number;
     code : string
     name : string
+    namaLokal : string
     group : string
-    qty : string
-    price : string
+    qty : number
+    price : number
     status : boolean
-    priceNasional : string
+    priceNasional : number
     description? : string
 }

@@ -67,6 +67,7 @@ export interface InterfaceRadioSingle {
     value1? : string;
     status : boolean;
     error : boolean;
+    disabled? : boolean;
     setStatus : ( data : boolean ) => void
 }
 

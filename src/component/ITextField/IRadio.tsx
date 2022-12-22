@@ -52,8 +52,10 @@ export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
             ) : null }
             <div className = { `flex gap-20` }>
                 <div className = { `flex gap-2 place-items-center` } onClick = { () => {
+                    if ( !props.disabled ) {
+                        return props.setStatus( !props.status );
+                    }
                     // setValue( !value );
-                    return props.setStatus( !props.status );
                 } }>
                     <div
                         className = { `w-5 h-5 rounded-full border border-primary border-2 p-0.5` }

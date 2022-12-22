@@ -1,15 +1,21 @@
 import { ComponentIndexSearch } from "../../component/ComponentIndexSearch";
 import { ITableData } from "../../../component/ITable/ITableNextUI";
+import TipeKendaraanViewModel from "./TipeKendaraanViewModel";
+import { ListOfTipeKendaraan } from "../../../domain/models/TipeKendaraan/ModelTipeKendaraan";
+import { useRouter } from "next/router";
 
 
 const TipeKendaraanView = () => {
+    const route = useRouter()
+    const controller = TipeKendaraanViewModel();
     return <ComponentIndexSearch breadcrumbs = { 'Tipe Kendaraan' }
                                  title = { 'List Tipe Kendaraan' }
                                  subtitle = { 'master-data/tipe-kendaraan' }
                                  search = { {
                                      label : 'Cari Tipe Kendaraan',
                                      placeholder : 'Cari Tipe Kendaraan',
-                                     onChange : () => {
+                                     onChange : ( value ) => {
+                                         controller.getTipeKendaraan( 1, value.target.value );
                                      }
                                  } }
                                  button = { {
@@ -22,49 +28,30 @@ const TipeKendaraanView = () => {
     </ComponentIndexSearch>
 
     function tableData() {
-        return <ITableData page = { 0 }
-                           totalPage = { 1 }
-                           loading = { false }
+        return <ITableData page = { controller.page - 1 }
+                           totalPage = { controller.totalPage }
+                           loading = { controller.loading }
                            changePage = { index => {
-                               console.log( index )
+                               controller.setPage( index );
+                               controller.getTipeKendaraan( index, '' );
                            } }
-                           updated = { ( data ) => {
+                           info = { ( data : ListOfTipeKendaraan ) => {
+                               route.push( '/master-data/tipe-kendaraan/info', {
+                                   query : {
+                                       data : JSON.stringify( data )
+                                   }
+                               } );
                            } }
-                           header = { [
-                               {
-                                   label : '#',
-                                   name : '#',
-                               },
-                               {
-                                   label : 'Tipe',
-                                   name : 'tipe',
-                               },
-                               {
-                                   label : 'Nama Tipe',
-                                   name : 'nama_tipe',
-                               },
-                               {
-                                   label : 'CC Mesin',
-                                   name : 'cc_mesin',
-                               },
-                               {
-                                   label : 'Model',
-                                   name : 'model',
-                               },
-                               {
-                                   label : 'Kode',
-                                   name : 'kode',
-                               },
-                               {
-                                   label : 'Status',
-                                   name : 'status',
-                               },
-                               {
-                                   label : 'Action',
-                                   name : 'action',
-                               }
-                           ] }
-                           data = { [] }/>
+                           updated = { ( data : ListOfTipeKendaraan ) => {
+                               route.push( {
+                                   pathname : '/master-data/tipe-kendaraan/edit',
+                                   query : {
+                                       data : JSON.stringify( data )
+                                   }
+                               } );
+                           } }
+                           header = { controller.header }
+                           data = { controller.listTipeKendaraan }/>
     }
 }
 

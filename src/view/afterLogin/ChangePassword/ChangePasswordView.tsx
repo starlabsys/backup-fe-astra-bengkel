@@ -9,7 +9,7 @@ const ChangePasswordView = () => {
         <div className = { `grid gap-5` }>
             <IBreadcrumbs title = { "Ubah Sandi" } subtitle = { "ubah-sandi" }/>
             <div className = "w-full p-5 grid gap-10 bg-white rounded-lg">
-                <ITitleMd title = { "Edit Password" }/>
+                <ITitleMd title = { "Status Password" }/>
                 <div className = "grid gap-5 tablet:grid-cols-2 laptop:grid-cols-2">
                     <ITextFieldDefault
                         type = { "text" }

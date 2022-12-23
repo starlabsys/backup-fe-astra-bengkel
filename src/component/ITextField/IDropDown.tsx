@@ -22,7 +22,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     helperColor = { props.error ? 'error' : 'primary' }
                     helperText = { props.errorMessages }
                     bordered = { true }
-                    clearable = { !props.disabled }
+                    // clearable = { !props.disabled }
                     animated = { true }
                     width = "100%"
                     label = { props.label }
@@ -39,8 +39,10 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     type = { props.type }
                     contentClickable = { true }
                     onContentClick = { ( key, e ) => {
-                        if ( key === 'right' ) {
-                            setOpen( !open );
+                        if ( !props.disabled ) {
+                            if ( key === 'right' ) {
+                                setOpen( !open );
+                            }
                         }
                     } }
                     onChange = { ( value ) => {

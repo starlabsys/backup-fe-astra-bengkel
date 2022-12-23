@@ -6,5 +6,5 @@ export interface InterfaceListDropDown {
 export interface InterfaceSyncMaster {
     tipe : number,
     label? : string,
-    nilai : string,
+    nilai : string | number
 }

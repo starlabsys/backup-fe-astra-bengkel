@@ -43,7 +43,7 @@ const JasaView = () => {
                                controller.getJasa( index, 10, '', '' );
                            } }
                            info = { ( data ) => {
-                               route.push( '/master-data/jasa/' + data.id + '/info' ).then( () => {
+                               route.push( '/master-data/jasa/' + data.id + '/Info' ).then( () => {
                                } )
                            } }
                            updated = { ( data ) => {

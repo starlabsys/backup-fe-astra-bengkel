@@ -55,7 +55,7 @@ const SparePartView = () => {
                                 } }
                                 info = { ( data ) => {
                                     route.push( {
-                                        pathname : '/master-data/sparepart/' + data.id + '/info',
+                                        pathname : '/master-data/sparepart/' + data.id + '/Info',
                                     } )
                                 } }
                     />

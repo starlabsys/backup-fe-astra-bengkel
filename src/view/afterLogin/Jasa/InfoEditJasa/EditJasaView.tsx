@@ -24,7 +24,7 @@ const EditJasaView = () => {
 
     return <div className = { `flex-1 grid gap-5` }>
         <IBreadcrumbs title = { 'Jasa' }
-                      subtitle = { `master-data/jasa/ ${ statusData === 'edit' ? 'edit-jasa' : 'info-jasa' }` }/>
+                      subtitle = { `master-data/jasa/ ${ statusData === 'edit' ? 'edit-jasa' : 'Info-jasa' }` }/>
         { editJasa() }
         { komisi() }
         <div className = { `grid gap-5 bg-white rounded-lg p-5` }>

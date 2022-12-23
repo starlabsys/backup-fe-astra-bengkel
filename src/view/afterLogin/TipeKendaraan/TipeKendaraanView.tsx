@@ -36,7 +36,7 @@ const TipeKendaraanView = () => {
                                controller.getTipeKendaraan( index, '' );
                            } }
                            info = { ( data : ListOfTipeKendaraan ) => {
-                               route.push( '/master-data/tipe-kendaraan/info', {
+                               route.push( '/master-data/tipe-kendaraan/Info', {
                                    query : {
                                        data : JSON.stringify( data )
                                    }

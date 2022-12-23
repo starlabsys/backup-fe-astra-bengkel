@@ -4,13 +4,12 @@ import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
 import IButton from "../../../../component/IButton/IButton";
 import KendaraanController from "./KendaraanController";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
-import KendaraanTableController from "./KendaraanTableController";
 import { useRouter } from "next/router";
+import { ListofKendaraan } from "../../../../domain/models/Kendaraan/ModelGetListKendaraan";
 
 
 const KendaraanView = () => {
     const controller = KendaraanController();
-    const kendaraanTableController = KendaraanTableController( controller.search );
     const router = useRouter();
     return (
         <div className = { `flex-1 grid gap-5` }>
@@ -19,13 +18,13 @@ const KendaraanView = () => {
                 <div className = { `w-full p-5 grid gap-10` }>
                     <ITitleMd title = { "List Kendaraan" }/>
                     <div
-                        className = { `laptop:flex place-items-center place-content-between mb-5` }
+                        className = { `grid w-full gap-5 tablet:flex laptop:flex place-items-center` }
                     >
-                        <div className = { `laptop:w-4/12 mb-5 laptop:mb-0` }>
+                        <div className = { `w-full tablet:w-10/12` }>
                             <ITextFieldDefault
                                 type = { "text" }
                                 onChange = { ( event ) => {
-                                    controller.setSearch( event.target.value );
+                                    controller.getListKendaraan( 1, event.target.value )
                                 } }
                                 placeholder = { "Cari..." }
                                 value = { undefined }
@@ -34,7 +33,7 @@ const KendaraanView = () => {
                                 onEnter = { "enter" }
                             />
                         </div>
-                        <div className = { `flex place-content-end ` }>
+                        <div className = { `w-full tablet:grid place-content-end place-items-end h-full` }>
                             <IButton size = { "medium" } rounded = { "lg" } status = { "success" } onClick = { () => {
                                 router.push( "/master-data/kendaraan/tambah-kendaraan" ).then( () => {
                                 } );
@@ -52,79 +51,23 @@ const KendaraanView = () => {
     );
 
     function tableData() {
-        return <ITableData page = { kendaraanTableController.page }
-                           totalPage = { kendaraanTableController.totalPage }
-                           loading = { kendaraanTableController.loading }
+        return <ITableData page = { controller.page - 1 }
+                           totalPage = { controller.totalPage }
+                           loading = { controller.loading }
                            changePage = { index => {
-                               if ( controller.search === "" ) {
-                                   kendaraanTableController.setPage( index - 1 );
-                                   const pageNumber = index - 1;
-                                   kendaraanTableController.getDataKendaraan( pageNumber, 10, '' ).then( () => {
-                                   } );
-                                   //     page : index - 1,
-                                   //     limit : 10
-                                   // } )
-                                   // .then( ( value ) => {
-                                   // } );
-                               }
-                               else {
-                                   kendaraanTableController.setPage( index - 1 );
-                                   kendaraanTableController
-                                       .getSearch( controller.search )
-                                       .then( ( value ) => {
-                                       } );
-                               }
+                               controller.getListKendaraan( index, '' )
+                               controller.setPage( index )
                            } }
-                           updated = { ( data ) => {
+                           updated = { ( data : ListofKendaraan ) => {
+                               // router.route = "/master-data/kendaraan/edit-kendaraan";
                                router.push( {
-                                   pathname : "/master-data/kendaraan/tambah-kendaraan",
-                                   query : data
-                               } ).then( () => {
-                               } );
+                                   pathname : "/master-data/kendaraan/edit/" + data.id,
+                               } )
                            } }
-                           header = { [
-                               {
-                                   label : "#",
-                                   name : "#",
-                               },
-                               {
-                                   label : 'No Polisi',
-                                   name : 'noPolisi',
-                               },
-                               {
-                                   label : 'No Mesin',
-                                   name : 'noMesin',
-                               },
-                               {
-                                   label : 'No Rangka',
-                                   name : 'noRangka',
-                               },
-                               {
-                                   label : 'Customer',
-                                   name : 'customer',
-                               },
-                               {
-                                   label : 'Type',
-                                   name : 'type',
-                               },
-                               {
-                                   label : 'Warna',
-                                   name : 'warna',
-                               },
-                               {
-                                   label : 'Tahun Rakit',
-                                   name : 'tahunRakit',
-                               },
-                               {
-                                   label : 'Status',
-                                   name : 'status',
-                               },
-                               {
-                                   label : 'Action',
-                                   name : 'action',
-                               },
-                           ] }
-                           data = { kendaraanTableController.kendaraan }/>
+                           info = { () => {
+                           } }
+                           header = { controller.header }
+                           data = { controller.listKendaraan }/>
 
     }
 };

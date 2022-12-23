@@ -28,7 +28,8 @@ class DropDownRepository {
             reqBody : {
                 "listGroupDropDown" : [
                     ...props
-                ]
+                ],
+                "action" : 1
             }
         } )
 

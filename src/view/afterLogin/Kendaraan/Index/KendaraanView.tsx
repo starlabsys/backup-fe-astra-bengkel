@@ -59,12 +59,14 @@ const KendaraanView = () => {
                                controller.setPage( index )
                            } }
                            updated = { ( data : ListofKendaraan ) => {
-                               // router.route = "/master-data/kendaraan/edit-kendaraan";
                                router.push( {
                                    pathname : "/master-data/kendaraan/edit/" + data.id,
                                } )
                            } }
-                           info = { () => {
+                           info = { ( data : ListofKendaraan ) => {
+                               router.push( {
+                                   pathname : "/master-data/kendaraan/info/" + data.id,
+                               } )
                            } }
                            header = { controller.header }
                            data = { controller.listKendaraan }/>

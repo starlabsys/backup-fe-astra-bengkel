@@ -8,6 +8,7 @@ export interface InterfacePropsDropDown {
     id : number;
     name : string;
     value : string;
+    add? : any;
 }
 
 const IDropDown = ( props : InterfaceDropDown ) => {

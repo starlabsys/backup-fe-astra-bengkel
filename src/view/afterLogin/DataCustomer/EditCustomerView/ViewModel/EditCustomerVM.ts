@@ -1,18 +1,18 @@
-import { useContext, useState } from "react";
-import { InterfacePropsDropDown } from "../../../../../component/ITextField/IDropDown";
+import { useContext, useEffect, useState } from "react";
+import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
+import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
 import { InterfaceAddCustomerData } from "../../interface/InterfaceAddCustomer";
-import { InterfaceAddCustomer } from "../../../../../domain/repository/customer/interface/InterfaceAddCustomer";
 import { InterfaceKontakPerson } from "../../interface/InterfaceKontakPerson";
 import { InterfaceAlamatPajak } from "../../interface/InterfaceAlamatPajak";
 import { InterfaceLimitKredit } from "../../interface/InterfaceLimitKredit";
-import CustomerRepository from "../../../../../domain/repository/customer/CustomerRepository";
-import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
 import { InterfaceCantNull } from "../../interface/InterfaceCantNull";
-import { IToastContext } from "../../../../../context/IToast";
-import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
+import { InterfaceAddCustomer } from "../../../../../domain/repository/customer/interface/InterfaceAddCustomer";
+import CustomerRepository from "../../../../../domain/repository/customer/CustomerRepository";
+import { useRouter } from "next/router";
 
 
-export const TambahCustomerViewModel = () => {
+export const EditCustomerVM = ( id : number ) => {
+    const route = useRouter();
     const context = useContext( IAlertDialogContext );
     const loadingLottie = useContext( ILoadingContext );
 
@@ -245,6 +245,87 @@ export const TambahCustomerViewModel = () => {
         } )
         loadingLottie.openLoading( false );
     }
+
+    const getDetailCustomer = async ( dataID : number ) => {
+        const resp = await CustomerRepository.detail( context, {
+            id : dataID,
+            action : 1,
+        } )
+        if ( resp !== null ) {
+            const data = resp.data;
+            setTambahCustomer( {
+                alamat : data.alamat,
+                website : data.website,
+                ttl : data.tanggalUlangTahun,
+                passport : data.noPassport,
+                namaCustomer : data.namaCustomer,
+                picAhass : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                noHp : data.noHp,
+                pekerjaan : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                groupDiskon : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                noFax : data.noFaks,
+                noTelepon : data.noTelepon,
+                provinsi : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                kelurahan : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                kecamatan : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                kabupaten : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                catatan : data.catatan,
+                email : data.email,
+                facebook : data.facebook,
+                instagram : data.instagram,
+                kodePos : data.zipCode,
+                twitter : data.twitter,
+                status : data.aktif,
+                title : {
+                    id : 0,
+                    value : '',
+                    name : '',
+                },
+                agama : {
+                    id : 0,
+                    name : '',
+                    value : '',
+                },
+                noKtp : data.noktp,
+            } )
+        }
+    }
+
+    useEffect( () => {
+        if ( id === 0 ) {
+            route.back();
+        }
+        getDetailCustomer( id );
+    }, [] )
+
 
     return {
         tambahCustomer, setTambahCustomer,

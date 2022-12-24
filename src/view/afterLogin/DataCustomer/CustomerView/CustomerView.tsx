@@ -5,6 +5,7 @@ import IButton from "../../../../component/IButton/IButton";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { CustomerViewModel } from "./ViewModel/CustomerViewModel";
 import { useRouter } from "next/router";
+import { InterfaceCustomer } from "../interface/InterfaceCustomer";
 
 
 const CustomerView = () => {
@@ -17,10 +18,12 @@ const CustomerView = () => {
             <div className = { `grid gap-5 tablet:flex tablet:place-items-end tablet:place-content-between mb-10` }>
                 <div className = { `w-full tablet:w-9/12 laptop:w-6/12` }>
                     <ITextFieldDefault type = { 'text' }
-                                       label = { 'Cari' }
+                                       label = { 'Cari Nama Customer' }
                                        onEnter = { 'enter' }
-                                       value = { undefined } onChange = { ( a ) => {
-                    } }/>
+                                       value = { undefined }
+                                       onChange = { ( a ) => {
+                                           customerViewModel.getCustomer( 1, a.target.value );
+                                       } }/>
                 </div>
                 <div className = { `flex gap-5 tablet:gap-10` }>
                     <IButton>
@@ -35,13 +38,17 @@ const CustomerView = () => {
                 </div>
             </div>
             <ITableData header = { customerViewModel.header }
-                        data = { customerViewModel.dataCustomer }
+                        data = { customerViewModel.listCustomer }
                         loading = { customerViewModel.loading }
                         totalPage = { customerViewModel.totalPage }
-                        page = { customerViewModel.page }
-                        changePage = { () => {
+                        page = { customerViewModel.page - 1 }
+                        changePage = { ( data ) => {
+                            customerViewModel.setPage( data );
+                            customerViewModel.getCustomer( data, '' );
                         } }
-                        updated = { () => {
+                        updated = { ( data : InterfaceCustomer ) => {
+                            route.push( '/master-data/customer/' + data.id + '/edit' ).then( () => {
+                            } )
                         } }
                         info = { () => {
                         } }

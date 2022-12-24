@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InterfaceCustomer } from "../../interface/InterfaceCustomer";
+import CustomerRepository from "../../../../../domain/repository/customer/CustomerRepository";
+import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
+import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
 
 
 export const CustomerViewModel = () => {
@@ -42,28 +45,64 @@ export const CustomerViewModel = () => {
         },
     ];
 
+    const context = useContext( IAlertDialogContext );
+    const loadingLottie = useContext( ILoadingContext );
+
     const [ loading, setLoading ] = useState( false );
     const [ totalPage, setTotalPage ] = useState( 0 );
-    const [ page, setPage ] = useState( 0 );
+    const [ page, setPage ] = useState( 1 );
 
-    const [ dataCustomer, setDataCustomer ] = useState<InterfaceCustomer[]>( [
-        {
-            id : 1,
-            kode_customer : 'C001',
-            nama_customer : 'PT. ABC',
-            alamat : 'Jl. ABC',
-            kota : 'Jakarta',
-            no_hp : '08123456789',
-            no_telp : '02123456789',
-            status : 'Aktif',
+    const [ listCustomer, setListCustomer ] = useState<InterfaceCustomer[]>( [] );
+
+    const getCustomer = async ( pageNumber : number, nama : string ) => {
+        loadingLottie.openLoading( true );
+        const data = await CustomerRepository.get( context, {
+            "action" : 0,
+            "kodePelanggan" : "",
+            "alamatPelanggan" : "",
+            "namaPelanggan" : nama,
+            "kotaPelanggan" : "",
+            "kecamatanPelanggan" : "",
+            "kelurahanPelanggan" : "",
+            "pageNumber" : pageNumber,
+            "pageSize" : 10,
+            "totalRow" : 100,
+            "sortColumn" : "ID",
+            "sortDirection" : 0
+        } );
+        if ( data !== null ) {
+            const totalRow = (data.data.totalRow / 10).toFixed();
+            setTotalPage( Number( totalRow ) + 1 );
+            const listDataCustomer : InterfaceCustomer[] = data?.data.listPelanggan.map( ( item, index ) : InterfaceCustomer => {
+                return {
+                    id : item.id,
+                    nama_customer : item.namaCustomer,
+                    kode_customer : item.kodeCustomer,
+                    alamat : item.alamat,
+                    kota : item.kota,
+                    no_telp : item.noTelepon,
+                    no_hp : item.noHp,
+                    status : item.labelAktif,
+                }
+            } ) ?? [];
+            setListCustomer( listDataCustomer );
         }
-    ] );
+        loadingLottie.openLoading( false );
+    }
+
+    useEffect( () => {
+        getCustomer( page, '' );
+        return () => {
+
+        };
+    }, [] );
+
 
     return {
         header,
-        dataCustomer,
         loading,
         totalPage,
-        page,
+        page, setPage,
+        listCustomer, getCustomer
     }
 }

@@ -1,26 +1,30 @@
+import TambahCustomerVMGet from "../TambahCustomer/ViewModel/TambahCustomerVMGet";
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import IButton from "../../../../component/IButton/IButton";
 import ITitle from "../../../../component/ITitle/ITitle";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
-import { IRadioSingle } from "../../../../component/ITextField/IRadio";
-import IDropDown from "../../../../component/ITextField/IDropDown";
-import ITextArea from "../../../../component/ITextField/ITextArea";
-import IButton from "../../../../component/IButton/IButton";
-import { useRouter } from "next/router";
-import { TambahCustomerViewModel } from "./ViewModel/TambahCustomerViewModel";
-import TambahCustomerVMGet from "./ViewModel/TambahCustomerVMGet";
-import { InterfaceAddCustomerData } from "../interface/InterfaceAddCustomer";
 import { InterfaceAlamatPajak } from "../interface/InterfaceAlamatPajak";
 import { InterfaceLimitKredit } from "../interface/InterfaceLimitKredit";
 import { InterfaceKontakPerson } from "../interface/InterfaceKontakPerson";
 import { InterfaceCantNull } from "../interface/InterfaceCantNull";
+import { IRadioSingle } from "../../../../component/ITextField/IRadio";
+import { InterfaceAddCustomerData } from "../interface/InterfaceAddCustomer";
+import IDropDown from "../../../../component/ITextField/IDropDown";
+import ITextArea from "../../../../component/ITextField/ITextArea";
+import { useRouter } from "next/router";
+import { EditCustomerVM } from "./ViewModel/EditCustomerVM";
 
 
-export const TambahCustomerView = () => {
+const EdiCustomerView = () => {
     const route = useRouter();
-    const controller = TambahCustomerViewModel();
     const dataGet = TambahCustomerVMGet();
+    const { id } = route.query;
+    const dataId = id as string;
+    const controller = EditCustomerVM( Number( dataId ?? 0 ) );
+    console.log( "dataId", controller.tambahCustomer?.namaCustomer );
+
     return <div className = { `flex-1 grid gap-5` }>
-        <IBreadcrumbs title = { 'Tambah Customer' } subtitle = { 'master-data/customer/tambah-customer' }/>
+        <IBreadcrumbs title = { 'Edit Customer' } subtitle = { 'master-data/customer/edit' }/>
         {/*<form>*/ }
         { TambahCustomer() }
         { KontakPerson() }
@@ -276,7 +280,7 @@ export const TambahCustomerView = () => {
 
     function TambahCustomer() {
         return <div className = { `grid gap-5 p-5 bg-white rounded-lg` }>
-            <ITitle title = { 'Tambah Customer' }/>
+            <ITitle title = { 'Customer' }/>
             <div className = { `grid gap-5 tablet:grid-cols-2 place-items-start` }>
                 <div className = { `grid gap-5 w-full` }>
                     <ITextFieldDefault type = { 'text' }
@@ -745,3 +749,4 @@ export const TambahCustomerView = () => {
         </div>
     }
 }
+export default EdiCustomerView;

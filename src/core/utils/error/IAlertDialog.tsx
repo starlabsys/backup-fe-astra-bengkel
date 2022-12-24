@@ -112,9 +112,10 @@ const IAlertDialog = ( props : InterfaceAlertDialog ) => {
                         className = { `w-screen flex place-content-center tablet:place-content-end` }
                     >
                         <div
-                            className = { `w-11/12 tablet:w-6/12 laptop:w-4/12 shadow-2xl bg-success rounded-lg px-5 py-3 ${ Title2 } text-white tablet:mr-5` }
+                            className = { `w-11/12 tablet:w-6/12 laptop:w-4/12 shadow-2xl ${ isError ? 'bg-danger' : 'bg-success' } rounded-lg px-5 py-3 ${ Title2 } text-white tablet:mr-5` }
                         >
-                            Success <br/> <span className = { `${ body3 }` }>{ messageToast }</span>
+                            { isError ? 'Error' : 'Success' } <br/>
+                            <span className = { `${ body3 }` }>{ messageToast }</span>
                         </div>
                         <div className = { `absolute right-5 top-0` }>
                             <AiFillCloseCircle

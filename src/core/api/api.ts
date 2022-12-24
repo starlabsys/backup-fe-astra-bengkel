@@ -94,6 +94,9 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
         if ( error.response?.status === 405 ) {
             ErrorHandler.methodNotAllowed( context, { message : data.message.message } );
         }
+        if ( error.response?.status === 449 ) {
+            ErrorHandler.errorPost( context, { message : data.message } );
+        }
         if ( error.response?.status === 504 ) {
             ErrorHandler.internalError( context, { message : data.message.message } );
         }

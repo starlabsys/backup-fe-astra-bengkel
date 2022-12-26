@@ -1,4 +1,3 @@
-import TambahCustomerVMGet from "../TambahCustomer/ViewModel/TambahCustomerVMGet";
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
 import IButton from "../../../../component/IButton/IButton";
 import ITitle from "../../../../component/ITitle/ITitle";
@@ -13,15 +12,18 @@ import IDropDown from "../../../../component/ITextField/IDropDown";
 import ITextArea from "../../../../component/ITextField/ITextArea";
 import { useRouter } from "next/router";
 import { EditCustomerVM } from "./ViewModel/EditCustomerVM";
+import FormatDate from "../../../../utils/format/formatDate";
+import Currency from "../../../../utils/format/currency";
+import { npwpFormat } from "../../../../utils/format/formatNpwp";
 
 
 const EdiCustomerView = () => {
     const route = useRouter();
-    const dataGet = TambahCustomerVMGet();
-    const { id } = route.query;
+    const { id, status } = route.query;
     const dataId = id as string;
+    const dataStatus = status as string;
     const controller = EditCustomerVM( Number( dataId ?? 0 ) );
-    console.log( "dataId", controller.tambahCustomer?.namaCustomer );
+
 
     return <div className = { `flex-1 grid gap-5` }>
         <IBreadcrumbs title = { 'Edit Customer' } subtitle = { 'master-data/customer/edit' }/>
@@ -37,9 +39,12 @@ const EdiCustomerView = () => {
             } }>
                 Kembali
             </IButton>
-            <IButton status = { 'success' } onClick = { controller.saveData }>
-                Simpan
-            </IButton>
+            {
+                dataStatus === 'edit' ? <IButton status = { 'success' } onClick = { controller.saveData }>
+                    Simpan
+                </IButton> : null
+            }
+
         </div>
         {/*</form>*/ }
     </div>
@@ -52,10 +57,11 @@ const EdiCustomerView = () => {
                                    label = { 'NPWP' }
                                    error = { false }
                                    onChange = { ( value ) => {
+                                       // console.log( npwpFormat( value.target.value ) )
                                        controller.setAlamatPajak( ( prevState ) : InterfaceAlamatPajak => {
                                            return {
                                                ...prevState,
-                                               npwp : value.target.value
+                                               npwp : npwpFormat( value.target.value )
                                            } as InterfaceAlamatPajak
                                        } )
                                    } }
@@ -172,7 +178,7 @@ const EdiCustomerView = () => {
                                        controller.setLimitKredit( ( prevState ) : InterfaceLimitKredit => {
                                            return {
                                                ...prevState,
-                                               limitKredit : value.target.value
+                                               limitKredit : Currency.stringToIdr( Currency.idrToString( value.target.value ) )
                                            } as InterfaceLimitKredit
                                        } )
                                    } }
@@ -290,7 +296,7 @@ const EdiCustomerView = () => {
                                        error = { false }
                                        onChange = { () => {
                                        } }
-                                       value = { undefined }/>
+                                       value = { controller.tambahCustomer?.kodeCustomer }/>
                     <IRadioSingle status = { controller.tambahCustomer?.status ?? true }
                                   setStatus = { ( data ) => {
                                       controller.setTambahCustomer( () : InterfaceAddCustomerData => {
@@ -306,11 +312,7 @@ const EdiCustomerView = () => {
                 </div>
                 <IDropDown type = { 'text' }
                            label = { 'Title *' }
-                           data = { [
-                               { id : 1, value : 'Mr.', name : 'Tuan' },
-                               { id : 2, value : 'Mrs.', name : 'Nyonya' },
-                               { id : 3, value : 'Perusahaan', name : 'Perusahaan' },
-                           ] }
+                           data = { controller.listTitle }
                            value = { controller.tambahCustomer?.title?.name }
                            errorMessages = { controller.error.title ? 'Title tidak boleh kosong' : '' }
                            onEnter = { 'next' }
@@ -371,32 +373,10 @@ const EdiCustomerView = () => {
                                    label = { 'No KTP' } onEnter = { 'next' }/>
                 <IDropDown type = { 'text' }
                            label = { 'Pekerjaan' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Pegawai Negeri',
-                                   name : 'Pegawai Negeri',
-                               },
-                               {
-                                   id : 2,
-                                   value : 'Pegawai Swasta',
-                                   name : 'Pegawai Swasta',
-
-                               },
-                               {
-                                   id : 3,
-                                   value : 'Ojek',
-                                   name : 'Ojek'
-                               },
-                               {
-                                   id : 4,
-                                   value : 'Wiraswasta Pedagang',
-                                   name : 'Wiraswasta Pedagang'
-                               }
-                           ] }
+                           data = { controller.listPekerjaan }
                            error = { false }
                            onEnter = { 'next' }
-                    // value = { controller.tambahCustomer?.pekerjaan.name }
+                           value = { controller.tambahCustomer?.pekerjaan?.name }
                            onValueChange = { () => {
                            } }
                            onValue = { ( value ) => {
@@ -409,45 +389,9 @@ const EdiCustomerView = () => {
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Agama' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Islam',
-                                   name : 'Islam',
-                               },
-                               {
-                                   id : 2,
-                                   value : 'Kristen',
-                                   name : 'Kristen',
-                               },
-                               {
-                                   id : 7,
-                                   value : 'Katolik',
-                                   name : 'Katolik',
-                               },
-                               {
-                                   id : 3,
-                                   value : 'Hindu',
-                                   name : 'Hindu'
-                               },
-                               {
-                                   id : 4,
-                                   value : 'Budha',
-                                   name : 'Budha'
-                               },
-                               {
-                                   id : 5,
-                                   value : 'Konghucu',
-                                   name : 'Konghucu'
-                               },
-                               {
-                                   id : 6,
-                                   value : 'Lainnya',
-                                   name : 'Lainnya'
-                               }
-                           ] }
+                           data = { controller.listAgama }
                            onEnter = { 'next' }
-                    // value = { controller.tambahCustomer?.agama.name }
+                           value = { controller.tambahCustomer?.agama?.name }
                            error = { false }
                            onValueChange = { () => {
                            } }
@@ -462,14 +406,15 @@ const EdiCustomerView = () => {
                 <ITextFieldDefault type = { 'date' }
                                    error = { false }
                                    onChange = { ( value ) => {
+                                       console.log( value.target.value )
                                        controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
                                            return {
                                                ...prevState,
-                                               ttl : value.target.value
+                                               ttl : FormatDate.dateSend( value.target.value )
                                            } as InterfaceAddCustomerData
                                        } )
                                    } }
-                                   value = { controller.tambahCustomer?.ttl }
+                                   value = { FormatDate.stringToDateInput( controller.tambahCustomer?.ttl ?? '' ) }
                                    label = { 'Tanggal Lahir' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
                                    error = { false }
@@ -504,11 +449,10 @@ const EdiCustomerView = () => {
                 <IDropDown type = { 'text' }
                            label = { 'Provinsi *' }
                            disabled = { true }
-                           data = { [
-                               { id : 1, value : 'KALIMANTAN BARAT', name : 'KALIMANTAN BARAT' },
-                           ] }
+                           data = { controller.listProvinsi }
                            onEnter = { 'next' }
                            error = { controller.error.provinsi }
+                           value = { controller.tambahCustomer?.provinsi?.name }
                            onValueChange = { () => {
                            } }
                            onValue = { ( value ) => {
@@ -524,11 +468,11 @@ const EdiCustomerView = () => {
                                        provinsi : value.name === ''
                                    }
                                } )
-                               dataGet.getKab()
+                               controller.getKab()
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kota/Kabupaten *' }
-                           data = { dataGet.listKab }
+                           data = { controller.listKab }
                            disabled = { true }
                            onEnter = { 'next' }
                            error = { controller.error.kabupaten }
@@ -559,14 +503,14 @@ const EdiCustomerView = () => {
                                        kabupaten : value.name === ''
                                    }
                                } )
-                               dataGet.getKec( value.value )
+                               controller.getKec( value.value )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kecamatan *' }
-                           data = { dataGet.listKec }
+                           data = { controller.listKec }
                            disabled = { true }
                            onEnter = { 'next' }
-                           value = { controller.tambahCustomer?.kecamatan?.name ?? '' }
+                           value = { controller.tambahCustomer?.kecamatan?.name }
                            onValueChange = { () => {
                            } }
                            error = { controller.error.kecamatan }
@@ -589,12 +533,12 @@ const EdiCustomerView = () => {
                                        kecamatan : value.name === ''
                                    }
                                } )
-                               dataGet.getKel( value.value )
+                               controller.getKel( value.value )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kelurahan *' }
                            disabled = { true }
-                           data = { dataGet.listKel }
+                           data = { controller.listKel }
                            error = { controller.error.kelurahan }
                            onEnter = { 'next' }
                            value = { controller.tambahCustomer?.kelurahan?.name }

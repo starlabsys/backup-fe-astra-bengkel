@@ -43,7 +43,7 @@ const MasterDataViewModel = () => {
             icon : <IoAccessibility size = { 60 } color = { `#1E2F65` }/>
         },
         {
-            title : "Mekanik",
+            title : "Karyawan",
             link : "/master-data/karyawan",
             icon : <IoPeopleCircle size = { 60 } color = { `#1E2F65` }/>
         },

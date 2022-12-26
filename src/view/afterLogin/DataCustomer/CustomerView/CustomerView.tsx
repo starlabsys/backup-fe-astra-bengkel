@@ -50,7 +50,9 @@ const CustomerView = () => {
                             route.push( '/master-data/customer/' + data.id + '/edit' ).then( () => {
                             } )
                         } }
-                        info = { () => {
+                        info = { ( data : InterfaceCustomer ) => {
+                            route.push( '/master-data/customer/' + data.id + '/info' ).then( () => {
+                            } )
                         } }
             />
         </div>

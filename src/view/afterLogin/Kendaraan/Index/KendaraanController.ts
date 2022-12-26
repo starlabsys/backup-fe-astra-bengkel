@@ -77,7 +77,8 @@ const KendaraanController = () => {
                     tahunRakit : FormatDate.dateToYear( item.tahunRakit )
                 }
             } ) );
-            setTotalPage( resp.data.totalRow );
+            const totalRow = (resp.data.totalRow / 10).toFixed();
+            setTotalPage( Number( totalRow ) + 1 );
         }
         setLoading( false );
     }

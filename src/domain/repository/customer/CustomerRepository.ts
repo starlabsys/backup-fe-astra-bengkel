@@ -40,6 +40,17 @@ class CustomerRepository {
         }
         return null;
     }
+
+    public update = async ( context : InterfaceError, props : InterfaceAddCustomer ) : Promise<any> => {
+        const resp = await post( context, {
+            url : '/customer/edit',
+            reqBody : props,
+        } )
+        if ( resp !== null ) {
+            return resp;
+        }
+        return null;
+    }
 }
 
 export default new CustomerRepository();

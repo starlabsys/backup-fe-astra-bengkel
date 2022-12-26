@@ -9,6 +9,10 @@ import { InterfaceCantNull } from "../../interface/InterfaceCantNull";
 import { InterfaceAddCustomer } from "../../../../../domain/repository/customer/interface/InterfaceAddCustomer";
 import CustomerRepository from "../../../../../domain/repository/customer/CustomerRepository";
 import { useRouter } from "next/router";
+import { InterfacePropsDropDown } from "../../../../../component/ITextField/IDropDown";
+import DropDownRepository from "../../../../../domain/repository/parameter/dropDown/DropDownRepository";
+import Currency from "../../../../../utils/format/currency";
+import { npwpFormat } from "../../../../../utils/format/formatNpwp";
 
 
 export const EditCustomerVM = ( id : number ) => {
@@ -16,11 +20,142 @@ export const EditCustomerVM = ( id : number ) => {
     const context = useContext( IAlertDialogContext );
     const loadingLottie = useContext( ILoadingContext );
 
+    const listTitle : InterfacePropsDropDown[] = [
+        { id : 1, value : 'Mr.', name : 'Tuan' },
+        { id : 2, value : 'Mrs.', name : 'Nyonya' },
+        { id : 3, value : 'Perusahaan', name : 'Perusahaan' },
+    ]
+
+    const listPekerjaan : InterfacePropsDropDown[] = [
+        {
+            id : 1,
+            value : 'Pegawai Negeri',
+            name : 'Pegawai Negeri',
+        },
+        {
+            id : 2,
+            value : 'Pegawai Swasta',
+            name : 'Pegawai Swasta',
+
+        },
+        {
+            id : 3,
+            value : 'Ojek',
+            name : 'Ojek'
+        },
+        {
+            id : 4,
+            value : 'Wiraswasta Pedagang',
+            name : 'Wiraswasta Pedagang'
+        },
+        {
+            id : 5,
+            value : 'Mahasiswa Pelajar',
+            name : 'Mahasiswa Pelajar'
+        },
+        {
+            id : 6,
+            value : 'Guru Dosen',
+            name : 'Guru Dosen'
+        },
+        {
+            id : 7,
+            value : 'Ibu Rumah Tangga',
+            name : 'Ibu Rumah Tangga'
+        },
+        {
+            id : 8,
+            value : 'Dokter',
+            name : 'Dokter'
+        },
+        {
+            id : 9,
+            value : 'Pengacara',
+            name : 'Pengacara'
+        },
+        {
+            id : 10,
+            value : 'Wartawan',
+            name : 'Wartawan'
+        },
+        {
+            id : 11,
+            value : 'TNI',
+            name : 'TNi'
+        },
+        {
+            id : 12,
+            value : 'Polri',
+            name : 'Polri'
+        },
+        {
+            id : 13,
+            value : 'Petani',
+            name : 'Petani'
+        },
+        {
+            id : 14,
+            value : 'Nelayan',
+            name : 'Nelayan'
+        },
+        {
+            id : 15,
+            value : 'Lain-Lain',
+            name : 'Lain-Lain'
+        }
+    ]
+
+    const listAgama : InterfacePropsDropDown[] = [
+        {
+            id : 1,
+            value : 'Islam',
+            name : 'Islam',
+        },
+        {
+            id : 2,
+            value : 'Kristen',
+            name : 'Kristen',
+        },
+        {
+            id : 7,
+            value : 'Katolik',
+            name : 'Katolik',
+        },
+        {
+            id : 3,
+            value : 'Hindu',
+            name : 'Hindu'
+        },
+        {
+            id : 4,
+            value : 'Budha',
+            name : 'Budha'
+        },
+        {
+            id : 5,
+            value : 'Konghucu',
+            name : 'Konghucu'
+        },
+        {
+            id : 6,
+            value : 'Lainnya',
+            name : 'Lainnya'
+        }
+    ]
+
+    const listProvinsi : InterfacePropsDropDown[] = [
+        { id : 1, value : 'KALIMANTAN BARAT', name : 'KALIMANTAN BARAT' },
+    ]
+
     const [ tambahCustomer, setTambahCustomer ] = useState<InterfaceAddCustomerData>();
     const [ kontakPerson, setKontakPerson ] = useState<InterfaceKontakPerson>();
     const [ alamatKirim, setAlamatKirim ] = useState<InterfaceAlamatKirim>();
     const [ alamatPajak, setAlamatPajak ] = useState<InterfaceAlamatPajak>();
     const [ limitKredit, setLimitKredit ] = useState<InterfaceLimitKredit>();
+
+    const [ listKab, setListKab ] = useState<InterfacePropsDropDown[]>( [] );
+    const [ listKec, setListKec ] = useState<InterfacePropsDropDown[]>( [] );
+    const [ listKel, setListKel ] = useState<InterfacePropsDropDown[]>( [] );
 
     const [ error, setError ] = useState<InterfaceCantNull>( {
         noHp : false,
@@ -41,6 +176,7 @@ export const EditCustomerVM = ( id : number ) => {
     const saveData = async () => {
         loadingLottie.openLoading( true );
         const dataSend : InterfaceAddCustomer = {
+            id : tambahCustomer?.id ?? 0,
             title : tambahCustomer?.title.value ?? '',
             namaCustomer : tambahCustomer?.namaCustomer ?? '',
             aktif : tambahCustomer?.status ?? true,
@@ -71,21 +207,20 @@ export const EditCustomerVM = ( id : number ) => {
             noHpKontakPerson : kontakPerson?.noHp ?? '',
             emailKontakPerson : kontakPerson?.email ?? '',
             jabatanKontakPerson : kontakPerson?.jabatan ?? '',
-            limitKredit : limitKredit?.limitKredit ?? '',
+            limitKredit : Currency.idrToString( limitKredit?.limitKredit ?? '' ),
             // tempo
             alamatKirim : alamatKirim?.alamat ?? '',
             up : alamatKirim?.up ?? '',
-            noTeleponAlamatKirim : alamatKirim?.alamat ?? '',
+            noTeleponAlamatKirim : alamatKirim?.noTelp ?? '',
             npwp : alamatPajak?.npwp ?? '',
             nppkp : alamatPajak?.nppkp ?? '',
             alamatPajak : alamatPajak?.alamatPajak ?? '',
             //
-            id : 0,
-            kodeCustomer : '',
+            kodeCustomer : tambahCustomer?.kodeCustomer ?? '',
             isUpdateQR : false,
-            action : 0,
+            action : 1,
             salesmanID : 0,
-            top : Number( limitKredit?.tempo ?? 0 ) ?? 0,
+            top : Number( Currency.idrToString( limitKredit?.tempo ?? '' ) ),
             gender : tambahCustomer?.title.id === 2 ? "P" : "L",
 
 
@@ -158,102 +293,25 @@ export const EditCustomerVM = ( id : number ) => {
             }
         }
         console.log( dataSend );
-        const res = await CustomerRepository.add( context, dataSend );
-        setTambahCustomer( {
-            alamat : '',
-            namaCustomer : '',
-            noKtp : '',
-            title : {
-                id : 0,
-                value : '',
-                name : '',
-            },
-            noHp : '',
-            agama : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            catatan : '',
-            email : '',
-            facebook : '',
-            instagram : '',
-            kodePos : '',
-            kabupaten : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            kecamatan : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            kelurahan : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            noFax : '',
-            noTelepon : '',
-            provinsi : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            groupDiskon : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            passport : '',
-            pekerjaan : {
-                id : 0,
-                name : '',
-                value : '',
-            },
-            ttl : '',
-            twitter : '',
-            website : '',
-            status : true,
-            picAhass : {
-                id : 0,
-                name : '',
-                value : '',
-            }
-
-        } )
-        setAlamatPajak( {
-            npwp : '',
-            nppkp : '',
-            alamatPajak : '',
-        } )
-        setKontakPerson( {
-            email : '',
-            noHp : '',
-            jabatan : '',
-            noTelp : '',
-            nama : '',
-        } );
-        setLimitKredit( {
-            limitKredit : '',
-            tempo : '',
-        } )
-        setLimitKredit( {
-            limitKredit : '',
-            tempo : '',
-        } )
+        const res = await CustomerRepository.update( context, dataSend );
         loadingLottie.openLoading( false );
+        // return route.back();
     }
 
     const getDetailCustomer = async ( dataID : number ) => {
+        loadingLottie.openLoading( true );
         const resp = await CustomerRepository.detail( context, {
             id : dataID,
             action : 1,
         } )
         if ( resp !== null ) {
             const data = resp.data;
+            const kab = await getKab()
+            const kec = await getKec( data.kabupaten )
+            const kel = await getKel( data.kecamatan )
             setTambahCustomer( {
+                id : data.id,
+                kodeCustomer : data.kodeCustomer,
                 alamat : data.alamat,
                 website : data.website,
                 ttl : data.tanggalUlangTahun,
@@ -265,7 +323,7 @@ export const EditCustomerVM = ( id : number ) => {
                     value : '',
                 },
                 noHp : data.noHp,
-                pekerjaan : {
+                pekerjaan : listPekerjaan.find( ( item ) => item.id === data.jabatanCustomerID ) ?? {
                     id : 0,
                     name : '',
                     value : '',
@@ -277,22 +335,18 @@ export const EditCustomerVM = ( id : number ) => {
                 },
                 noFax : data.noFaks,
                 noTelepon : data.noTelepon,
-                provinsi : {
+                provinsi : listProvinsi[ 0 ],
+                kabupaten : kab.find( ( item ) => item.value === data.kabupaten ) ?? {
                     id : 0,
                     name : '',
                     value : '',
                 },
-                kelurahan : {
+                kecamatan : kec.find( ( item ) => item.value === data.kecamatan ) ?? {
                     id : 0,
                     name : '',
                     value : '',
                 },
-                kecamatan : {
-                    id : 0,
-                    name : '',
-                    value : '',
-                },
-                kabupaten : {
+                kelurahan : kel.find( ( item ) => item.value === data.kelurahan ) ?? {
                     id : 0,
                     name : '',
                     value : '',
@@ -304,19 +358,110 @@ export const EditCustomerVM = ( id : number ) => {
                 kodePos : data.zipCode,
                 twitter : data.twitter,
                 status : data.aktif,
-                title : {
+                title : listTitle.find( ( item ) => item.value === data.title ) ?? {
                     id : 0,
                     value : '',
                     name : '',
                 },
-                agama : {
+                agama : listAgama.find( ( item ) => item.id === data.agama ) ?? {
                     id : 0,
                     name : '',
                     value : '',
                 },
                 noKtp : data.noktp,
             } )
+            setKontakPerson( {
+                nama : data.namaKontakPerson,
+                noTelp : data.noteleponKontakPerson,
+                jabatan : data.jabatanKontakPerson,
+                noHp : data.noHpKontakPerson,
+                email : data.emailKontakPerson,
+            } )
+            setAlamatPajak( {
+                alamatPajak : data.alamatPajak,
+                npwp : npwpFormat( data.npwp ),
+                nppkp : data.nppkp,
+            } )
+            setAlamatKirim( {
+                noTelp : data.noTeleponAlamatKirim,
+                alamat : data.alamatKirim,
+                up : data.up,
+            } )
+            setLimitKredit( {
+                tempo : data.top,
+                limitKredit : Currency.stringToIdr( data.limitKredit.toString() ),
+            } )
         }
+        loadingLottie.openLoading( false );
+    }
+
+    const getKab = async () : Promise<InterfacePropsDropDown[]> => {
+        const resp = await DropDownRepository.getGroup( context, [
+            {
+                tipe : 5,
+                label : "sample string 2",
+                nilai : "20"
+            }
+        ] );
+        if ( resp !== null ) {
+            const dataResult = resp.data.listDropDown.map( ( item, index ) : InterfacePropsDropDown => {
+                return {
+                    id : index,
+                    name : item.label,
+                    value : item.nilai
+                }
+            } )
+            setListKab( dataResult );
+            return dataResult;
+        }
+        return []
+    }
+
+    const getKec = async ( kab : string ) : Promise<InterfacePropsDropDown[]> => {
+        const resp = await DropDownRepository.getGroup( context, [
+            {
+                tipe : 6,
+                label : "sample string 2",
+                nilai : kab,
+            }
+        ] )
+        if ( resp !== null ) {
+            const dataResult = resp.data.listDropDown.map( ( item, index ) : InterfacePropsDropDown => {
+                return {
+                    id : index,
+                    name : item.label,
+                    value : item.nilai
+                }
+            } )
+            setListKec( dataResult );
+            console.log( 'kec', dataResult );
+            return dataResult;
+        }
+        return []
+    }
+
+    const getKel = async ( kec : string ) : Promise<InterfacePropsDropDown[]> => {
+        const resp = await DropDownRepository.getGroup( context, [
+            {
+                tipe : 7,
+                label : "sample string 2",
+                nilai : kec,
+            }
+        ] )
+        if ( resp !== null ) {
+            const dataResult = resp.data.listDropDown.map( ( item, index ) : InterfacePropsDropDown => {
+                return {
+                    id : index,
+                    name : item.label,
+                    value : item.nilai,
+                    add : item.additionalNilai
+                }
+            } )
+            setListKel( dataResult );
+            console.log( 'kel', dataResult );
+            return dataResult;
+        }
+        return []
     }
 
     useEffect( () => {
@@ -335,5 +480,8 @@ export const EditCustomerVM = ( id : number ) => {
         limitKredit, setLimitKredit,
         saveData,
         error, setError,
+        listTitle, listPekerjaan, listAgama, listProvinsi,
+        listKab, listKec, listKel,
+        getKab, getKec, getKel,
     }
 }

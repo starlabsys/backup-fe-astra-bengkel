@@ -1,16 +1,20 @@
 import { ComponentIndexSearch } from "../../../component/ComponentIndexSearch";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { useRouter } from "next/router";
+import { PitMekanikViewModel } from "./ViewModel/PitMekanikViewModel";
+import { ListOfPITMekanik } from "../../../../domain/models/PitMekanik/ModelGetListPitMekanik";
 
 
 const PitMekanikView = () => {
     const route = useRouter();
+    const controller = PitMekanikViewModel();
     return <ComponentIndexSearch breadcrumbs = { 'Pit Mekanik' }
                                  title = { 'List Data PIT Mekanik' }
                                  search = { {
                                      label : 'Cari',
                                      placeholder : 'Cari Data PIT Mekanik',
-                                     onChange : () => {
+                                     onChange : ( value ) => {
+                                         controller.getData( value.target.value )
                                      }
                                  } }
                                  button = { {
@@ -30,27 +34,13 @@ const PitMekanikView = () => {
                            changePage = { index => {
                                console.log( index )
                            } }
-                           updated = { ( data ) => {
+                           updated = { ( data : ListOfPITMekanik ) => {
+                               route.push( `/master-data/pit-mekanik/${ data.kodePit }/edit` ).then();
                            } }
-                           header = { [
-                               {
-                                   label : '#',
-                                   name : '#',
-                               },
-                               {
-                                   label : 'Nama Mekanik',
-                                   name : 'nama_mekanik',
-                               },
-                               {
-                                   label : 'Status',
-                                   name : 'status',
-                               },
-                               {
-                                   label : 'Action',
-                                   name : 'action',
-                               }
-                           ] }
-                           data = { [] }/>
+                           info = { ( data ) => {
+                           } }
+                           header = { controller.header }
+                           data = { controller.listPitMekanik }/>
     }
 }
 

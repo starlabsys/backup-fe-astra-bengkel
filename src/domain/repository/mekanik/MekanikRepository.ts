@@ -4,9 +4,9 @@ import { InterfaceMekanik } from "./interface/interfaceMekanik";
 
 
 class MekanikRepository {
-    public getData = async ( context : InterfaceError ) => {
+    public getData = async ( context : InterfaceError, props : {} ) => {
         return await get( context, {
-            url : '/mechanic',
+            url : '/mekanik/get',
             reqBody : {}
         } )
     }

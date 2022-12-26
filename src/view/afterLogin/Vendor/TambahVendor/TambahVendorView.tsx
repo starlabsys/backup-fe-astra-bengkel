@@ -5,16 +5,22 @@ import IDropDown from "../../../../component/ITextField/IDropDown";
 import ITextArea from "../../../../component/ITextField/ITextArea";
 import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import IButton from "../../../../component/IButton/IButton";
+import { TambahVendorVM } from "./ViewModel/TambahVendorVM";
+import { useRouter } from "next/router";
 
 
 export const TambahVendorView = () => {
+    const routes = useRouter();
+    const controller = TambahVendorVM();
     return <div className = { `grid gap-5` }>
         <IBreadcrumbs title = { 'Tambah Vendor' } subtitle = { 'master-data/vendor/tambah-vendor' }/>
         { vendor() }
         { contactPerson() }
         { syaratPembelianKredit() }
         <div className = { `grid grid-cols-2 gap-5` }>
-            <IButton>Kembali</IButton>
+            <IButton onClick = { () => {
+                routes.back();
+            } }>Kembali</IButton>
             <IButton status = { 'success' }>Simpan</IButton>
         </div>
     </div>
@@ -27,66 +33,117 @@ export const TambahVendorView = () => {
                     <ITextFieldDefault type = { 'text' }
                                        onChange = { () => {
                                        } }
+                                       disabled = { true }
                                        label = { 'Kode' }
                                        placeholder = { 'Masukan Kode' }
                                        onEnter = { 'next' }
                                        value = { undefined }/>
-                    <IRadioSingle status = { false }
+                    <IRadioSingle status = { controller.vendor?.status ?? false }
                                   error = { false }
                                   label = { 'Status' }
-                                  value1 = { 'Aktif' }
+                                  value1 = { controller.vendor?.status ? 'Aktif' : 'Tidak Aktif' }
                                   setStatus = { () => {
+                                      controller.setVendor(
+                                          {
+                                              ...controller.vendor,
+                                              status : !controller.vendor?.status
+                                          }
+                                      )
                                   } }/>
                 </div>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               namaVendor : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'Nama *' }
                                    placeholder = { 'Masukan Nama' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.namaVendor }/>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               alamat : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'Alamat *' }
                                    placeholder = { 'Masukan Alamat' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.alamat }/>
                 <IDropDown type = { "text" }
                            error = { false }
                            label = { 'Provinsi *' }
-                           data = { [] }
+                           disabled = { true }
+                           data = { controller.listProvince }
                            onEnter = { "next" }
                            onValueChange = { () => {
                            } }
-                           onValue = { () => {
+                           onValue = { ( item ) => {
+                               controller.setVendor(
+                                   {
+                                       ...controller.vendor,
+                                       provinsi : item
+                                   }
+                               )
+                               controller.getAreaDetail( 5, item.id );
                            } }/>
                 <IDropDown type = { "text" }
                            error = { false }
+                           disabled = { true }
                            label = { 'Kota/Kabupaten *' }
-                           data = { [] }
+                           data = { controller.listKab }
                            onEnter = { "next" }
                            onValueChange = { () => {
                            } }
-                           onValue = { () => {
+                           onValue = { ( item ) => {
+                               controller.setVendor(
+                                   {
+                                       ...controller.vendor,
+                                       kabupaten : item
+                                   }
+                               )
+                               controller.getAreaDetail( 6, item.value );
                            } }/>
                 <IDropDown type = { "text" }
                            error = { false }
+                           disabled = { true }
                            label = { 'Kecamatan *' }
-                           data = { [] }
+                           data = { controller.listKec }
                            onEnter = { "next" }
                            onValueChange = { () => {
                            } }
-                           onValue = { () => {
+                           onValue = { ( item ) => {
+                               controller.setVendor(
+                                   {
+                                       ...controller.vendor,
+                                       kecamatan : item
+                                   }
+                               )
+                               controller.getAreaDetail( 7, item.value );
                            } }/>
                 <IDropDown type = { "text" }
                            error = { false }
                            label = { 'Kelurahan *' }
-                           data = { [] }
+                           disabled = { true }
+                           data = { controller.listKel }
                            onEnter = { "next" }
                            onValueChange = { () => {
                            } }
-                           onValue = { () => {
+                           onValue = { ( item ) => {
+                               controller.setVendor(
+                                   {
+                                       ...controller.vendor,
+                                       kelurahan : item,
+                                       kodePos : item.add,
+                                   }
+                               )
                            } }/>
                 <ITextFieldDefault type = { 'text' }
                                    onChange = { () => {
@@ -95,40 +152,71 @@ export const TambahVendorView = () => {
                                    label = { 'Kode Pos *' }
                                    placeholder = { 'Masukan Kode Pos' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.kodePos }/>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               noTelp : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'No Tlp' }
                                    placeholder = { 'Masukan No Tlp' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.noTelp }/>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               noHp : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'No HP' }
                                    placeholder = { 'Masukan No HP' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.noHp }/>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               email : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'Email' }
                                    placeholder = { 'Masukan Email' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.email }/>
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { () => {
+                                   onChange = { ( value ) => {
+                                       controller.setVendor(
+                                           {
+                                               ...controller.vendor,
+                                               website : value.target.value
+                                           }
+                                       )
                                    } }
                                    label = { 'Website' }
                                    placeholder = { 'Masukan Website' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.vendor.website }/>
                 <ITextArea label = { 'Catatan' }
                            placeHolder = { 'Masukan Catatan' }
                            error = { false }
                            type = { "text" }
-                           onChange = { () => {
+                           value = { controller.vendor.catatan }
+                           onChange = { ( value ) => {
+                               controller.setVendor(
+                                   {
+                                       ...controller.vendor,
+                                       catatan : value.target.value
+                                   }
+                               )
                            } }/>
             </div>
         </div>

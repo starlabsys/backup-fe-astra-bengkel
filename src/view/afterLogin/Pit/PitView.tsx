@@ -1,21 +1,16 @@
 import IBreadcrumbs from "../../../component/IBreadcrumbs/IBreadcrumbs";
 import ITitleMd from "../../../component/ITitle/ITitleMd";
 import IButton from "../../../component/IButton/IButton";
-import { EnumSizeDialog } from "../../../utils/enum/EnumSizeDialog";
 import { ITextFieldDefault } from "../../../component/ITextField/ITextField";
+import PitViewModel from "./PitViewModel";
+import { ITableData } from "../../../component/ITable/ITableNextUI";
 import IDropDown from "../../../component/ITextField/IDropDown";
 import { IRadioSingle } from "../../../component/ITextField/IRadio";
-import { AddPitController } from "./controller/AddPitController";
-import ISpinLoading from "../../../component/animation/ISpinLoading/ISpinLoading";
-import TablePitController from "./component/TablePit/TablePitController";
-import { SearchPitController } from "./controller/SearchPitController";
-import { ITableData } from "../../../component/ITable/ITableNextUI";
+import { ListOfPIT } from "../../../domain/models/Pit/ModelGetListPit";
 
 
 const PitView = () => {
-    const addPit = AddPitController();
-    const getDataPit = TablePitController();
-    const search = SearchPitController();
+    const getDataPit = PitViewModel();
 
     return (
         <div className = { `flex-1 grid gap-5` }>
@@ -35,15 +30,7 @@ const PitView = () => {
                                 value = { undefined }
                                 error = { false }
                                 onChange = { ( event ) => {
-                                    search.setSearch( event.target.value );
-                                    search
-                                        .searchData( {
-                                            page : 0,
-                                            limit : 10,
-                                            search : event.target.value
-                                        } )
-                                        .then( ( value ) => {
-                                        } );
+                                    getDataPit.getData( event.target.value );
                                 } }
                             />
                         </div>
@@ -52,13 +39,54 @@ const PitView = () => {
                                 size = { "medium" }
                                 status = { "success" }
                                 rounded = { "full" }
-                                onClick = { onSaved }
+                                onClick = { () => {
+                                    getDataPit.setOpenAdd( {
+                                        open : !getDataPit.openAdd.open,
+                                        status : "add"
+                                    } )
+                                } }
                             >
                                 + Tambah Pit
                             </IButton>
                         </div>
                     </div>
                 </div>
+                {
+                    getDataPit.openAdd.open ? <div className = { `w-full grid gap-10 p-5` }>
+                        <div className = { `grid tablet:grid-cols-2 gap-5` }>
+                            <ITextFieldDefault type = { 'text' }
+                                               label = { 'Kode PIT' }
+                                               onEnter = { 'next' }
+                                               value = { getDataPit.kodePit }
+                                               onChange = { ( value ) => {
+                                                   getDataPit.setKodePit( value.target.value )
+                                               } }/>
+                            <IDropDown type = { "text" }
+                                       error = { false }
+                                       label = { 'Tipe PIT' }
+                                       data = { getDataPit.listKodePit }
+                                       onEnter = { "enter" }
+                                       value = { getDataPit.tipePit?.name }
+                                       onValue = { ( item ) => {
+                                           getDataPit.setTipePit( item )
+                                       } }/>
+                            <IRadioSingle status = { getDataPit.status }
+                                          label = { 'Status' }
+                                          value1 = { getDataPit.status ? 'Aktif' : 'Tidak Aktif' }
+                                          error = { false }
+                                          setStatus = { () => {
+                                              getDataPit.setStatus( !getDataPit.status )
+                                          } }/>
+                        </div>
+                        <IButton status = { 'success' }
+                                 onClick = { getDataPit.openAdd.status === 'add'
+                                     ? getDataPit.savePit
+                                     : getDataPit.updatePit
+                                 }>
+                            Simpan
+                        </IButton>
+                    </div> : null
+                }
                 <div className = { `p-5 grid gap-5` }>
                     {
                         TableData()
@@ -68,174 +96,25 @@ const PitView = () => {
         </div>
     );
 
-    function onSaved( data? : any ) {
-        let kodePit = data.kode_pit ?? undefined;
-        let tipePit = data.tipe_pit ?? undefined;
-        let isActive = data.is_active ?? true;
-        let loading = false;
-        console.log( data );
-        addPit.dialog.openDialog( true );
-        addPit.dialog.setSizeDialog( EnumSizeDialog.small );
-        addPit.dialog.setHeaderDialog( "Tambah PIT" );
-        addPit.dialog.setDialogData(
-            <div className = { `w-full grid gap-5` }>
-                <ITextFieldDefault
-                    name = { "kodePit" }
-                    required = { true }
-                    type = { "text" }
-                    label = { "Kode PIT" }
-                    error = { false }
-                    placeholder = { "Masukkan kode PIT" }
-                    value = { kodePit }
-                    onChange = { ( event ) => {
-                        kodePit = event.target.value;
-                    } }
-                    onEnter = { "next" }
-                />
-                <IDropDown
-                    required = { true }
-                    type = { "text" }
-                    label = { "Tipe PIT" }
-                    value = { tipePit }
-                    data = { [
-                        {
-                            id : 1,
-                            value : "REGULAR",
-                            name : "REGULAR"
-                        },
-                        {
-                            id : 1,
-                            value : "BIG BIKE",
-                            name : "BIG BIKE"
-                        },
-                        {
-                            id : 1,
-                            value : "FAST TRACK",
-                            name : "FAST TRACK"
-                        },
-                        {
-                            id : 1,
-                            value : "HIGH END",
-                            name : "HIGH END"
-                        }
-                    ] }
-                    error = { false }
-                    onEnter = { "next" }
-                    onValue = { ( value ) => {
-                        tipePit = value.value;
-                    } }
-                    onValueChange = { () => {
-                    } }
-                />
-                <IRadioSingle
-                    error = { false }
-                    label = { "Status" }
-                    value1 = { "Aktif" }
-                    status = { isActive }
-                    setStatus = { ( value ) => {
-                        isActive = value;
-                    } }
-                />
-            </div>
-        );
-        addPit.dialog.setDisable( true );
-        addPit.dialog.setFooterDialog(
-            <IButton
-                size = { "medium" }
-                rounded = { "full" }
-                status = { "success" }
-                onClick = { () => {
-                    if ( data.id === undefined ) {
-                        addPit
-                            .savePit( {
-                                kodePit : kodePit,
-                                tipePit : tipePit,
-                                isActive : isActive
-                            } )
-                            .then( async ( value : any ) => {
-                                addPit.dialog.openDialog( false );
-                                if ( value === null ) {
-                                    getDataPit
-                                        .getData( {
-                                            page : 0,
-                                            limit : 10
-                                        } )
-                                        .then( ( value ) => {
-                                        } );
-                                }
-                                else {
-                                    addPit.dialog.openDialog( false );
-                                    getDataPit.context.setOpen( true );
-                                    getDataPit.context.onError( true );
-                                    getDataPit.context.giveMessage( value );
-                                }
-                            } );
-                    }
-                    else {
-                        addPit.updatedPit( data.id, {
-                            kodePit : kodePit,
-                            tipePit : tipePit,
-                            isActive : isActive
-                        } ).then( ( value : any ) => {
-                            addPit.dialog.openDialog( false );
-                            if ( value === null ) {
-                                getDataPit
-                                    .getData( {
-                                        page : 0,
-                                        limit : 10
-                                    } )
-                                    .then( ( value ) => {
-                                    } );
-                            }
-                            else {
-                                addPit.dialog.openDialog( false );
-                                getDataPit.context.setOpen( true );
-                                getDataPit.context.onError( true );
-                                getDataPit.context.giveMessage( value );
-                            }
-                        } )
-                    }
-
-                } }
-            >
-                { loading ? <ISpinLoading/> : "Simpan" }
-            </IButton>
-        );
-    }
-
     function TableData() {
-        return <ITableData page = { search.search === "" ? getDataPit.setPage : search.setPage }
-                           totalPage = { search.search === "" ? getDataPit.totalPage : search.totalPage }
-                           loading = { search.search === "" ? getDataPit.loading : search.loading }
+        return <ITableData page = { getDataPit.setPage - 1 }
+                           totalPage = { 1 }
+                           loading = { false }
                            changePage = { index => {
-                               if ( search.search === "" ) {
-                                   getDataPit.setSetPage( index - 1 );
-                                   getDataPit
-                                       .getData( {
-                                           page : index - 1,
-                                           limit : 10
-                                       } )
-                                       .then( ( value ) => {
-                                       } );
-                               }
-                               else {
-                                   search.setSetPage( index - 1 );
-                                   search
-                                       .searchData( {
-                                           page : index - 1,
-                                           limit : 10,
-                                           search : search.search
-                                       } )
-                                       .then( ( value ) => {
-                                       } );
-                               }
+
                            } }
-                           updated = { ( data ) => {
-                               // console.log( data );
-                               onSaved( data );
+                           updated = { ( data : ListOfPIT ) => {
+                               getDataPit.setOpenAdd( {
+                                   open : true,
+                                   status : "edit",
+                               } )
+                               getDataPit.setIdPit( data.id.toString() );
+                               getDataPit.setKodePit( data.kodePit )
+                               getDataPit.setStatus( data.rowStatus !== -1 )
+                               getDataPit.setTipePit( getDataPit.listKodePit.find( item => item.name === data.tipePit ) )
                            } }
                            header = { getDataPit.header }
-                           data = { search.search === "" ? getDataPit.pit : search.pit }/>
+                           data = { getDataPit.pit }/>
     }
 };
 export default PitView;

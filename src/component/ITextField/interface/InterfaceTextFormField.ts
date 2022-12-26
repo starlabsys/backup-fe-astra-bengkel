@@ -34,6 +34,7 @@ export interface InterfaceTextFieldRounded {
 
 export interface InterfaceTextFieldDefault {
     form? : string | undefined
+    defaultValue? : string | undefined
     type : HTMLInputTypeAttribute;
     disabled? : boolean;
     autoCapitalize? : string;

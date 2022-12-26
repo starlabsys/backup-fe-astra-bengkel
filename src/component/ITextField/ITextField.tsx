@@ -30,6 +30,7 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
                 bordered = { true }
                 clearable = { !props.disabled }
                 animated = { true }
+                defaultValue = { props.defaultValue }
                 autoCapitalize = { props.autoCapitalize }
                 name = { props.name }
                 width = "100%"

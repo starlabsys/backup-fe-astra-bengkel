@@ -11,12 +11,7 @@ class SparepartRepository {
     public add = async ( context : InterfaceError, props : InterfaceAddSparePart ) : Promise<any> => {
         return await post( context, {
             url : "/parts/store",
-            reqBody : {
-                "parts_code" : props.partsCode,
-                "parts_name" : props.partsName,
-                "parts_qty" : props.partsQty,
-                "parts_price" : props.partsPrice
-            }
+            reqBody : props
         } )
     }
 

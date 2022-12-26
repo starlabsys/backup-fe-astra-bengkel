@@ -11,8 +11,8 @@ export const GetDataMekanik = () => {
     const [ mekanik, setMekanik ] = useState<InterfaceMekanik[]>( [] );
 
     const getData = async () => {
-        const data = await MekanikServices.getData( context )
-        console.log( data );
+        // const data = await MekanikServices.getData( context )
+        // console.log( data );
     }
 
     useEffect( () => {

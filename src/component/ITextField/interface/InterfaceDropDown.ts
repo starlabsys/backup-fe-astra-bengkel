@@ -20,7 +20,7 @@ export interface InterfaceDropDown {
     onValueMultiple? : ( value : InterfacePropsDropDown[] ) => void;
     activeAddOn? : boolean;
     onClickAddOn? : () => void;
-    value? : string | undefined;
+    value? : string | undefined | string[];
     errorMessages? : string;
     children? : JSX.Element;
 }

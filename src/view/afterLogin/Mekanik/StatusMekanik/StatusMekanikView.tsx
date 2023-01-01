@@ -12,20 +12,19 @@ import { InterfaceStatusKaryawan } from "../interface/InterfaceStatusKaryawan";
 import IDropDownMultiple from "../../../../component/ITextField/IDropDownMultiple";
 import { label4 } from "../../../../component/styles/Style";
 import { InterfaceKomisiDanGajih } from "../interface/InterfaceKomisiDanGajih";
-import TambahMekanikViewModel from "../TambahMekanikView/ViewModel/TambahMekanikViewModel";
 import { StatusMekanikVM } from "./ViewModel/StatusMekanikVM";
+import Currency from "../../../../utils/format/currency";
 
 
 export const StatusMekanikView = () => {
-    const route = useRouter()
-    const { status, id } = route.query
-    const statusData = status as string
-    const idData = id as string
-
+    const route = useRouter();
+    const { id, status } = route.query;
+    const idData = id as string;
+    const statusData = status as string;
     const controller = StatusMekanikVM( idData );
 
     return <div className = { `grid gap-5` }>
-        <IBreadcrumbs title = { statusData === 'edit' ? 'Edit Karyawan' : statusData === 'info' ? 'Info Karyawan' : '' }
+        <IBreadcrumbs title = { statusData === 'edit' ? 'Edit Karyawan' : 'Info Karyawan' }
                       subtitle = { 'master-data/karyawan/' + statusData }/>
         <div className = { `p-5 grid gap-5 bg-white rounded-lg` }>
             <ITitleMd title = { 'Karyawan' }/>
@@ -43,7 +42,7 @@ export const StatusMekanikView = () => {
             <ITitleMd title = { 'Komisi Dan Gaji' }/>
             { komisiDanGaji() }
         </div>
-        <div className = { `grid grid-cols-2 gap-5` }>
+        <div className = { `grid tablet:flex gap-5` }>
             <IButton onClick = { () => {
                 route.back();
             } }>
@@ -68,8 +67,14 @@ export const StatusMekanikView = () => {
                                        label = { 'Kode' }
                                        onEnter = { 'next' }
                                        disabled = { true }
-                                       value = { undefined }
-                                       onChange = { () => {
+                                       value = { controller.dataMekanik?.kodeMekanik ?? '' }
+                                       onChange = { ( value ) => {
+                                           controller.setDataMekanik( ( prevState ) => {
+                                               return {
+                                                   ...prevState,
+                                                   kodeMekanik : value.target.value
+                                               } as InterfaceAddDataMekanik
+                                           } )
                                        } }/>
                     <IRadioSingle status = { statusMekanik }
                                   error = { false }
@@ -364,7 +369,7 @@ export const StatusMekanikView = () => {
 
     function statusKaryawan() {
         return <div className = { `grid grid-cols-1 tablet:grid-cols-2 gap-5` }>
-            <IRadio value = { 'Tetap' }
+            <IRadio value = { controller.statusKaryawan?.statusKaryawan ?? '' }
                     error = { false }
                     label = { 'Status Karyawan*' }
                     value2 = { 'Tidak Tetap' }
@@ -425,6 +430,7 @@ export const StatusMekanikView = () => {
                                error = { false }
                                label = { 'Jabatan*' }
                                data = { controller.listJabatan }
+                               value = { controller.statusKaryawan?.jabatan.map( ( item ) => item.name ) }
                                onEnter = { 'next' }
                                onValueMultiple = { ( item ) => {
                                    controller.setStatusKaryawan( ( prevState ) => {
@@ -437,6 +443,7 @@ export const StatusMekanikView = () => {
                                } }/>
             <IDropDownMultiple type = { 'text' }
                                error = { false }
+                               value = { controller.statusKaryawan?.levelTraining.map( ( item ) => item.name ) }
                                label = { 'Level Training Mekanik*' }
                                data = { controller.listTraining }
                                onEnter = { 'next' }
@@ -493,7 +500,7 @@ export const StatusMekanikView = () => {
                     <IRadioSingle status = { controller.komisiDanGajih?.komisiPenjualan === '1' }
                                   error = { false }
                                   label = { '' }
-                                  value1 = { 'Semua Barang dan Jasa' }
+                                  value1 = { 'Default Master Data' }
                                   setStatus = { () => {
                                       controller.setKomisiDanGajih( ( prevState ) => {
                                           return {
@@ -505,7 +512,7 @@ export const StatusMekanikView = () => {
                     <IRadioSingle status = { controller.komisiDanGajih?.komisiPenjualan === '2' }
                                   error = { false }
                                   label = { '' }
-                                  value1 = { 'Default Master Data' }
+                                  value1 = { 'Semua Barang dan Jasa' }
                                   setStatus = { () => {
                                       controller.setKomisiDanGajih( ( prevState ) => {
                                           return {
@@ -517,9 +524,10 @@ export const StatusMekanikView = () => {
                 </div>
             </div>
             {
-                controller.komisiDanGajih?.komisiPenjualan === '1' ?
+                controller.komisiDanGajih?.komisiPenjualan === '2' ?
                     <IDropDown type = { 'text' }
                                error = { false }
+                               value = { controller.komisiDanGajih?.tipeKomisi === 1 ? 'Persentase' : controller.komisiDanGajih?.tipeKomisi === 2 ? 'Nominal' : '' }
                                label = { 'Pemberian Komisi' }
                                data = { [
                                    {
@@ -544,7 +552,7 @@ export const StatusMekanikView = () => {
                                onEnter = { "next" }/> : null
             }
             {
-                controller.komisiDanGajih?.tipeKomisi === 1 ? <>
+                controller.komisiDanGajih?.tipeKomisi === 1 && controller.komisiDanGajih?.komisiPenjualan === '2' ? <>
                     <ITextFieldDefault type = { 'text' }
                                        label = { 'Persentase' }
                                        onEnter = { 'next' }
@@ -559,6 +567,7 @@ export const StatusMekanikView = () => {
                                        } }/>
                     <IDropDown type = { 'text' }
                                error = { false }
+                               value = { controller.komisiDanGajih?.satuanKomisi === '0' ? 'Harga' : controller.komisiDanGajih?.satuanKomisi === '1' ? 'Jumlah' : '' }
                                label = { 'Satuan Komisi' }
                                data = { [
                                    {
@@ -584,76 +593,77 @@ export const StatusMekanikView = () => {
                 </> : null
             }
             {
-                controller.komisiDanGajih?.tipeKomisi === 2 ? <ITextFieldDefault type = { 'text' }
-                                                                                 label = { 'Nominal' }
-                                                                                 onEnter = { 'next' }
-                                                                                 value = { controller.komisiDanGajih.nilaiKomisi }
-                                                                                 onChange = { ( value ) => {
-                                                                                     controller.setKomisiDanGajih( ( prevState ) => {
-                                                                                         return {
-                                                                                             ...prevState,
-                                                                                             nilaiKomisi : Number( value.target.value )
-                                                                                         } as InterfaceKomisiDanGajih
-                                                                                     } )
-                                                                                 } }/> : null
+                controller.komisiDanGajih?.tipeKomisi === 2 && controller.komisiDanGajih?.komisiPenjualan === '2' ?
+                    <ITextFieldDefault type = { 'text' }
+                                       label = { 'Nominal' }
+                                       onEnter = { 'next' }
+                                       value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih.nilaiKomisi.toString() ) ) }
+                                       onChange = { ( value ) => {
+                                           controller.setKomisiDanGajih( ( prevState ) => {
+                                               return {
+                                                   ...prevState,
+                                                   nilaiKomisi : Number( value.target.value )
+                                               } as InterfaceKomisiDanGajih
+                                           } )
+                                       } }/> : null
             }
             <ITextFieldDefault type = { 'text' }
                                label = { 'Gajih Pokok*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.gajiPokok }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.gajiPokok ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           gajiPokok : value.target.value
+                                           gajiPokok : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Tunjangan Jabatan*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.tunjanganJabatan }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.tunjanganJabatan ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           tunjanganJabatan : value.target.value
+                                           tunjanganJabatan : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Kesehatan*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.kesehatan }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.kesehatan ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           kesehatan : value.target.value
+                                           kesehatan : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Transport*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.transport }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.transport ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           transport : value.target.value
+                                           transport : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Uang Harian*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.uangHarian }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.uangHarian ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           uangHarian : value.target.value
+                                           uangHarian : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>

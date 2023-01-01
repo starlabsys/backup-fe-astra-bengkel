@@ -2,6 +2,7 @@ import { InterfacePropsDropDown } from "../../../../component/ITextField/IDropDo
 
 
 export interface InterfaceAddDataMekanik {
+    id? : number;
     kodeMekanik : string;
     statusMekanik : boolean;
     namaMekanik : string;

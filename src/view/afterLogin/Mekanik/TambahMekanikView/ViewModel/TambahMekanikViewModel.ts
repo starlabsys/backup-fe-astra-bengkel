@@ -9,6 +9,8 @@ import { InterfaceStatusKaryawan } from "../../interface/InterfaceStatusKaryawan
 import { InterfaceKomisiDanGajih } from "../../interface/InterfaceKomisiDanGajih";
 import { InterfaceBiodataMekanik } from "../../interface/InterfaceBiodataMekanik";
 import { ListLevelTraining } from "../../../../../domain/models/MasterDropDown/ModelListTraining";
+import MekanikRepository from "../../../../../domain/repository/mekanik/MekanikRepository";
+import Currency from "../../../../../utils/format/currency";
 
 
 const TambahMekanikViewModel = () => {
@@ -162,7 +164,7 @@ const TambahMekanikViewModel = () => {
             aktif : dataMekanik?.statusMekanik ?? true,
             namaKaryawan : dataMekanik?.namaMekanik ?? "",
             alamat : dataMekanik?.alamatMekanik ?? "",
-            provinsi : Number( dataMekanik?.provinsiMekanik?.id ),
+            provinsi : Number( dataMekanik?.provinsiMekanik?.id ?? 0 ),
             kabupaten : dataMekanik?.kabupatenMekanik?.name ?? "",
             kecamatan : dataMekanik?.kecamatanMekanik?.name ?? "",
             kelurahan : dataMekanik?.kelurahanMekanik?.name ?? "",
@@ -174,41 +176,41 @@ const TambahMekanikViewModel = () => {
             kTP : biodata?.ktpMekanik ?? "",
             tempatLahir : biodata?.tempatLahirMekanik ?? "",
             tanggalLahir : biodata?.tanggalLahirMekanik ?? "",
-            jenisKelamin : biodata?.genderMekanik === 'Laki-laki' ? 'L' : biodata?.genderMekanik === 'Perempuan' ? 'P' : '',
-            agama : Number( biodata?.agamaMekanik?.id ),
+            jenisKelamin : biodata?.genderMekanik === 'Laki-Laki' ? 'L' : biodata?.genderMekanik === 'Perempuan' ? 'P' : '',
+            agama : Number( biodata?.agamaMekanik?.id ?? '0' ),
             berlakuKTP : biodata?.berlakuHinggaMekanik ?? "",
             statusKawin : biodata?.statusKawinMekanik === 'Kawin' ? 0 : biodata?.statusKawinMekanik === 'Tidak Kawin' ? 1 : 0,
-            kebangsaan : biodata?.kebangsaanMekanik === 'WNI' ? 0 : biodata?.kebangsaanMekanik === 'WNA' ? 1 : 0,
-            statusKaryawan : statusKaryawan?.statusKaryawan === 'Tetap' ? 0 : statusKaryawan?.statusKaryawan === 'Kontrak' ? 1 : 0,
+            kebangsaan : biodata?.kebangsaanMekanik === 'WNI' ? 1 : biodata?.kebangsaanMekanik === 'WNA' ? 2 : 0,
+            statusKaryawan : statusKaryawan?.statusKaryawan === 'Tetap' ? 0 : statusKaryawan?.statusKaryawan === 'Tidak Tetap' ? 1 : 0,
             nik : statusKaryawan?.hondaId ?? "",
             tanggalMasuk : statusKaryawan?.tanggalMasuk ?? "",
             tanggalBerhenti : statusKaryawan?.tanggalKeluar ?? "",
-            statusPIT : statusKaryawan?.statusPit === 'PIT' ? 0 : statusKaryawan?.statusPit === 'Non PIT' ? 1 : 0,
+            statusPIT : statusKaryawan?.statusPit === 'PIT' ? 1 : statusKaryawan?.statusPit === 'Non PIT' ? 0 : 0,
             listPayroll : [
                 {
-                    payrollID : 21,
+                    payrollID : 0,
                     gaji : "Gaji Pokok",
-                    nilaiGaji : Number( komisiDanGajih?.gajiPokok ?? 0 ),
+                    nilaiGaji : Number( Currency.idrToString( komisiDanGajih?.gajiPokok ?? '0' ) ),
                 },
                 {
-                    payrollID : 22,
+                    payrollID : 0,
                     gaji : "Tunjangan Jabatan",
-                    nilaiGaji : Number( komisiDanGajih?.tunjanganJabatan ?? 0 ),
+                    nilaiGaji : Number( Currency.idrToString( komisiDanGajih?.tunjanganJabatan ?? '0' ) ),
                 },
                 {
-                    payrollID : 23,
+                    payrollID : 0,
                     gaji : "Tunjangan Kesehatan",
-                    nilaiGaji : Number( komisiDanGajih?.kesehatan ?? 0 ),
+                    nilaiGaji : Number( Currency.idrToString( komisiDanGajih?.kesehatan ?? '0' ) ),
                 },
                 {
-                    payrollID : 24,
+                    payrollID : 0,
                     gaji : "Tunjangan Transport",
-                    nilaiGaji : Number( komisiDanGajih?.transport ?? 0 ),
+                    nilaiGaji : Number( Currency.idrToString( komisiDanGajih?.transport ?? '0' ) ),
                 },
                 {
-                    payrollID : 25,
+                    payrollID : 0,
                     gaji : "Uang Harian",
-                    nilaiGaji : Number( komisiDanGajih?.uangHarian ?? 0 ),
+                    nilaiGaji : Number( Currency.idrToString( komisiDanGajih?.uangHarian ?? '0' ) ),
                 },
             ],
             listTrainingLevel : statusKaryawan?.levelTraining?.map( ( item : InterfacePropsDropDown ) : InterfaceListTrainingLevel => {
@@ -235,7 +237,7 @@ const TambahMekanikViewModel = () => {
             nilaiKomisi : komisiDanGajih?.nilaiKomisi ?? 0,
         }
 
-        console.log( sendData );
+        const resp = await MekanikRepository.postData( context, sendData );
     }
 
 

@@ -32,7 +32,7 @@ export interface InterfaceAddMekanik {
     nilaiKomisi : number,
     statusPIT : number,
     listJabatan : InterfaceListJabatan[],
-    listTrainingLevel : [],
+    listTrainingLevel : InterfaceListTrainingLevel[],
     aktif : boolean,
     listPayroll : InterfaceListPayRoll[],
     nik : string

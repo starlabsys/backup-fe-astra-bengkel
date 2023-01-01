@@ -13,6 +13,7 @@ import { InterfaceStatusKaryawan } from "../interface/InterfaceStatusKaryawan";
 import { InterfaceBiodataMekanik } from "../interface/InterfaceBiodataMekanik";
 import IDropDownMultiple from "../../../../component/ITextField/IDropDownMultiple";
 import { InterfaceKomisiDanGajih } from "../interface/InterfaceKomisiDanGajih";
+import Currency from "../../../../utils/format/currency";
 
 
 export const TambahMekanikView = () => {
@@ -484,7 +485,7 @@ export const TambahMekanikView = () => {
                     <IRadioSingle status = { controller.komisiDanGajih?.komisiPenjualan === '1' }
                                   error = { false }
                                   label = { '' }
-                                  value1 = { 'Semua Barang dan Jasa' }
+                                  value1 = { 'Default Master Data' }
                                   setStatus = { () => {
                                       controller.setKomisiDanGajih( ( prevState ) => {
                                           return {
@@ -496,7 +497,7 @@ export const TambahMekanikView = () => {
                     <IRadioSingle status = { controller.komisiDanGajih?.komisiPenjualan === '2' }
                                   error = { false }
                                   label = { '' }
-                                  value1 = { 'Default Master Data' }
+                                  value1 = { 'Semua Barang dan Jasa' }
                                   setStatus = { () => {
                                       controller.setKomisiDanGajih( ( prevState ) => {
                                           return {
@@ -578,7 +579,7 @@ export const TambahMekanikView = () => {
                 controller.komisiDanGajih?.tipeKomisi === 2 ? <ITextFieldDefault type = { 'text' }
                                                                                  label = { 'Nominal' }
                                                                                  onEnter = { 'next' }
-                                                                                 value = { controller.komisiDanGajih.nilaiKomisi }
+                                                                                 value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih.nilaiKomisi.toString() ) ) }
                                                                                  onChange = { ( value ) => {
                                                                                      controller.setKomisiDanGajih( ( prevState ) => {
                                                                                          return {
@@ -591,60 +592,60 @@ export const TambahMekanikView = () => {
             <ITextFieldDefault type = { 'text' }
                                label = { 'Gajih Pokok*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.gajiPokok }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.gajiPokok ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           gajiPokok : value.target.value
+                                           gajiPokok : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Tunjangan Jabatan*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.tunjanganJabatan }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.tunjanganJabatan ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           tunjanganJabatan : value.target.value
+                                           tunjanganJabatan : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Kesehatan*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.kesehatan }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.kesehatan ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           kesehatan : value.target.value
+                                           kesehatan : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Transport*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.transport }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.transport ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           transport : value.target.value
+                                           transport : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>
             <ITextFieldDefault type = { 'text' }
                                label = { 'Uang Harian*' }
                                onEnter = { 'next' }
-                               value = { controller.komisiDanGajih?.uangHarian }
+                               value = { Currency.stringToIdr( Currency.idrToString( controller.komisiDanGajih?.uangHarian ?? '0' ) ) }
                                onChange = { ( value ) => {
                                    controller.setKomisiDanGajih( ( prevState ) => {
                                        return {
                                            ...prevState,
-                                           uangHarian : value.target.value
+                                           uangHarian : Currency.stringToIdr( value.target.value )
                                        } as InterfaceKomisiDanGajih
                                    } )
                                } }/>

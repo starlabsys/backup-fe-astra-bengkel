@@ -18,7 +18,7 @@ class MekanikRepository {
         return null;
     }
 
-    public postData = async ( context : InterfaceError, props : InterfaceAddMekanik ) => {
+    public postData = async ( context : InterfaceError, props : InterfaceSaveDataMekanik ) => {
         const resp = await post( context, {
             url : '/mekanik/store',
             reqBody : props

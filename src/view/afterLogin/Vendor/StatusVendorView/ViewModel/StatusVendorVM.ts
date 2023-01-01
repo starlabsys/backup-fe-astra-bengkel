@@ -1,20 +1,23 @@
-import DropDownRepository from "../../../../../domain/repository/parameter/dropDown/DropDownRepository";
 import { useContext, useEffect, useState } from "react";
 import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
 import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
 import { InterfacePropsDropDown } from "../../../../../component/ITextField/IDropDown";
-import { ListDropDown } from "../../../../../domain/models/MasterDropDown/ModelGroupMasterDropDown";
 import {
     InterfaceAddDataKontakPerson,
     InterfaceAddDataVendor,
     InterfaceSyaratKredit
 } from "../../interface/InterfaceAddDataVendor";
-import VendorRepository from "../../../../../domain/repository/vendor/VendorRepository";
+import DropDownRepository from "../../../../../domain/repository/parameter/dropDown/DropDownRepository";
+import { ListDropDown } from "../../../../../domain/models/MasterDropDown/ModelGroupMasterDropDown";
 import { InterfaceAddVendor } from "../../../../../domain/repository/vendor/interface/InterfaceAddVendor";
 import Currency from "../../../../../utils/format/currency";
+import VendorRepository from "../../../../../domain/repository/vendor/VendorRepository";
+import { ListOfVendor } from "../../../../../domain/models/Vendor/ModelListVendor";
+import { useRouter } from "next/router";
 
 
-export const TambahVendorVM = () => {
+export const StatusVendorVM = ( dataID : string ) => {
+    const route = useRouter();
     const context = useContext( IAlertDialogContext );
     const loadingLottie = useContext( ILoadingContext );
 
@@ -27,8 +30,10 @@ export const TambahVendorVM = () => {
     const [ kontakPerson, setKontakPerson ] = useState<InterfaceAddDataKontakPerson>( {} as InterfaceAddDataKontakPerson );
     const [ syaratKredit, setSyaratKredit ] = useState<InterfaceSyaratKredit>( {} as InterfaceSyaratKredit );
 
-    const getDataArea = async () => {
-        loadingLottie.openLoading( true );
+    const [ dataSendVendor, setDataSendVendor ] = useState<ListOfVendor>( {} as ListOfVendor );
+
+    const getDataArea = async () : Promise<InterfacePropsDropDown[]> => {
+        // loadingLottie.openLoading( true );
         const resp = await DropDownRepository.getDropDown( context, [
             {
                 lastSyncTime : "1900-01-01 00:00:00",
@@ -55,12 +60,20 @@ export const TambahVendorVM = () => {
                     value : item.value,
                 }
             } ) );
+            return resp.data.province.map( ( item : any ) : InterfacePropsDropDown => {
+                return {
+                    id : item.id,
+                    name : item.text,
+                    value : item.value,
+                }
+            } )
         }
-        loadingLottie.openLoading( false );
+        return [];
+        // loadingLottie.openLoading( false );
     }
 
-    const getAreaDetail = async ( type : number, nilai : number | string ) => {
-        loadingLottie.openLoading( true );
+    const getAreaDetail = async ( type : number, nilai : number | string ) : Promise<InterfacePropsDropDown[]> => {
+        // loadingLottie.openLoading( true );
         const resp = await DropDownRepository.getGroup( context, [
             {
                 tipe : type,
@@ -77,6 +90,13 @@ export const TambahVendorVM = () => {
                         value : item.nilai,
                     }
                 } ) );
+                return resp.data.listDropDown.map( ( item : ListDropDown, index ) : InterfacePropsDropDown => {
+                    return {
+                        id : index,
+                        name : item.label,
+                        value : item.nilai,
+                    }
+                } )
             }
             if ( type === 6 ) {
                 setListKec( resp.data.listDropDown.map( ( item : ListDropDown, index ) : InterfacePropsDropDown => {
@@ -86,6 +106,13 @@ export const TambahVendorVM = () => {
                         value : item.nilai,
                     }
                 } ) );
+                return resp.data.listDropDown.map( ( item : ListDropDown, index ) : InterfacePropsDropDown => {
+                    return {
+                        id : index,
+                        name : item.label,
+                        value : item.nilai,
+                    }
+                } )
             }
             if ( type === 7 ) {
                 setListKel( resp.data.listDropDown.map( ( item : ListDropDown, index ) : InterfacePropsDropDown => {
@@ -96,6 +123,73 @@ export const TambahVendorVM = () => {
                         add : item.additionalNilai
                     }
                 } ) );
+                return resp.data.listDropDown.map( ( item : ListDropDown, index ) : InterfacePropsDropDown => {
+                    return {
+                        id : index,
+                        name : item.label,
+                        value : item.nilai,
+                    }
+                } )
+            }
+        }
+        return [];
+
+    }
+
+    const getDetailVendor = async ( dataID : string ) => {
+        loadingLottie.openLoading( true );
+        const resp = await VendorRepository.getVendor( context, {
+            action : 1,
+            kodeVendor : dataID,
+            namaVendor : '',
+            alamat : "",
+            kota : "",
+            pageNumber : 1,
+            pageSize : 10,
+            totalRow : 0,
+            sortColumn : "ID",
+            sortDirection : 0
+        } )
+        if ( resp !== null ) {
+            if ( resp.data.listOfVendor.length > 0 ) {
+                const dataVendor : ListOfVendor = resp.data.listOfVendor[ 0 ]
+                const dataProv = await getDataArea()
+                const dataKab = await getAreaDetail( 5, dataVendor.area.provinceID )
+                const dataKec = await getAreaDetail( 6, dataVendor.area.kabupaten )
+                const dataKel = await getAreaDetail( 7, dataVendor.area.kecamatan )
+                setDataSendVendor( dataVendor );
+                setVendor( {
+                    id : dataVendor.id,
+                    status : dataVendor.aktif,
+                    email : dataVendor.email,
+                    noHp : dataVendor.noHp,
+                    noTelp : dataVendor.noTelepon,
+                    kodePos : dataVendor.area.zipCode,
+                    kelurahan : dataKel.find( ( item ) => item.value === dataVendor.area.kelurahan ) ?? {} as InterfacePropsDropDown,
+                    kecamatan : dataKec.find( ( item ) => item.value === dataVendor.area.kecamatan ) ?? {} as InterfacePropsDropDown,
+                    kabupaten : dataKab.find( ( item ) => item.value === dataVendor.area.kabupaten ) ?? {} as InterfacePropsDropDown,
+                    namaVendor : dataVendor.namaVendor,
+                    alamat : dataVendor.alamat,
+                    provinsi : dataProv.find( ( item : InterfacePropsDropDown ) => item.id ===
+                        dataVendor.area.provinceID ) ?? {} as InterfacePropsDropDown,
+                    kodeVendor : dataVendor.kodeVendor,
+                    website : dataVendor.website,
+                    catatan : dataVendor.catatan,
+                } )
+                setKontakPerson( {
+                    jabatan : dataVendor.jabatanKontakPerson,
+                    email : dataVendor.emailKontakPerson,
+                    noHp : dataVendor.noHpKontakPerson,
+                    noTelp : dataVendor.noteleponKontakPerson,
+                    nama : dataVendor.namaKontakPerson,
+                } )
+                setSyaratKredit( {
+                    tempo : dataVendor.tOP.toString(),
+                    limit : dataVendor.limitKredit.toString(),
+                } )
+            }
+            else {
+                route.back();
             }
         }
         loadingLottie.openLoading( false );
@@ -107,7 +201,7 @@ export const TambahVendorVM = () => {
             kode : "",
             alamat : "Vendor",
             kota : "",
-            id : 0,
+            id : vendor.id ?? 0,
             kodeVendor : vendor?.kodeVendor ?? '',
             namaVendor : vendor?.namaVendor ?? '',
             provinsi : vendor?.provinsi?.name ?? '',
@@ -131,7 +225,7 @@ export const TambahVendorVM = () => {
             status : vendor.status ? 'Aktif' : !vendor.status ? 'Tidak Aktif' : '',
             gridProps : '',
             aktif : vendor.status ? true : vendor.status,
-            action : 0,
+            action : 1,
             tOP : syaratKredit?.tempo ?? '0',
             limitKredit : Currency.idrToString( syaratKredit?.limit ?? '0' ),
         }
@@ -143,7 +237,11 @@ export const TambahVendorVM = () => {
     }
 
     useEffect( () => {
+        if ( dataID === undefined ) {
+            route.back();
+        }
         getDataArea();
+        getDetailVendor( dataID );
         return () => {
         };
     }, [] );
@@ -155,4 +253,5 @@ export const TambahVendorVM = () => {
         vendor, setVendor, kontakPerson, setKontakPerson, syaratKredit, setSyaratKredit,
         sendData
     }
+
 }

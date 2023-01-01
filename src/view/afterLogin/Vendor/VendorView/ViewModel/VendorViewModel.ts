@@ -54,12 +54,12 @@ export const VendorViewModel = () => {
 
     const [ listVendor, setListVendor ] = useState<InterfaceListVendor[]>( [] );
 
-    const getListVendor = async ( kode : string ) => {
+    const getListVendor = async ( nama : string ) => {
         loadingLottie.openLoading( true );
         const resp = await VendorRepository.getVendor( context, {
             action : 1,
             kodeVendor : '',
-            namaVendor : kode,
+            namaVendor : nama,
             alamat : "",
             kota : "",
             pageNumber : 1,

@@ -22,35 +22,12 @@ export interface InterfaceAddVendor {
     noHpKontakPerson : string,
     emailKontakPerson : string,
     jabatanKontakPerson : string,
-    tOP : number,
-    limitKredit : number,
+    tOP : string,
+    limitKredit : string,
     komisiPenjualan : string,
     statusCheckBox : boolean,
-    status : boolean,
-    gridProps : {
-        pageSize : number,
-        skip : number,
-        totalRecords : number
-    },
-    area : {
-        id : number,
-        provinceID : number,
-        cityID : number,
-        zipCode : string,
-        kelurahan : string,
-        kecamatan : string,
-        kabupaten : string,
-        ahmCode : string,
-        bpsCode : string,
-        rowStatus : number
-    },
-    province : {
-        id : number,
-        value : string,
-        provinceCode : string,
-        text : string
-    },
-    noFaks : string,
-    aktif : boolean,
+    status : string,
+    gridProps : string,
     action : number,
+    aktif : boolean
 }

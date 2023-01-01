@@ -1,6 +1,7 @@
 class FormatNumber {
     public numberOnly = ( value : string ) : string => {
-        return value.replace( /[^0-9]/g, '' )
+        const dataValue = value ?? ''
+        return dataValue.replace( /[^0-9]/g, '' )
     }
 }
 

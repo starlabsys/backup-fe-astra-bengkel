@@ -3,6 +3,7 @@ import { ComponentIndexSearch } from "../../../component/ComponentIndexSearch";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { useRouter } from "next/router";
 import { VendorViewModel } from "./ViewModel/VendorViewModel";
+import { InterfaceListVendor } from "../interface/InterfaceListVendor";
 
 
 export const VendorView = () => {
@@ -18,8 +19,8 @@ export const VendorView = () => {
                                      }
                                  } }
                                  search = { {
-                                     label : 'Cari',
-                                     placeholder : 'Cari Vendor',
+                                     label : 'Cari Nama Vendor',
+                                     placeholder : 'Cari Nama Vendor',
                                      onChange : ( value ) => {
                                          controller.getListVendor( value.target.value );
                                      }
@@ -34,7 +35,15 @@ export const VendorView = () => {
                            changePage = { index => {
                                console.log( index )
                            } }
-                           updated = { ( data ) => {
+                           info = { ( data : InterfaceListVendor ) => {
+                               route.push( {
+                                   pathname : `/master-data/vendor/${ data.kodeVendor }/info`,
+                               } )
+                           } }
+                           updated = { ( data : InterfaceListVendor ) => {
+                               route.push( {
+                                   pathname : `/master-data/vendor/${ data.kodeVendor }/edit`,
+                               } )
                            } }
                            header = { controller.header }
                            data = { controller.listVendor }/>

@@ -1,21 +1,25 @@
+import { useRouter } from "next/router";
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import IButton from "../../../../component/IButton/IButton";
+import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
 import { IRadioSingle } from "../../../../component/ITextField/IRadio";
 import IDropDown from "../../../../component/ITextField/IDropDown";
 import ITextArea from "../../../../component/ITextField/ITextArea";
-import ITitleMd from "../../../../component/ITitle/ITitleMd";
-import IButton from "../../../../component/IButton/IButton";
-import { TambahVendorVM } from "./ViewModel/TambahVendorVM";
-import { useRouter } from "next/router";
 import Currency from "../../../../utils/format/currency";
 import FormatNumber from "../../../../utils/format/formatNumber";
+import { StatusVendorVM } from "./ViewModel/StatusVendorVM";
 
 
-export const TambahVendorView = () => {
+export const StatusVendorView = () => {
     const routes = useRouter();
-    const controller = TambahVendorVM();
+    const { id, status } = routes.query;
+    const idString = id as string;
+    const statusString = status as string;
+    const controller = StatusVendorVM( idString );
     return <div className = { `grid gap-5` }>
-        <IBreadcrumbs title = { 'Tambah Vendor' } subtitle = { 'master-data/vendor/tambah-vendor' }/>
+        <IBreadcrumbs title = { statusString === 'edit' ? 'Edit Vendor' : 'Info Vendor' }
+                      subtitle = { 'master-data/vendor/' + statusString }/>
         { vendor() }
         { contactPerson() }
         { syaratPembelianKredit() }
@@ -85,6 +89,7 @@ export const TambahVendorView = () => {
                            error = { false }
                            label = { 'Provinsi *' }
                            disabled = { true }
+                           value = { controller.vendor?.provinsi?.name }
                            data = { controller.listProvince }
                            onEnter = { "next" }
                            onValueChange = { () => {
@@ -101,6 +106,7 @@ export const TambahVendorView = () => {
                 <IDropDown type = { "text" }
                            error = { false }
                            disabled = { true }
+                           value = { controller.vendor?.kabupaten?.name }
                            label = { 'Kota/Kabupaten *' }
                            data = { controller.listKab }
                            onEnter = { "next" }
@@ -119,6 +125,7 @@ export const TambahVendorView = () => {
                            error = { false }
                            disabled = { true }
                            label = { 'Kecamatan *' }
+                           value = { controller.vendor?.kecamatan?.name }
                            data = { controller.listKec }
                            onEnter = { "next" }
                            onValueChange = { () => {
@@ -136,6 +143,7 @@ export const TambahVendorView = () => {
                            error = { false }
                            label = { 'Kelurahan *' }
                            disabled = { true }
+                           value = { controller.vendor?.kelurahan?.name }
                            data = { controller.listKel }
                            onEnter = { "next" }
                            onValueChange = { () => {
@@ -316,7 +324,7 @@ export const TambahVendorView = () => {
                                    label = { 'Tempo' }
                                    placeholder = { 'Hari' }
                                    onEnter = { 'next' }
-                                   value = { undefined }/>
+                                   value = { controller.syaratKredit.tempo }/>
                 <ITextFieldDefault type = { 'text' }
                                    onChange = { ( value ) => {
                                        controller.setSyaratKredit( ( prevState ) => {

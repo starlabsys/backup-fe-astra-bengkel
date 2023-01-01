@@ -4,13 +4,15 @@ import { InterfacePatchSparePart } from "./interfaces/InterfacePatchSparePart";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 import { InterfaceGetSparepart } from "./interfaces/InterfaceGetSparepart";
 import { ConvertModelListSparePart, ModelListSparePart } from "../../models/SparePart/ModelListSparePart";
+import { InterfaceGetDetailSparePart } from "./interfaces/InterfaceGetDetailSparePart";
+import { ConvertModelDetailSparePart, ModelDetailSparePart } from "../../models/SparePart/ModelDetailSparePart";
 
 
 class SparepartRepository {
 
     public add = async ( context : InterfaceError, props : InterfaceAddSparePart ) : Promise<any> => {
         return await post( context, {
-            url : "/parts/store",
+            url : "/sparepart/add",
             reqBody : props
         } )
     }
@@ -23,6 +25,17 @@ class SparepartRepository {
 
         if ( resp !== null ) {
             return ConvertModelListSparePart.toModelListSparePart( resp );
+        }
+        return null;
+    }
+
+    public detail = async ( context : InterfaceError, props : InterfaceGetDetailSparePart ) : Promise<ModelDetailSparePart | null> => {
+        const resp = await post( context, {
+            url : '/sparepart/detail',
+            reqBody : props
+        } )
+        if ( resp !== null ) {
+            return ConvertModelDetailSparePart.toModelDetailSparePart( resp );
         }
         return null;
     }

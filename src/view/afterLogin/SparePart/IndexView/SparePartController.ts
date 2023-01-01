@@ -4,6 +4,7 @@ import SparePartServices from "../../../../domain/services/SparePartServices/Spa
 import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 import SparepartRepository from "../../../../domain/repository/sparepart/SparepartRepository";
 import { ListofSparePart } from "../../../../domain/models/SparePart/ModelListSparePart";
+import Currency from "../../../../utils/format/currency";
 
 
 interface InterfaceGetDataSparepart {
@@ -68,10 +69,10 @@ const SparePartController = () => {
                     code : item.kodeSparepart,
                     name : item.namaSparepart,
                     namaLokal : item.namaLokalSparepart,
-                    price : item.hargaLokal,
+                    price : Currency.stringToIdr( item.hargaLokal.toString() ),
                     status : item.aktif,
                     qty : item.stok,
-                    priceNasional : item.hargaNasional,
+                    priceNasional : Currency.stringToIdr( item.hargaNasional.toString() ),
                     group : item.grupSparepart,
                 }
             } ) );

@@ -51,11 +51,14 @@ const SparePartView = () => {
                                     controller.setPage( data );
                                     controller.getSparepart( data, '' );
                                 } }
-                                updated = { () => {
+                                updated = { ( data : InterfaceSparePart ) => {
+                                    route.push( {
+                                        pathname : '/master-data/sparepart/' + data.id + '/edit',
+                                    } )
                                 } }
                                 info = { ( data ) => {
                                     route.push( {
-                                        pathname : '/master-data/sparepart/' + data.id + '/Info',
+                                        pathname : '/master-data/sparepart/' + data.id + '/info',
                                     } )
                                 } }
                     />

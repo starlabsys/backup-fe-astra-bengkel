@@ -3,6 +3,8 @@ import { post } from "../../../../core/api/api";
 import { InterfaceListDropDown, InterfaceSyncMaster } from "./interface/InterfaceListDropDown";
 import { ConvertModelDropDownJasa, ModelDropDownJasa } from "../../../models/MasterDropDown/ModelMasterDropDown";
 import { ConvertModelGroupDropDown, ModelGroupDropDown } from "../../../models/MasterDropDown/ModelGroupMasterDropDown";
+import { InterfaceTraining } from "./interface/InterfaceTraining";
+import { ConvertModelListTraining, ModelListTraining } from "../../../models/MasterDropDown/ModelListTraining";
 
 
 class DropDownRepository {
@@ -35,6 +37,18 @@ class DropDownRepository {
 
         if ( resp !== null ) {
             return ConvertModelGroupDropDown.toModelGroupDropDown( resp );
+        }
+        return null;
+    }
+
+    public listTraining = async ( context : InterfaceError, props : InterfaceTraining[] ) : Promise<ModelListTraining | null> => {
+        const resp = await post( context, {
+            url : '/master/list-training',
+            reqBody : props
+        } )
+
+        if ( resp !== null ) {
+            return ConvertModelListTraining.toModelListTraining( resp );
         }
         return null;
     }

@@ -83,7 +83,7 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.errorResponse( context, { message : data.message } );
         }
         if ( error.response?.status === 401 ) {
-            ErrorHandler.errorResponse( context, { message : 'Error, Tambah data' } );
+            ErrorHandler.errorResponse( context, { message : data.message } );
         }
         if ( error.response?.status === 403 ) {
             ErrorHandler.notAuthorized( context, { message : data.message.name } );

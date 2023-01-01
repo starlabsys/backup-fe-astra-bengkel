@@ -5,8 +5,8 @@ export interface InterfaceSparePart {
     namaLokal : string
     group : string
     qty : number
-    price : number
+    price : string
     status : boolean
-    priceNasional : number
+    priceNasional : string
     description? : string
 }

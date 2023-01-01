@@ -1,25 +1,32 @@
+import { useRouter } from "next/router";
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
 import ITitleMd from "../../../../component/ITitle/ITitleMd";
+import IButton from "../../../../component/IButton/IButton";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
 import { IRadio, IRadioSingle } from "../../../../component/ITextField/IRadio";
+import { InterfaceAddDataMekanik } from "../interface/InterfaceAddDataMekanik";
 import IDropDown from "../../../../component/ITextField/IDropDown";
 import ITextArea from "../../../../component/ITextField/ITextArea";
-import { label4 } from "../../../../component/styles/Style";
-import IButton from "../../../../component/IButton/IButton";
-import { useRouter } from "next/router";
-import TambahMekanikViewModel from "./ViewModel/TambahMekanikViewModel";
-import { InterfaceAddDataMekanik } from "../interface/InterfaceAddDataMekanik";
-import { InterfaceStatusKaryawan } from "../interface/InterfaceStatusKaryawan";
 import { InterfaceBiodataMekanik } from "../interface/InterfaceBiodataMekanik";
+import { InterfaceStatusKaryawan } from "../interface/InterfaceStatusKaryawan";
 import IDropDownMultiple from "../../../../component/ITextField/IDropDownMultiple";
+import { label4 } from "../../../../component/styles/Style";
 import { InterfaceKomisiDanGajih } from "../interface/InterfaceKomisiDanGajih";
+import TambahMekanikViewModel from "../TambahMekanikView/ViewModel/TambahMekanikViewModel";
+import { StatusMekanikVM } from "./ViewModel/StatusMekanikVM";
 
 
-export const TambahMekanikView = () => {
-    const route = useRouter();
-    const controller = TambahMekanikViewModel();
+export const StatusMekanikView = () => {
+    const route = useRouter()
+    const { status, id } = route.query
+    const statusData = status as string
+    const idData = id as string
+
+    const controller = StatusMekanikVM( idData );
+
     return <div className = { `grid gap-5` }>
-        <IBreadcrumbs title = { 'Tambah Karyawan' } subtitle = { 'master-data/karyawan/tambah-karyawan' }/>
+        <IBreadcrumbs title = { statusData === 'edit' ? 'Edit Karyawan' : statusData === 'info' ? 'Info Karyawan' : '' }
+                      subtitle = { 'master-data/karyawan/' + statusData }/>
         <div className = { `p-5 grid gap-5 bg-white rounded-lg` }>
             <ITitleMd title = { 'Karyawan' }/>
             { tambahKaryawan() }
@@ -42,11 +49,13 @@ export const TambahMekanikView = () => {
             } }>
                 Kembali
             </IButton>
-            <IButton status = { 'success' } onClick = { () => {
-                controller.saveData()
-            } }>
-                Simpan
-            </IButton>
+            {
+                statusData === 'edit' ? <IButton status = { 'success' } onClick = { () => {
+                    controller.saveData()
+                } }>
+                    Simpan
+                </IButton> : null
+            }
         </div>
     </div>
 

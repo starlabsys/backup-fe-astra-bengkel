@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InterfaceDropDown } from "./interface/InterfaceDropDown";
 import { Input } from "@nextui-org/react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
@@ -14,6 +14,15 @@ export interface InterfacePropsDropDown {
 const IDropDown = ( props : InterfaceDropDown ) => {
     const [ open, setOpen ] = useState( false );
     const [ value, setValue ] = useState<string | undefined>( undefined );
+    const [ listData, setListData ] = useState<InterfacePropsDropDown[]>( props.data );
+    // useEffect( () => {
+    //     setListData( props.data );
+    //     return () => {
+    //
+    //     };
+    // }, [ listData ] );
+
+
     return (
         <div className = { `relative rounded-md w-full grid gap-2` }>
             <div
@@ -29,8 +38,9 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     label = { props.label }
                     required = { props.required }
                     onClick = { () => {
+                        setListData( props.data );
                         setValue( undefined );
-                        setOpen( true )
+                        setOpen( !open )
                     } }
                     readOnly = { props.disabled }
                     color = { props.error ? 'error' : 'primary' }
@@ -40,6 +50,7 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                     type = { props.type }
                     contentClickable = { true }
                     onContentClick = { ( key, e ) => {
+                        console.log( listData );
                         if ( !props.disabled ) {
                             if ( key === 'right' ) {
                                 setOpen( !open );
@@ -47,13 +58,20 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                         }
                     } }
                     onChange = { ( value ) => {
-                        if ( value.target.value === "" ) {
-                            setValue( undefined );
-                            setOpen( false );
+                        if ( value.target.value !== '' ) {
+                            setListData( props.data.filter( ( item ) => item.name.toLowerCase().includes( value.target.value.toLowerCase() ) ) );
                         }
                         else {
-                            setOpen( true );
+                            setListData( props.data );
                         }
+                        // if ( value.target.value === "" ) {
+                        //     setValue( undefined );
+                        //     setOpen( false );
+                        // }
+                        // else {
+                        //     setOpen( true );
+                        //
+                        // }
                         if ( props.onValueChange ) {
                             props.onValueChange( value.target.value );
                         }
@@ -73,14 +91,14 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                             zIndex : 9999
                         } }
                     >
-                        { props.children ?? props.data.map( ( data, index ) => {
+                        { props.children ?? listData.map( ( data, index ) => {
                             return (
                                 <div
                                     key = { index }
                                     onClick = { () => {
                                         setOpen( false );
                                         setValue( data.name );
-                                        return props.onValue( data );
+                                        return props.onValue ? props.onValue( data ) : null;
                                     } }
                                     className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }
                                 >

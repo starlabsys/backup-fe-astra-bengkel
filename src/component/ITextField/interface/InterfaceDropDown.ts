@@ -16,7 +16,8 @@ export interface InterfaceDropDown {
     data : InterfacePropsDropDown[]
     onEnter : "search" | "enter" | "done" | "go" | "next" | "previous" | "send" | undefined;
     onValueChange? : ( value : string ) => void;
-    onValue : ( value : InterfacePropsDropDown ) => void;
+    onValue? : ( value : InterfacePropsDropDown ) => void;
+    onValueMultiple? : ( value : InterfacePropsDropDown[] ) => void;
     activeAddOn? : boolean;
     onClickAddOn? : () => void;
     value? : string | undefined;

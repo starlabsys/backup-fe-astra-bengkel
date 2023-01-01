@@ -1,4 +1,4 @@
-export interface InterfaceAddSparePart {
+export interface InterfaceSendDataSparePart {
     action : number,
     id : number,
     namaSparepart : string,

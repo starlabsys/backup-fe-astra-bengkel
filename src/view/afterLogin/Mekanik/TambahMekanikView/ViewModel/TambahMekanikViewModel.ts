@@ -11,6 +11,11 @@ import { InterfaceBiodataMekanik } from "../../interface/InterfaceBiodataMekanik
 import { ListLevelTraining } from "../../../../../domain/models/MasterDropDown/ModelListTraining";
 import MekanikRepository from "../../../../../domain/repository/mekanik/MekanikRepository";
 import Currency from "../../../../../utils/format/currency";
+import {
+    InterfaceListJabatan,
+    InterfaceListTrainingLevel
+} from "../../../../../domain/repository/mekanik/interface/InterfaceAddMekanik";
+import { InterfaceSaveDataMekanik } from "../../interface/InterfaceSaveDataMekanik";
 
 
 const TambahMekanikViewModel = () => {

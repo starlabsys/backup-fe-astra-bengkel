@@ -10,6 +10,7 @@ import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialo
 import { InterfaceCantNull } from "../../interface/InterfaceCantNull";
 import { IToastContext } from "../../../../../context/IToast";
 import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
+import { InterfaceAlamatKirim } from "../../interface/InterfaceAlamatKirim";
 
 
 export const TambahCustomerViewModel = () => {

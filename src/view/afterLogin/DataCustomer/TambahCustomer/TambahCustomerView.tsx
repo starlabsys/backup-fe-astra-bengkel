@@ -13,6 +13,7 @@ import { InterfaceAlamatPajak } from "../interface/InterfaceAlamatPajak";
 import { InterfaceLimitKredit } from "../interface/InterfaceLimitKredit";
 import { InterfaceKontakPerson } from "../interface/InterfaceKontakPerson";
 import { InterfaceCantNull } from "../interface/InterfaceCantNull";
+import { InterfaceAlamatKirim } from "../interface/InterfaceAlamatKirim";
 
 
 export const TambahCustomerView = () => {

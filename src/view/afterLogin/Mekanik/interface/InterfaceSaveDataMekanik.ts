@@ -1,4 +1,4 @@
-interface InterfaceSaveDataMekanik {
+export interface InterfaceSaveDataMekanik {
     action : number,
     id : number,
     kodeKaryawan : string,

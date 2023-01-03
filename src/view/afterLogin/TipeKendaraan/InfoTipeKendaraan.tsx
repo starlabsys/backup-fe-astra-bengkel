@@ -11,7 +11,10 @@ import { ListOfTipeKendaraan } from "../../../domain/models/TipeKendaraan/ModelT
 export const InfoTipeKendaraanView = () => {
     const route = useRouter();
     const { data } = route.query
-    const dataTipeKendaraan = JSON.parse( data as string ) as ListOfTipeKendaraan;
+    let dataTipeKendaraan : any = ''
+    if ( data ) {
+        dataTipeKendaraan = JSON.parse( data as string ) as ListOfTipeKendaraan;
+    }
     return <div className = { `grid gap-5` }>
         <IBreadcrumbs title = { 'Tipe Kendaraan' } subtitle = { `master-data/tipe-kendaraan/edit` }/>
         <div className = { `grid gap-5 bg-white p-5 rounded-lg` }>

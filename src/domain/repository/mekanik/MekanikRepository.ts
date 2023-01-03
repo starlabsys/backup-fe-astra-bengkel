@@ -4,6 +4,7 @@ import { InterfaceMekanik } from "./interface/interfaceMekanik";
 import { InterfaceGetListMekanik } from "./interface/InterfaceGetListMekanik";
 import { ConvertModelListMekanik, ModelListMekanik } from "../../models/Mekanik/ModelListMekanik";
 import { InterfaceAddMekanik } from "./interface/InterfaceAddMekanik";
+import { InterfaceSaveDataMekanik } from "../../../view/afterLogin/Mekanik/interface/InterfaceSaveDataMekanik";
 
 
 class MekanikRepository {

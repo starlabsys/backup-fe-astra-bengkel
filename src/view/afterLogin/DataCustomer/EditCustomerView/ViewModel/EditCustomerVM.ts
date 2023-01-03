@@ -13,6 +13,7 @@ import { InterfacePropsDropDown } from "../../../../../component/ITextField/IDro
 import DropDownRepository from "../../../../../domain/repository/parameter/dropDown/DropDownRepository";
 import Currency from "../../../../../utils/format/currency";
 import { npwpFormat } from "../../../../../utils/format/formatNpwp";
+import { InterfaceAlamatKirim } from "../../interface/InterfaceAlamatKirim";
 
 
 export const EditCustomerVM = ( id : number ) => {

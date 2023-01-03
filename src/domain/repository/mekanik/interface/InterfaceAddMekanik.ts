@@ -38,18 +38,18 @@ export interface InterfaceAddMekanik {
     nik : string
 }
 
-interface InterfaceListPayRoll {
+export interface InterfaceListPayRoll {
     payrollID : number,
     gaji : string,
     nilaiGaji : number
 }
 
-interface InterfaceListJabatan {
+export interface InterfaceListJabatan {
     jabatan : string,
     jabatanID : number
 }
 
-interface InterfaceListTrainingLevel {
+export interface InterfaceListTrainingLevel {
     idLevelTraining : string,
     trainingLevel : null,
     idJabatan : number,

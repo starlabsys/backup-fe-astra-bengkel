@@ -15,6 +15,12 @@ import FormatDate from "../../../../../utils/format/formatDate";
 import { ListJabatan, ListPayroll, ListTraining } from "../../../../../domain/models/Mekanik/ModelListMekanik";
 import Currency from "../../../../../utils/format/currency";
 import { InterfacePayRole } from "../../interface/InterfacePayRole";
+import { InterfaceSaveDataMekanik } from "../../interface/InterfaceSaveDataMekanik";
+import {
+    InterfaceListJabatan,
+    InterfaceListPayRoll,
+    InterfaceListTrainingLevel
+} from "../../../../../domain/repository/mekanik/interface/InterfaceAddMekanik";
 
 
 export const StatusMekanikVM = ( idData : string ) => {
@@ -356,7 +362,7 @@ export const StatusMekanikVM = ( idData : string ) => {
             tanggalMasuk : FormatDate.dateSend( statusKaryawan?.tanggalMasuk ?? "" ),
             tanggalBerhenti : FormatDate.dateSend( statusKaryawan?.tanggalKeluar ?? "" ),
             statusPIT : statusKaryawan?.statusPit === 'PIT' ? 1 : statusKaryawan?.statusPit === 'Non PIT' ? 0 : 0,
-            listPayroll : payRole.map( ( item ) : InterfaceListPayroll => {
+            listPayroll : payRole.map( ( item ) : InterfaceListPayRoll => {
                 return {
                     payrollID : item.payrollID,
                     gaji : item.gaji,

@@ -34,7 +34,7 @@ export const PitMekanikViewModel = () => {
             kodePIT : kodePit,
         } )
         if ( data !== null ) {
-            setListPitMekanik( data.data.listOfPITMekanik.map( ( item, index ) : ListOfPITMekanik => {
+            setListPitMekanik( data?.data.listOfPITMekanik.map( ( item, index ) : ListOfPITMekanik => {
                 return {
                     kodePit : item.kodePit,
                     pitID : item.pitID,

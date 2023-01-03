@@ -9,6 +9,13 @@ class DateFormatData {
         return date + 'T00:00:00+07:07';
     }
 
+    public nowDate = () : string => {
+        const date = new Date();
+        const month = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
     private addOneDay( date : Date ) {
         date.setDate( date.getDate() + 1 );
         return date;

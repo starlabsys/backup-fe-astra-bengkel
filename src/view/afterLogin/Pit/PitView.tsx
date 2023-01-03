@@ -24,7 +24,7 @@ const PitView = () => {
                         <div className = { `w-full tablet:w-6/12` }>
                             <ITextFieldDefault
                                 type = { "text" }
-                                label = { "Cari" }
+                                label = { "Cari Kode PIT" }
                                 placeholder = { "Cari..." }
                                 onEnter = { "enter" }
                                 value = { undefined }

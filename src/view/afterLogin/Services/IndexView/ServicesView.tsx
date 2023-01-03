@@ -10,6 +10,7 @@ import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
 import IDropDown from "../../../../component/ITextField/IDropDown";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
+import FormatDate from "../../../../utils/format/formatDate";
 
 
 const ServicesView = () => {
@@ -24,12 +25,16 @@ const ServicesView = () => {
                     <ITextFieldDefault
                         type = { "text" }
                         error = { false }
-                        value = { undefined }
+                        value = { controller.cariPkb.noPKB }
                         label = { "No PKB" }
                         onEnter = { "next" }
                         name = { "pkb" }
                         placeholder = { "Masukan Nomor PKB" }
-                        onChange = { () => {
+                        onChange = { ( value ) => {
+                            controller.setCariPkb( {
+                                ...controller.cariPkb,
+                                noPKB : value.target.value
+                            } )
                         } }
                     />
                     <ITextFieldDefault
@@ -38,9 +43,13 @@ const ServicesView = () => {
                         onEnter = { "next" }
                         name = { "tglMulai" }
                         error = { false }
-                        value = { undefined }
-                        placeholder = { "Masukan Nomor PKB" }
-                        onChange = { () => {
+                        value = { controller.cariPkb.tanggal }
+                        placeholder = { "Masukan Tanggal Mulai" }
+                        onChange = { ( value ) => {
+                            controller.setCariPkb( {
+                                ...controller.cariPkb,
+                                tanggal : FormatDate.dateSend( value.target.value )
+                            } )
                         } }
                     />
                     <ITextFieldDefault
@@ -49,19 +58,23 @@ const ServicesView = () => {
                         onEnter = { "next" }
                         name = { "tglSampai" }
                         error = { false }
-                        value = { undefined }
+                        value = { controller.cariPkb.tanggalSampai }
                         placeholder = { "Masukan Nomor PKB" }
-                        onChange = { () => {
+                        onChange = { ( value ) => {
+                            controller.setCariPkb( {
+                                ...controller.cariPkb,
+                                tanggal : FormatDate.dateSend( value.target.value )
+                            } )
                         } }
                     />
                     <ITextFieldDefault
-                        type = { "No Polisi" }
-                        label = { "PKB" }
+                        type = { "text" }
+                        label = { "No Polisi" }
                         onEnter = { "next" }
                         name = { "plat" }
                         error = { false }
                         value = { undefined }
-                        placeholder = { "Masukan Nomor PKB" }
+                        placeholder = { "Masukan Nomor Polisi" }
                         onChange = { () => {
                         } }
                     />
@@ -70,13 +83,17 @@ const ServicesView = () => {
                                label = { 'Status Pembayaran' }
                                placeholder = { '-- Select Status --' }
                                data = { [
-                                   { id : 1, value : "1", name : "Lunas" },
-                                   { id : 2, value : "2", name : "Belum Lunas" }
+                                   { id : 1, value : "1", name : "Belum Dibayar" },
+                                   { id : 2, value : "2", name : "Sudah Dibayar" }
                                ] }
                                onEnter = { 'next' }
                                onValueChange = { () => {
                                } }
-                               onValue = { () => {
+                               onValue = { ( item ) => {
+                                   controller.setCariPkb( {
+                                       ...controller.cariPkb,
+                                       statusPencarianPKB : item.value
+                                   } )
                                } }/>
                 </div>
                 <div className = { `w-full flex place-content-end` }>
@@ -84,7 +101,23 @@ const ServicesView = () => {
                         <IButton rounded = { "full" } status = { "danger" }>
                             Reset
                         </IButton>
-                        <IButton rounded = { "full" }>
+                        <IButton rounded = { "full" } onClick = { () => {
+                            if ( controller.cariPkb !== undefined ) {
+                                const dateNow = FormatDate.nowDate();
+                                controller.getListPKB( {
+                                    tanggal : controller.cariPkb.tanggal === '' ? dateNow + 'T00:00:00+07:00' : controller.cariPkb.tanggal,
+                                    tanggalSampai : controller.cariPkb.tanggalSampai === '' ? dateNow + 'T00:00:00+07:00' : controller.cariPkb.tanggalSampai,
+                                    noPKB : controller.cariPkb.noPKB,
+                                    noPolisi : controller.cariPkb.noPolisi,
+                                    statusPencarianPKB : controller.cariPkb.statusPencarianPKB,
+                                    pageSize : 10,
+                                    pageNumber : 1
+                                } )
+                            }
+                            else {
+                                console.log( "data kosong" )
+                            }
+                        } }>
                             Cari
                         </IButton>
                     </div>
@@ -94,29 +127,29 @@ const ServicesView = () => {
                 <div className = { `w-full flex` }>
                     <ITitleMd title = { "List Data PKB" }/>
                 </div>
-                { controller.role === RoleEnum.SuperAdmin ? (
-                    <>
-                        <div
-                            className = { `grid w-full gap-2 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center` }
-                        >
-                            { controller.listCardInformationData.map( ( item, index ) => {
-                                return (
-                                    <CardInformationData
-                                        key = { index }
-                                        title = { item.title }
-                                        total = { item.total.toString() }
-                                        color = { item.color }
-                                    />
-                                );
-                            } ) }
-                        </div>
-                    </>
-                ) : null }
+                {/*{ controller.role === RoleEnum.Admin ? (*/ }
+                {/*    <>*/ }
+                {/*        <div*/ }
+                {/*            className = { `grid w-full gap-2 tablet:flex tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 tablet:place-content-center` }*/ }
+                {/*        >*/ }
+                {/*            { controller.listCardInformationData.map( ( item, index ) => {*/ }
+                {/*                return (*/ }
+                {/*                    <CardInformationData*/ }
+                {/*                        key = { index }*/ }
+                {/*                        title = { item.title }*/ }
+                {/*                        total = { item.total.toString() }*/ }
+                {/*                        color = { item.color }*/ }
+                {/*                    />*/ }
+                {/*                );*/ }
+                {/*            } ) }*/ }
+                {/*        </div>*/ }
+                {/*    </>*/ }
+                {/*) : null }*/ }
                 <div
                     className = { `w-full grid gap-5 laptop:grid-cols-2 laptop:place-items-center laptop:place-content-between` }
                 >
                     <div className = { `laptop:w-fit` }>
-                        { controller.role === RoleEnum.SuperAdmin ? null : (
+                        { controller.role === RoleEnum.Admin ? null : (
                             <div
                                 className = { `grid gap-2 border border-primary py-4 relative rounded-md tablet:grid-cols-2 laptop:flex` }
                             >
@@ -136,7 +169,7 @@ const ServicesView = () => {
                     <div
                         className = { `w-full grid gap-2 laptop:flex tablet:grid-cols-2 laptop:grid-cols-3 laptop:place-content-end laptop:py-5` }
                     >
-                        { controller.role === RoleEnum.SuperAdmin ? (
+                        { controller.role === RoleEnum.Admin ? (
                             <>
                                 <IButton
                                     size = { "medium" }
@@ -181,77 +214,18 @@ const ServicesView = () => {
     function tableData() {
         return <ITableData
             selectionMode = { 'multiple' }
-            page = { 0 }
-            totalPage = { 1 }
+            page = { controller.page - 1 }
+            totalPage = { controller.totalPage }
             loading = { false }
             changePage = { index => {
                 console.log( index )
             } }
             updated = { ( data ) => {
             } }
-            header = { [
-                {
-                    label : '#',
-                    name : '#',
-                },
-                {
-                    label : 'Action',
-                    name : 'action',
-                },
-                {
-                    label : 'Status PKB',
-                    name : 'status_pkb',
-                },
-                {
-                    label : 'Status Pekerjaan',
-                    name : 'status_pekerjaan',
-                },
-                {
-                    label : 'Nama Mekanik',
-                    name : 'nama_mekanik',
-                },
-                {
-                    label : 'Nama Pemilik',
-                    name : 'nama_pemilik',
-                },
-                {
-                    label : 'No Antrian',
-                    name : 'no_antrian',
-                },
-                {
-                    label : 'No PKB',
-                    name : 'no_pkb',
-                },
-                {
-                    label : 'No Polisi',
-                    name : 'no_polisi',
-                },
-                {
-                    label : 'Engine No',
-                    name : 'engine_no',
-                },
-                {
-                    label : 'Tanggal',
-                    name : 'tanggal',
-                },
-                {
-                    label : 'Waktu Tunggu',
-                    name : 'waktu_tunggu',
-                },
-                {
-                    label : 'Durasi Pengerjaan',
-                    name : 'durasi_pengerjan',
-                },
-                {
-                    label : 'Jenis Pekerjaan',
-                    name : 'jenis_pekerjaan',
-                },
-                {
-                    label : 'PIT',
-                    name : 'pit',
-                },
-            ] }
-            data = { [] }/>
+            info = { () => {
+            } }
+            header = { controller.header }
+            data = { controller.listPkb }/>
     }
 };
 export default ServicesView;

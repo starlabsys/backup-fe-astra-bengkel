@@ -9,7 +9,7 @@ const theme = createTheme( {
     theme : {
         colors : {
             // brand colors
-            primaryLight : '#1E2F65',
+            primaryLight : '#20A8D8',
             primaryLightHover : '#5138ED',
             primaryLightActive : '#20A8D8',
             primaryLightContrast : '#1E2F65',

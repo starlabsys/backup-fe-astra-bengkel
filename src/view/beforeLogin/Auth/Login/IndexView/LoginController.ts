@@ -39,7 +39,7 @@ export const LoginViewModel = () => {
         if ( resp?.errorCode === '00' ) {
             await setDataStorage( IConstantEnum.username, resp.data.result.name );
             // await setDataStorage( IConstantEnum.id, resp.data.result.id );
-            await setDataStorage( IConstantEnum.role, resp.data.result.role === 'admin' ? RoleEnum.SuperAdmin : RoleEnum.Admin );
+            await setDataStorage( IConstantEnum.role, resp.data.result.role === 'admin' ? RoleEnum.Admin : RoleEnum.User );
             await setICookies( IConstantEnum.token, resp.data.token, 1 );
             setLoading( false );
             route.replace( '/' ).then( () => {

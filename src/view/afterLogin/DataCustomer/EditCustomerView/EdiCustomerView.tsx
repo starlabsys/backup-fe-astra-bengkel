@@ -15,6 +15,7 @@ import { EditCustomerVM } from "./ViewModel/EditCustomerVM";
 import FormatDate from "../../../../utils/format/formatDate";
 import Currency from "../../../../utils/format/currency";
 import { npwpFormat } from "../../../../utils/format/formatNpwp";
+import { InterfaceAlamatKirim } from "../interface/InterfaceAlamatKirim";
 
 
 const EdiCustomerView = () => {

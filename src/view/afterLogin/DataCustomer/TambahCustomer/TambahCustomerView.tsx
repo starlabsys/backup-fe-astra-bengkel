@@ -7,31 +7,37 @@ import ITextArea from "../../../../component/ITextField/ITextArea";
 import IButton from "../../../../component/IButton/IButton";
 import { useRouter } from "next/router";
 import { TambahCustomerViewModel } from "./ViewModel/TambahCustomerViewModel";
-import { npwpFormat } from "../../../../utils/format/formatNpwp";
+import TambahCustomerVMGet from "./ViewModel/TambahCustomerVMGet";
+import { InterfaceAddCustomerData } from "../interface/InterfaceAddCustomer";
+import { InterfaceAlamatPajak } from "../interface/InterfaceAlamatPajak";
+import { InterfaceLimitKredit } from "../interface/InterfaceLimitKredit";
+import { InterfaceKontakPerson } from "../interface/InterfaceKontakPerson";
+import { InterfaceCantNull } from "../interface/InterfaceCantNull";
 
 
 export const TambahCustomerView = () => {
     const route = useRouter();
-    const tambahCustomerViewModel = TambahCustomerViewModel();
+    const controller = TambahCustomerViewModel();
+    const dataGet = TambahCustomerVMGet();
     return <div className = { `flex-1 grid gap-5` }>
         <IBreadcrumbs title = { 'Tambah Customer' } subtitle = { 'master-data/customer/tambah-customer' }/>
+        {/*<form>*/ }
         { TambahCustomer() }
-        { tambahCustomerViewModel.formik.values.title === 'Perusahaan' ? KontakPerson() : null }
+        { KontakPerson() }
         { DefaultPenjualanKredit() }
         { AlamatKirim() }
-        { tambahCustomerViewModel.formik.values.title === 'Perusahaan' ? PajakCustomer() : null }
+        { PajakCustomer() }
         <div className = { `flex gap-5` }>
             <IButton onClick = { () => {
                 return route.back()
             } }>
                 Kembali
             </IButton>
-            <IButton status = { 'success' } onClick = { () => {
-                tambahCustomerViewModel.formik.handleSubmit()
-            } }>
+            <IButton status = { 'success' } onClick = { controller.saveData }>
                 Simpan
             </IButton>
         </div>
+        {/*</form>*/ }
     </div>
 
     function PajakCustomer() {
@@ -40,23 +46,40 @@ export const TambahCustomerView = () => {
             <div className = { `grid gap-5 tablet:grid-cols-2` }>
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'NPWP' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.npwp && Boolean( tambahCustomerViewModel.formik.errors.npwp )) }
-                                   onChange = { ( e ) => {
-                                       tambahCustomerViewModel.formik.handleChange( 'npwp' )( npwpFormat( e.target.value ) )
-                                       tambahCustomerViewModel.formik.touched.npwp = true
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatPajak( ( prevState ) : InterfaceAlamatPajak => {
+                                           return {
+                                               ...prevState,
+                                               npwp : value.target.value
+                                           } as InterfaceAlamatPajak
+                                       } )
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.errors.npwp }
-                                   value = { tambahCustomerViewModel.formik.values.npwp }
+                                   value = { controller.alamatPajak?.npwp }
                                    onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.nppkp && Boolean( tambahCustomerViewModel.formik.errors.nppkp )) }
-                                   value = { tambahCustomerViewModel.formik.values.nppkp }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'nppkp' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatPajak( ( prevState ) : InterfaceAlamatPajak => {
+                                           return {
+                                               ...prevState,
+                                               nppkp : value.target.value
+                                           } as InterfaceAlamatPajak
+                                       } )
+                                   } }
+                                   value = { controller.alamatPajak?.nppkp }
                                    label = { 'NPPKP' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.alamatPajak && Boolean( tambahCustomerViewModel.formik.errors.alamatPajak )) }
-                                   value = { tambahCustomerViewModel.formik.values.alamatPajak }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'alamatPajak' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatPajak( ( prevState ) : InterfaceAlamatPajak => {
+                                           return {
+                                               ...prevState,
+                                               alamatPajak : value.target.value
+                                           } as InterfaceAlamatPajak
+                                       } )
+                                   } }
+                                   value = { controller.alamatPajak?.alamatPajak }
                                    label = { 'Alamat' } onEnter = { 'done' }/>
             </div>
         </div>
@@ -67,24 +90,53 @@ export const TambahCustomerView = () => {
             <div className = { `flex place-content-between` }>
                 <ITitle title = { 'Alamat Kirim' }/>
                 <div>
-                    <IButton status = { 'info' }>Copy Data Customer</IButton>
+                    <IButton status = { 'info' } onClick = { () => {
+                        controller.setAlamatKirim( ( prevState ) : InterfaceAlamatKirim => {
+                            return {
+                                ...prevState,
+                                alamat : controller.tambahCustomer?.alamat,
+                                noTelp : controller.tambahCustomer?.noTelepon,
+                            } as InterfaceAlamatKirim
+                        } )
+                    } }>Copy Data Customer</IButton>
                 </div>
             </div>
             <div className = { `grid gap-5 tablet:grid-cols-2` }>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.alamatKirim && Boolean( tambahCustomerViewModel.formik.errors.alamatKirim )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'alamatKirim' ) }
-                                   value = { tambahCustomerViewModel.formik.values.alamatKirim }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatKirim( ( prevState ) : InterfaceAlamatKirim => {
+                                           return {
+                                               ...prevState,
+                                               alamat : value.target.value
+                                           } as InterfaceAlamatKirim
+                                       } )
+                                   } }
+                                   value = { controller.alamatKirim?.alamat }
                                    label = { 'Alamat' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.up && Boolean( tambahCustomerViewModel.formik.errors.up )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'up' ) }
-                                   value = { tambahCustomerViewModel.formik.values.up }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatKirim( ( prevState ) : InterfaceAlamatKirim => {
+                                           return {
+                                               ...prevState,
+                                               up : value.target.value
+                                           } as InterfaceAlamatKirim
+                                       } )
+                                   } }
+                                   value = { controller.alamatKirim?.up }
                                    label = { 'UP' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.alamatNoTlp && Boolean( tambahCustomerViewModel.formik.errors.alamatNoTlp )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'alamatNoTlp' ) }
-                                   value = { tambahCustomerViewModel.formik.values.alamatNoTlp }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setAlamatKirim( ( prevState ) : InterfaceAlamatKirim => {
+                                           return {
+                                               ...prevState,
+                                               noTelp : value.target.value
+                                           } as InterfaceAlamatKirim
+                                       } )
+                                   } }
+                                   value = { controller.alamatKirim?.noTelp }
                                    label = { 'No Telepon' } onEnter = { 'next' }/>
             </div>
         </div>
@@ -97,14 +149,30 @@ export const TambahCustomerView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Tempo (Hari)' }
                                    onEnter = { 'next' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.tempo && Boolean( tambahCustomerViewModel.formik.errors.tempo )) }
-                                   value = { tambahCustomerViewModel.formik.values.tempo }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'tempo' ) }/>
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setLimitKredit( ( prevState ) : InterfaceLimitKredit => {
+                                           return {
+                                               ...prevState,
+                                               tempo : value.target.value
+                                           } as InterfaceLimitKredit
+                                       } )
+                                   } }
+                                   value = { controller.limitKredit?.tempo }/>
 
-                <ITextFieldDefault type = { 'text' } label = { 'Limit Kredit' } onEnter = { 'next' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.limitKredit && Boolean( tambahCustomerViewModel.formik.errors.limitKredit )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'limitKredit' ) }
-                                   value = { tambahCustomerViewModel.formik.values.limitKredit }/>
+                <ITextFieldDefault type = { 'text' }
+                                   label = { 'Limit Kredit' }
+                                   onEnter = { 'next' }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setLimitKredit( ( prevState ) : InterfaceLimitKredit => {
+                                           return {
+                                               ...prevState,
+                                               limitKredit : value.target.value
+                                           } as InterfaceLimitKredit
+                                       } )
+                                   } }
+                                   value = { controller.limitKredit?.limitKredit }/>
             </div>
         </div>
     }
@@ -114,43 +182,93 @@ export const TambahCustomerView = () => {
             <div className = { `flex place-content-between` }>
                 <ITitle title = { 'Kontak Person' }/>
                 <div>
-                    <IButton status = { 'info' } onClick = { tambahCustomerViewModel.kontakPerson }>Copy Data
-                                                                                                    Customer</IButton>
+                    <IButton status = { 'info' } onClick = { () => {
+                        controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                            return {
+                                ...prevState,
+                                nama : controller.tambahCustomer?.namaCustomer,
+                                noHp : controller.tambahCustomer?.noHp,
+                                email : controller.tambahCustomer?.email,
+                                noTelp : controller.tambahCustomer?.noTelepon
+                            } as InterfaceKontakPerson
+                        } )
+                    } }>
+                        Copy Data Customer
+                    </IButton>
                 </div>
             </div>
             <div className = { `grid gap-5 tablet:grid-cols-2` }>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.kontakPersonNama
-                                   }
-                                   errorMessages = { tambahCustomerViewModel.formik.errors.kontakPersonNama }
+                                   error = { controller.error.namaKontakPerson }
                                    onChange = { ( value ) => {
-                                       tambahCustomerViewModel.formik.handleChange( 'kontakPersonNama' )( value.target.value.toUpperCase() )
-                                       tambahCustomerViewModel.formik.touched.kontakPersonNama = true
+                                       controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                                           return {
+                                               ...prevState,
+                                               nama : value.target.value
+                                           } as InterfaceKontakPerson
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               namaKontakPerson : value.target.value !== ''
+                                           } as InterfaceCantNull
+                                       } )
                                    } }
-                                   error = { Boolean( tambahCustomerViewModel.formik.errors.kontakPersonNama ) }
+                                   value = { controller.kontakPerson?.nama }
                                    label = { 'Nama' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.kontakPersonNoTlp }
-                                   onChange = { ( e ) => {
-                                       tambahCustomerViewModel.formik.handleChange( 'kontakPersonNoTlp' )( e.target.value )
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                                           return {
+                                               ...prevState,
+                                               noTelp : value.target.value
+                                           } as InterfaceKontakPerson
+                                       } )
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.errors.kontakPersonNoTlp }
-                                   error = { Boolean( tambahCustomerViewModel.formik.errors.kontakPersonNoTlp ) }
+                                   value = { controller.kontakPerson?.noTelp }
                                    label = { 'No Telepon' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { Boolean( tambahCustomerViewModel.formik.errors.kontakPersonNoHp ) }
-                                   value = { tambahCustomerViewModel.formik.values.kontakPersonNoHp }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'kontakPersonNoHp' ) }
+                                   error = { controller.error.noHpKontakPerson }
+                                   onChange = { ( value ) => {
+                                       controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                                           return {
+                                               ...prevState,
+                                               noHp : value.target.value
+                                           } as InterfaceKontakPerson
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               noHpKontakPerson : value.target.value !== ''
+                                           } as InterfaceCantNull
+                                       } )
+                                   } }
+                                   value = { controller.kontakPerson?.noHp }
                                    label = { 'No Hp' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.kontakPersonEmail }
-                                   error = { Boolean( tambahCustomerViewModel.formik.errors.kontakPersonEmail ) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'kontakPersonEmail' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                                           return {
+                                               ...prevState,
+                                               email : value.target.value
+                                           } as InterfaceKontakPerson
+                                       } )
+                                   } }
+                                   value = { controller.kontakPerson?.email }
                                    label = { 'Email' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.kontakPersonJabatan }
-                                   error = { Boolean( tambahCustomerViewModel.formik.errors.kontakPersonJabatan ) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'kontakPersonJabatan' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setKontakPerson( ( prevState ) : InterfaceKontakPerson => {
+                                           return {
+                                               ...prevState,
+                                               jabatan : value.target.value
+                                           } as InterfaceKontakPerson
+                                       } )
+                                   } }
+                                   value = { controller.kontakPerson?.jabatan }
                                    label = { 'Jabatan' } onEnter = { 'next' }/>
             </div>
         </div>
@@ -165,54 +283,87 @@ export const TambahCustomerView = () => {
                                        label = { 'Kode' }
                                        onEnter = { 'next' }
                                        disabled = { true }
-                                       error = { !!(tambahCustomerViewModel.formik.touched.kode && Boolean( tambahCustomerViewModel.formik.errors.kode )) }
-                                       value = { tambahCustomerViewModel.formik.values.kode }
-                                       onChange = { tambahCustomerViewModel.formik.handleChange( 'kode' ) }/>
-                    <IRadioSingle status = { tambahCustomerViewModel.formik.values.active }
+                                       error = { false }
+                                       onChange = { () => {
+                                       } }
+                                       value = { undefined }/>
+                    <IRadioSingle status = { controller.tambahCustomer?.status ?? true }
                                   setStatus = { ( data ) => {
-                                      tambahCustomerViewModel.formik.setFieldValue( 'active', data )
+                                      controller.setTambahCustomer( () : InterfaceAddCustomerData => {
+                                          return {
+                                              ...controller.tambahCustomer,
+                                              status : data
+                                          } as InterfaceAddCustomerData
+                                      } )
                                   } }
-                                  error = { !!(tambahCustomerViewModel.formik.touched.active && Boolean( tambahCustomerViewModel.formik.errors.active )) }
+                                  error = { false }
                                   label = { 'Status' }
-                                  value1 = { tambahCustomerViewModel.formik.values.active ? 'Aktif' : 'Tidak Aktif' }/>
+                                  value1 = { controller.tambahCustomer?.status || controller.tambahCustomer?.status === undefined ? 'Aktif' : 'Tidak Aktif' }/>
                 </div>
                 <IDropDown type = { 'text' }
                            label = { 'Title *' }
                            data = { [
-                               { id : 1, value : 'Tuan', name : 'Tuan' },
-                               { id : 2, value : 'Nyonya', name : 'Nyonya' },
+                               { id : 1, value : 'Mr.', name : 'Tuan' },
+                               { id : 2, value : 'Mrs.', name : 'Nyonya' },
                                { id : 3, value : 'Perusahaan', name : 'Perusahaan' },
                            ] }
+                           value = { controller.tambahCustomer?.title?.name }
+                           errorMessages = { controller.error.title ? 'Title tidak boleh kosong' : '' }
                            onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.title }
                            onValueChange = { () => {
                            } }
-                           errorMessages = { tambahCustomerViewModel.formik.errors.title }
-                           error = { !!(tambahCustomerViewModel.formik.touched.title && Boolean( tambahCustomerViewModel.formik.errors.title )) }
+                           error = { controller.error.title }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.setTitle( value.value )
-                               tambahCustomerViewModel.formik.setFieldValue( 'title', value.value )
-                           } }/>
-                <ITextFieldDefault type = { 'text' } label = { 'Nama *' } onEnter = { 'next' }
-                                   value = {
-                                       tambahCustomerViewModel.formik.values.nama
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       title : value
+                                   } as InterfaceAddCustomerData
+                               } )
+                               controller.setError( ( prevState ) : InterfaceCantNull => {
+                                   return {
+                                       ...prevState,
+                                       title : value === undefined
                                    }
+                               } )
+                           } }/>
+                <ITextFieldDefault type = { 'text' }
+                                   label = { 'Nama *' }
+                                   onEnter = { 'next' }
+                                   error = { controller.error.namaCustomer }
                                    onChange = { ( value ) => {
-                                       tambahCustomerViewModel.formik.setFieldValue( 'nama', value.target.value.toUpperCase() )
-                                       tambahCustomerViewModel.formik.touched.nama = true
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               namaCustomer : value.target.value.toUpperCase()
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               namaCustomer : value.target.value === ''
+                                           }
+                                       } )
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.nama ? tambahCustomerViewModel.formik.errors.nama : '' }
-
-                                   error = { (tambahCustomerViewModel.formik.touched.nama && Boolean( tambahCustomerViewModel.formik.errors.nama )) ?? false }/>
+                                   value = { controller.tambahCustomer?.namaCustomer }/>
 
                 <ITextFieldDefault type = { 'text' }
-                                   onChange = { ( e ) => {
-                                       tambahCustomerViewModel.formik.handleChange( 'ktp' )( e.target.value )
-                                       tambahCustomerViewModel.formik.touched.ktp = true
+                                   error = { controller.error.ktp }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               noKtp : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               ktp : value.target.value === ''
+                                           }
+                                       } )
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.ktp ? tambahCustomerViewModel.formik.errors.ktp : '' }
-                                   value = { tambahCustomerViewModel.formik.values.ktp }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.ktp && Boolean( tambahCustomerViewModel.formik.errors.ktp )) }
+                                   value = { controller.tambahCustomer?.noKtp }
                                    label = { 'No KTP' } onEnter = { 'next' }/>
                 <IDropDown type = { 'text' }
                            label = { 'Pekerjaan' }
@@ -239,13 +390,18 @@ export const TambahCustomerView = () => {
                                    name : 'Wiraswasta Pedagang'
                                }
                            ] }
-                           error = { !!(tambahCustomerViewModel.formik.touched.pekerjaan && Boolean( tambahCustomerViewModel.formik.errors.pekerjaan )) }
+                           error = { false }
                            onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.pekerjaan }
+                    // value = { controller.tambahCustomer?.pekerjaan.name }
                            onValueChange = { () => {
                            } }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.setFieldValue( 'pekerjaan', value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       pekerjaan : value
+                                   } as InterfaceAddCustomerData
+                               } )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Agama' }
@@ -287,208 +443,305 @@ export const TambahCustomerView = () => {
                                }
                            ] }
                            onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.agama }
+                    // value = { controller.tambahCustomer?.agama.name }
+                           error = { false }
                            onValueChange = { () => {
                            } }
-                           error = { !!(tambahCustomerViewModel.formik.touched.agama && Boolean( tambahCustomerViewModel.formik.errors.agama )) }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.setFieldValue( 'agama', value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       agama : value
+                                   } as InterfaceAddCustomerData
+                               } )
                            } }/>
                 <ITextFieldDefault type = { 'date' }
-                                   value = { tambahCustomerViewModel.formik.values.tglLahir }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'tglLahir' ) }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.tglLahir && Boolean( tambahCustomerViewModel.formik.errors.tglLahir )) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               ttl : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.ttl }
                                    label = { 'Tanggal Lahir' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.noPassport }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'noPassport' ) }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.noPassport ? tambahCustomerViewModel.formik.errors.noPassport : '' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.noPassport && Boolean( tambahCustomerViewModel.formik.errors.noPassport )) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               passport : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.passport }
                                    label = { 'No Passport' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.alamat }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'alamat' ) }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.alamat ? tambahCustomerViewModel.formik.errors.alamat : '' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.alamat && Boolean( tambahCustomerViewModel.formik.errors.alamat )) }
+                                   error = { controller.error.alamat }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               alamat : value.target.value.toUpperCase()
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               alamat : value.target.value === ''
+                                           }
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.alamat }
                                    label = { 'Alamat *' } onEnter = { 'next' }/>
                 <IDropDown type = { 'text' }
                            label = { 'Provinsi *' }
+                           disabled = { true }
                            data = { [
-                               { id : 1, value : 'Jawa Barat', name : 'Jawa Barat' },
-                               { id : 2, value : 'Jawa Tengah', name : 'Jawa Tengah' },
+                               { id : 1, value : 'KALIMANTAN BARAT', name : 'KALIMANTAN BARAT' },
                            ] }
                            onEnter = { 'next' }
-                           errorMessages = { tambahCustomerViewModel.formik.touched.provinsi ? tambahCustomerViewModel.formik.errors.provinsi : '' }
-                           error = { !!(tambahCustomerViewModel.formik.touched.provinsi && Boolean( tambahCustomerViewModel.formik.errors.provinsi )) }
-                           value = { tambahCustomerViewModel.formik.values.provinsi }
+                           error = { controller.error.provinsi }
                            onValueChange = { () => {
                            } }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.touched.provinsi = true
-                               tambahCustomerViewModel.formik.setFieldValue( 'provinsi', value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       provinsi : value
+                                   } as InterfaceAddCustomerData
+                               } )
+                               controller.setError( ( prevState ) : InterfaceCantNull => {
+                                   return {
+                                       ...prevState,
+                                       provinsi : value.name === ''
+                                   }
+                               } )
+                               dataGet.getKab()
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kota/Kabupaten *' }
-                           data = { [
-                               { id : 1, value : 'Bandung', name : 'Bandung' },
-                               { id : 2, value : 'Bekasi', name : 'Bekasi' },
-                           ] }
+                           data = { dataGet.listKab }
+                           disabled = { true }
                            onEnter = { 'next' }
-                           errorMessages = { tambahCustomerViewModel.formik.touched.kota ? tambahCustomerViewModel.formik.errors.kota : '' }
-                           error = { !!(tambahCustomerViewModel.formik.touched.kota && Boolean( tambahCustomerViewModel.formik.errors.kota )) }
-                           value = { tambahCustomerViewModel.formik.values.kota }
+                           error = { controller.error.kabupaten }
                            onValueChange = { () => {
                            } }
+                           value = { controller.tambahCustomer?.kabupaten?.name }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.touched.kota = true
-                               tambahCustomerViewModel.formik.setFieldValue( 'kota', value.value )
-                               // tambahCustomerViewModel.setKota( value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       kabupaten : value,
+                                       kecamatan : {
+                                           id : 0,
+                                           value : '',
+                                           name : ''
+                                       },
+                                       kelurahan : {
+                                           id : 0,
+                                           value : '',
+                                           name : ''
+                                       },
+                                       kodePos : ''
+                                   } as InterfaceAddCustomerData
+                               } )
+                               controller.setError( ( prevState ) : InterfaceCantNull => {
+                                   return {
+                                       ...prevState,
+                                       kabupaten : value.name === ''
+                                   }
+                               } )
+                               dataGet.getKec( value.value )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kecamatan *' }
-                           data = { [
-                               { id : 1, value : 'Cibeunying', name : 'Cibeunying' },
-                               { id : 2, value : 'Cibiru', name : 'Cibiru' },
-                           ] }
+                           data = { dataGet.listKec }
+                           disabled = { true }
                            onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.kecamatan }
+                           value = { controller.tambahCustomer?.kecamatan?.name ?? '' }
                            onValueChange = { () => {
                            } }
-                           errorMessages = { tambahCustomerViewModel.formik.touched.kecamatan ? tambahCustomerViewModel.formik.errors.kecamatan : '' }
-                           error = { !!(tambahCustomerViewModel.formik.touched.kecamatan && Boolean( tambahCustomerViewModel.formik.errors.kecamatan )) }
+                           error = { controller.error.kecamatan }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.touched.kecamatan = true
-                               tambahCustomerViewModel.formik.setFieldValue( 'kecamatan', value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       kecamatan : value,
+                                       kelurahan : {
+                                           id : 0,
+                                           value : '',
+                                           name : ''
+                                       },
+                                       kodePos : ''
+                                   } as InterfaceAddCustomerData
+                               } )
+                               controller.setError( ( prevState ) : InterfaceCantNull => {
+                                   return {
+                                       ...prevState,
+                                       kecamatan : value.name === ''
+                                   }
+                               } )
+                               dataGet.getKel( value.value )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Kelurahan *' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : '1',
-                                   name : '1',
-                               },
-                               {
-                                   id : 2,
-                                   value : '2',
-                                   name : '2',
-                               }
-                           ] }
-                           error = { !!(tambahCustomerViewModel.formik.touched.kelurahan && Boolean( tambahCustomerViewModel.formik.errors.kelurahan )) }
+                           disabled = { true }
+                           data = { dataGet.listKel }
+                           error = { controller.error.kelurahan }
                            onEnter = { 'next' }
-                           errorMessages = { tambahCustomerViewModel.formik.touched.kelurahan ? tambahCustomerViewModel.formik.errors.kelurahan : '' }
-                           value = { tambahCustomerViewModel.formik.values.kelurahan }
+                           value = { controller.tambahCustomer?.kelurahan?.name }
                            onValueChange = { ( value ) => {
 
                            } }
                            onValue = { ( data ) => {
-                               tambahCustomerViewModel.formik.touched.kelurahan = true
-                               tambahCustomerViewModel.formik.setFieldValue( 'kelurahan', data.value )
-                           } }/>
-                <IDropDown type = { 'text' }
-                           label = { 'Kode Pos *' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : '1',
-                                   name : '1',
-                               },
-                           ] }
-                           onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.kodePos }
-                           error = { !!(tambahCustomerViewModel.formik.touched.kodePos && Boolean( tambahCustomerViewModel.formik.errors.kodePos )) }
-                           onValueChange = { ( value ) => {
-
-                           } }
-                           onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.setFieldValue( 'kodePos', value.value )
+                               controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                   return {
+                                       ...prevState,
+                                       kelurahan : data,
+                                       kodePos : data.add
+                                   } as InterfaceAddCustomerData
+                               } )
+                               controller.setError( ( prevState ) : InterfaceCantNull => {
+                                   return {
+                                       ...prevState,
+                                       kelurahan : data.name === ''
+                                   }
+                               } )
                            } }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.noTelp }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.noTelp && Boolean( tambahCustomerViewModel.formik.errors.noTelp )) }
+                                   error = { false }
+                                   disabled = { true }
                                    onChange = { ( value ) => {
-                                       tambahCustomerViewModel.formik.setFieldValue( 'noTelp', value.target.value )
-                                       tambahCustomerViewModel.formik.touched.noTelp = true
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.noTelp ? tambahCustomerViewModel.formik.errors.noTelp : '' }
+                                   value = { controller.tambahCustomer?.kodePos }
+                                   label = { 'Kode Pos' } onEnter = { 'next' }/>
+                <ITextFieldDefault type = { 'text' }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               noTelepon : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.noTelepon }
                                    label = { 'No Telepon' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.noHp }
-                                   onChange = { ( e ) => {
-                                       tambahCustomerViewModel.formik.handleChange( 'noHp' )( e.target.value )
-                                       tambahCustomerViewModel.formik.touched.noHp = true
+                                   error = { controller.error.noHp }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               noHp : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                       controller.setError( ( prevState ) : InterfaceCantNull => {
+                                           return {
+                                               ...prevState,
+                                               noHp : value.target.value === ''
+                                           }
+                                       } )
                                    } }
-                                   errorMessages = { tambahCustomerViewModel.formik.touched.noHp ? tambahCustomerViewModel.formik.errors.noHp : '' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.noHp && Boolean( tambahCustomerViewModel.formik.errors.noHp )) }
+                                   value = { controller.tambahCustomer?.noHp }
                                    label = { 'No HP *' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.noFaks }
-                                   onChange = { ( e ) => {
-                                       tambahCustomerViewModel.formik.values.noFaks = e.target.value
-
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               noFax : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
                                    } }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.noFaks && Boolean( tambahCustomerViewModel.formik.errors.noFaks )) }
+                                   value = { controller.tambahCustomer?.noFax }
                                    label = { 'No Faks' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'email' }
-                                   value = { tambahCustomerViewModel.formik.values.email }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.email && Boolean( tambahCustomerViewModel.formik.errors.email )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'email' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               email : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.email }
                                    label = { 'Email' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'url' }
-                                   value = { tambahCustomerViewModel.formik.values.website }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.website && Boolean( tambahCustomerViewModel.formik.errors.website )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'website' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               website : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.website }
                                    label = { 'Website' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.facebook && Boolean( tambahCustomerViewModel.formik.errors.facebook )) }
-                                   value = { tambahCustomerViewModel.formik.values.facebook }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'facebook' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               facebook : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.facebook }
                                    label = { 'Facebook' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   value = { tambahCustomerViewModel.formik.values.twitter }
-                                   error = { !!(tambahCustomerViewModel.formik.touched.twitter && Boolean( tambahCustomerViewModel.formik.errors.twitter )) }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'twitter' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               twitter : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.twitter }
                                    label = { 'Twitter' } onEnter = { 'next' }/>
                 <ITextFieldDefault type = { 'text' }
-                                   error = { !!(tambahCustomerViewModel.formik.values.instagram && Boolean( tambahCustomerViewModel.formik.errors.instagram )) }
-                                   value = { tambahCustomerViewModel.formik.values.instagram }
-                                   onChange = { tambahCustomerViewModel.formik.handleChange( 'instagram' ) }
+                                   error = { false }
+                                   onChange = { ( value ) => {
+                                       controller.setTambahCustomer( ( prevState ) : InterfaceAddCustomerData => {
+                                           return {
+                                               ...prevState,
+                                               instagram : value.target.value
+                                           } as InterfaceAddCustomerData
+                                       } )
+                                   } }
+                                   value = { controller.tambahCustomer?.instagram }
                                    label = { 'Instagram' } onEnter = { 'next' }/>
                 <IDropDown type = { 'text' }
                            label = { 'Group Diskon' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : '1',
-                                   name : '1',
-                               }
-                           ] }
-                           error = { !!(tambahCustomerViewModel.formik.touched.groupDiskon && Boolean( tambahCustomerViewModel.formik.errors.groupDiskon )) }
+                           data = { [] }
+                           error = { false }
                            onEnter = { 'next' }
-                           value = { tambahCustomerViewModel.formik.values.groupDiskon }
                            onValueChange = { ( value ) => {
                            } }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.setFieldValue( 'groupDiskon', value.value )
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'PIC AHASS' }
                            data = { [] }
                            onEnter = { 'next' }
-                           error = { !!(tambahCustomerViewModel.formik.touched.picAhass && Boolean( tambahCustomerViewModel.formik.errors.picAhass )) }
-                           value = { tambahCustomerViewModel.formik.values.picAhass }
+                           error = { false }
+
                            onValueChange = { ( value ) => {
                            } }
                            onValue = { ( value ) => {
-                               tambahCustomerViewModel.formik.setFieldValue( 'picAhass', value.value )
                            } }/>
             </div>
-            <ITextArea label = { 'Catatan' }
-                       value = { tambahCustomerViewModel.formik.values.catatan }
-                       error = { !!(tambahCustomerViewModel.formik.touched.catatan && Boolean( tambahCustomerViewModel.formik.errors.catatan )) }
-                       onChange = {
-                           tambahCustomerViewModel.formik.handleChange( 'catatan' )
-                       }/>
+            <ITextArea label = { 'Catatan' } error = { false }/>
         </div>
     }
 }

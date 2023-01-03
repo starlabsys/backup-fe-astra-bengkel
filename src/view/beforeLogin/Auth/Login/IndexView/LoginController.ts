@@ -11,42 +11,42 @@ import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialo
 
 export const LoginViewModel = () => {
     const route = useRouter()
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [hide, setHide] = useState(true);
-    const [modal, setModal] = useState(false);
-    const context = useContext(IAlertDialogContext);
+    const [ username, setUsername ] = useState( "" );
+    const [ password, setPassword ] = useState( "" );
+    const [ loading, setLoading ] = useState( false );
+    const [ hide, setHide ] = useState( true );
+    const [ modal, setModal ] = useState( false );
+    const context = useContext( IAlertDialogContext );
 
 
     const login = async () => {
 
-        setLoading(true);
-        const validate = ValidateLogin({ username, password });
-        if (!validate) {
-            setLoading(false);
-            context.giveMessage("Username & password is required")
-            context.setOpen(true)
-            context.onError(true)
+        setLoading( true );
+        const validate = ValidateLogin( { username, password } );
+        if ( !validate ) {
+            setLoading( false );
+            context.giveMessage( "Username & password is required" )
+            context.setOpen( true )
+            context.onError( true )
             return;
         }
 
-        const resp = await AuthServices.login(context, {
-            username: username,
-            password: password
-        })
+        const resp = await AuthServices.login( context, {
+            username : username,
+            password : password
+        } )
 
-        if (resp.message === 'success') {
-            await setDataStorage(IConstantEnum.username, resp.data.person.username);
-            await setDataStorage(IConstantEnum.id, resp.data.person.id);
-            await setDataStorage(IConstantEnum.role, resp.data.person.role === 'Admin' ? RoleEnum.Admin : RoleEnum.SuperAdmin);
-            await setICookies(IConstantEnum.token, resp.data.token, 1);
-            setLoading(false);
-            route.replace('/').then(() => {
-            })
+        if ( resp?.errorCode === '00' ) {
+            await setDataStorage( IConstantEnum.username, resp.data.result.name );
+            // await setDataStorage( IConstantEnum.id, resp.data.result.id );
+            await setDataStorage( IConstantEnum.role, resp.data.result.role === 'admin' ? RoleEnum.Admin : RoleEnum.User );
+            await setICookies( IConstantEnum.token, resp.data.token, 1 );
+            setLoading( false );
+            route.replace( '/' ).then( () => {
+            } )
         }
         else {
-            setLoading(false);
+            setLoading( false );
         }
     }
 

@@ -1,40 +1,33 @@
 import { del, get, patch, post } from "../../../core/api/api"
-import { InterfacePit } from "./interface/InterfacePit";
+import { InterfaceAddPit } from "./interface/InterfaceAddPit";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
-import { InterfacePagination } from "../../interface/InterfacePagination";
+import { InterfaceGetPit } from "./interface/InterfaceGetPit";
+import { ConvertModelGetListPit, ModelGetListPit } from "../../models/Pit/ModelGetListPit";
 
 
 class PitRepository {
-    public get = async ( context : InterfaceError, props : InterfacePagination ) => {
-        return await get( context, {
-            url : `/pit?page=${ props.page }&limit=${ props.limit }&search=${ props.search ?? '' }`
+    public get = async ( context : InterfaceError, props : InterfaceGetPit ) : Promise<ModelGetListPit | null> => {
+        const resp = await post( context, {
+            url : '/pit/get',
+            reqBody : props
         } )
+        if ( resp !== null ) {
+            return ConvertModelGetListPit.toModelGetListPit( resp );
+        }
+        return null;
     }
-    // public search = async ( context : InterfaceError, search : string ) => {
-    //     return await get( context, {
-    //         url : `/pit?search=${ search }`
-    //     } )
-    // }
 
-    public add = async ( context : InterfaceError, props : InterfacePit ) => {
+    public add = async ( context : InterfaceError, props : InterfaceAddPit ) => {
         return await post( context, {
-            url : '/pit',
-            reqBody : {
-                "kode_pit" : props.kode_pit,
-                "tipe_pit" : props.tipe_pit,
-                "is_active" : props.is_active,
-            }
+            url : '/pit/store',
+            reqBody : props
         } )
     }
 
-    public updated = async ( context : InterfaceError, id : number, props : InterfacePit ) => {
+    public updated = async ( context : InterfaceError, id : number, props : InterfaceAddPit ) => {
         return await patch( context, {
             url : '/pit/' + id.toString(),
-            reqBody : {
-                "kode_pit" : props.kode_pit,
-                "tipe_pit" : props.tipe_pit,
-                "is_active" : props.is_active,
-            }
+            reqBody : props
         } )
     }
 

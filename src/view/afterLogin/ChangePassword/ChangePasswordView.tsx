@@ -6,11 +6,11 @@ import ITitleMd from "../../../component/ITitle/ITitleMd";
 
 const ChangePasswordView = () => {
     return (
-        <div className = { `flex-1 grid gap-5` }>
+        <div className = { `grid gap-5` }>
             <IBreadcrumbs title = { "Ubah Sandi" } subtitle = { "ubah-sandi" }/>
-            <div className = "p-5 grid gap-10 bg-white rounded-lg">
-                <ITitleMd title = { "Edit Password" }/>
-                <div className = "grid gap-5 w-6/12">
+            <div className = "w-full p-5 grid gap-10 bg-white rounded-lg">
+                <ITitleMd title = { "Status Password" }/>
+                <div className = "grid gap-5 tablet:grid-cols-2 laptop:grid-cols-2">
                     <ITextFieldDefault
                         type = { "text" }
                         label = { "Password Lama" }
@@ -29,6 +29,17 @@ const ChangePasswordView = () => {
                         value = { undefined }
                         error = { false }
                     />
+                    <div className = { `hidden tablet:flex tablet:invisible` }>
+                        <ITextFieldDefault
+                            type = { "text" }
+                            label = { "Password Baru" }
+                            onEnter = { undefined }
+                            onChange = { () => {
+                            } }
+                            value = { undefined }
+                            error = { false }
+                        />
+                    </div>
                     <ITextFieldDefault
                         type = { "text" }
                         label = { "Konfirmasi Password" }
@@ -39,8 +50,11 @@ const ChangePasswordView = () => {
                         error = { false }
                     />
                 </div>
-                <div>
-                    <IButton size = { "small" } rounded = { "full" }>
+                <div className = { `grid grid-cols-2 gap-5` }>
+                    <IButton rounded = { "full" }>
+                        Batal
+                    </IButton>
+                    <IButton status = { 'success' } rounded = { "full" }>
                         Simpan
                     </IButton>
                 </div>

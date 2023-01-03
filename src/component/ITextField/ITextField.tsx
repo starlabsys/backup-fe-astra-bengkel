@@ -28,13 +28,16 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
         <div className = { `w-full grid` }>
             <Input
                 bordered = { true }
-                clearable = { true }
+                clearable = { !props.disabled }
                 animated = { true }
+                defaultValue = { props.defaultValue }
                 autoCapitalize = { props.autoCapitalize }
                 name = { props.name }
                 width = "100%"
                 label = { props.label }
-                disabled = { props.disabled }
+                // disabled = { props.disabled }
+                form = { props.form }
+                readOnly = { props.disabled }
                 color = { props.error ? 'error' : 'primary' }
                 required = { props.required }
                 placeholder = { props.placeholder }
@@ -45,7 +48,7 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
                 shadow = { true }
                 status = { props.error ? 'error' : 'primary' }
                 borderWeight = { 'normal' }
-                helperColor = { props.error ? 'error' : 'primary' }
+                helperColor = { props.helperColor ?? (props.error ? 'error' : 'primary') }
                 helperText = { props.errorMessages }
             />
 

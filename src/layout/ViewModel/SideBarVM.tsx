@@ -11,15 +11,16 @@ import { getDataStorage } from "../../utils/localStorage/LocalStorage";
 import { IConstantEnum } from "../../utils/enum/IConstantEnum";
 import { FaWrench } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { RoleEnum } from "../../utils/enum/RoleEnum";
 
 
 export const SideBarVM = () => {
     const [ listSideBar, setListSideBar ] = useState( [
-        {
-            title : "Dashboard",
-            icon : <IoMdHome color = { `white` } size = { 30 }/>,
-            path : "/"
-        },
+        // {
+        //     title : "Dashboard",
+        //     icon : <IoMdHome color = { `white` } size = { 30 }/>,
+        //     path : "/"
+        // },
         {
             title : "MasterData",
             icon : <IoIosFolderOpen color = { `white` } size = { 30 }/>,
@@ -59,9 +60,9 @@ export const SideBarVM = () => {
         listSideBar[ index ].status = !listSideBar[ index ].status;
     };
 
+    const route = useRouter();
     const [ username, setUsername ] = useState( "" );
     const [ role, setRole ] = useState( "" );
-    const route = useRouter();
 
     const getUsername = async () => {
         const dataUsername = await getDataStorage( IConstantEnum.username );
@@ -71,6 +72,23 @@ export const SideBarVM = () => {
         const dataRole = await getDataStorage( IConstantEnum.role );
         if ( dataRole !== "" ) {
             setRole( dataRole ?? "" );
+            if ( dataRole === RoleEnum.Admin ) {
+                setListSideBar( ( prevState ) => {
+                    return [
+                        ...prevState,
+                        {
+                            title : "Add Admin",
+                            icon : <IoMdPeople color = { `white` } size = { 30 }/>,
+                            path : "/user"
+                        }
+                    ]
+                } )
+                // {
+                //     title : "Dashboard",
+                //     icon : <IoMdHome color = { `white` } size = { 30 }/>,
+                //     path : "/"
+                // },
+            }
         }
     };
 

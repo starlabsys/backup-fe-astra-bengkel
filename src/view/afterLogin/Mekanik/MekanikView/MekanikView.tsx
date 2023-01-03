@@ -5,10 +5,11 @@ import IButton from "../../../../component/IButton/IButton";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { GetDataMekanik } from "./ViewModel/getDataMekanik";
 import { useRouter } from "next/router";
+import { InterfaceListMekanik } from "../interface/interfaceListMekanik";
 
 
 const MekanikView = () => {
-    const getDataMekanik = GetDataMekanik();
+    const controller = GetDataMekanik();
     const route = useRouter()
 
     return <div className = { `grid gap-5` }>
@@ -21,7 +22,8 @@ const MekanikView = () => {
                         <ITextFieldDefault type = { 'text' }
                                            label = { 'Cari' }
                                            onEnter = { 'enter' }
-                                           onChange = { () => {
+                                           onChange = { ( value ) => {
+                                               controller.getData( value.target.value )
                                            } }
                                            value = { undefined }
                                            error = { false }
@@ -45,54 +47,19 @@ const MekanikView = () => {
 
 
     function tableData() {
-        return <ITableData page = { 0 }
-                           totalPage = { 10 }
+        return <ITableData page = { controller.page - 1 }
+                           totalPage = { controller.totalPage }
                            loading = { false }
                            changePage = { index => {
                            } }
-                           info = { () => {
+                           info = { ( data : InterfaceListMekanik ) => {
+                               route.push( '/master-data/karyawan/info/' + data.kodeKaryawan )
                            } }
-                           updated = { ( data ) => {
-                               route.push( {
-                                   pathname : '/master-data/karyawan/edit-karyawan',
-                                   query : data
-                               } ).then( () => {
-                               } )
+                           updated = { ( data : InterfaceListMekanik ) => {
+                               route.push( '/master-data/karyawan/edit/' + data.kodeKaryawan )
                            } }
-                           header = { [
-                               {
-                                   label : '#',
-                                   name : '#',
-                               },
-                               {
-                                   label : 'Nama',
-                                   name : 'nama',
-                               },
-                               {
-                                   label : 'Alamat',
-                                   name : 'alamat',
-                               },
-                               {
-                                   label : 'No. Telp',
-                                   name : 'no_telp',
-                               },
-                               {
-                                   label : 'Action',
-                                   name : 'action',
-                               }
-                           ] }
-                           data = { [
-                               {
-                                   nama : 'Mekanik 1',
-                                   alamat : 'Jl. Mekan',
-                                   no_telp : '08123456789'
-                               },
-                               {
-                                   nama : 'Mekanik 2',
-                                   alamat : 'Jl. Mekanx',
-                                   no_telp : '08123456781'
-                               },
-                           ] }/>
+                           header = { controller.header }
+                           data = { controller.mekanik }/>
     }
 }
 

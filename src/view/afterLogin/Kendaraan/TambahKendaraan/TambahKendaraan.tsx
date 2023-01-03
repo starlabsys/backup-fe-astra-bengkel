@@ -1,29 +1,17 @@
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
 import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
-import IDropDown from "../../../../component/ITextField/IDropDown";
+import IDropDown, { InterfacePropsDropDown } from "../../../../component/ITextField/IDropDown";
 import { IRadioSingle } from "../../../../component/ITextField/IRadio";
 import IButton from "../../../../component/IButton/IButton";
 import { useRouter } from "next/router";
-import { TambahKendaraanViewModel } from "./ModelView/TambahKendaraan";
-import { InterfaceKendaraan } from "../interfaces/InterfaceKendaraan";
+import TambahKendaraanViewModel from "./TambahKendaraanViewModel";
 
 
 const TambahKendaraanView = () => {
     const route = useRouter();
-    const terminalPayload : InterfaceKendaraan = route.query as any;
-    const controller = TambahKendaraanViewModel( {
-        id : terminalPayload.id,
-        namaPemilik : terminalPayload.customer,
-        noRangka : terminalPayload.noRangka,
-        noMesin : terminalPayload.noMesin,
-        noPolisi : terminalPayload.noPolisi,
-        typeKendaraan : terminalPayload.type,
-        warna : terminalPayload.warna,
-        tahunRakit : `${ terminalPayload.tahunRakit }`,
-        status : terminalPayload.status,
-        customer : terminalPayload.customer,
-    } );
+    const controller = TambahKendaraanViewModel();
+
     return <div className = { `flex-1 grid gap-5` }>
         <IBreadcrumbs title = { 'Tambah Kendaraan' } subtitle = { 'master-data/kendaraan/tambah-kendaraan' }/>
         { stnk() }
@@ -34,10 +22,7 @@ const TambahKendaraanView = () => {
             } }>
                 Kembali
             </IButton>
-            <IButton status = { 'success' } onClick = { () => {
-                controller.addKendaraan().then( ( res ) => {
-                } );
-            } }>
+            <IButton status = { 'success' } onClick = { controller.save }>
                 Simpan
             </IButton>
         </div>
@@ -51,21 +36,15 @@ const TambahKendaraanView = () => {
                 <IDropDown type = { 'text' }
                            label = { 'Nama Pemilik *' }
                            required = { true }
-                           value = { controller.namaPemilik }
+                           value = { controller.pemilik.name }
                            error = { false }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Pemilik x',
-                                   name : 'Pemilik 1'
-                               }
-                           ] }
+                           data = { controller.listDropDownPelanggan }
                            onEnter = { 'next' }
                            onValueChange = { ( value ) => {
-
+                               controller.getPelanggan( value );
                            } }
                            onValue = { value => {
-                               controller.setNamaPemilik( value.value );
+                               controller.setPemilik( value )
                            } }/>
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'No Polisi *' }
@@ -73,31 +52,25 @@ const TambahKendaraanView = () => {
                                    value = { controller.noPolisi }
                                    error = { false }
                                    onChange = { ( event ) => {
-                                       controller.setNoPolisi( event.target.value );
+                                       controller.setNoPolisi( event.target.value.toUpperCase() );
                                    } }
                                    required = { true }/>
                 <IDropDown type = { 'text' }
                            label = { 'Customer *' }
                            required = { true }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Pemilik x',
-                                   name : 'Pemilik 1'
-                               }
-                           ] }
-                           value = { controller.customer }
+                           value = { controller.customer.name }
+                           error = { false }
+                           data = { controller.listDropDownPelanggan }
                            onEnter = { 'next' }
                            onValueChange = { ( value ) => {
-
+                               controller.getPelanggan( value );
                            } }
-                           error = { false }
                            onValue = { value => {
-                               controller.setCustomer( value.value );
+                               controller.setCustomer( value )
                            } }/>
                 <IRadioSingle status = { controller.status } setStatus = { () => {
                     controller.setStatus( !controller.status );
-                } } label = { 'Status' } value1 = { 'Aktif' } error = { false }/>
+                } } label = { 'Status' } value1 = { controller.status ? 'Aktif' : 'Tidak Aktif' } error = { false }/>
             </div>
         </div>
     }
@@ -109,44 +82,34 @@ const TambahKendaraanView = () => {
                 <IDropDown type = { 'text' }
                            label = { 'Nama Tipe Kendaraan *' }
                            required = { true }
-                           onChange = { () => {
-                           } }
                            error = { false }
-                           value = { controller.typeKendaraan }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Pemilik x',
-                                   name : 'Pemilik 1'
-                               }
-                           ] }
+                           data = { controller.listDropDownKendaraan }
                            onEnter = { 'next' }
                            onValueChange = { ( value ) => {
-
                            } }
                            onValue = { value => {
-                               controller.setTypeKendaraan( value.value );
+                               controller.setKendaraan( value )
+                               controller.getWarna( Number( value.value ) );
+                               controller.setWarna( {
+                                   id : 0,
+                                   name : '',
+                                   value : ''
+                               } );
                            } }/>
                 <IDropDown type = { 'text' }
                            label = { 'Warna *' }
+                           disabled = { controller.kendaraan.value === '' }
                            required = { true }
-                           value = { controller.warna }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'Pemilik x',
-                                   name : 'Pemilik 1'
-                               }
-                           ] }
-                           onChange = { () => {
-                           } }
+                           value = { controller.warna.name }
+                           data = { controller.listDropDownWarna }
                            error = { false }
                            onEnter = { 'next' }
                            onValueChange = { ( value ) => {
 
                            } }
                            onValue = { value => {
-                               controller.setWarna( value.value );
+                               controller.setWarna( value )
+                               // controller.setWarna( value.value );
                            } }/>
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Tahun Rakit *' }
@@ -173,7 +136,6 @@ const TambahKendaraanView = () => {
                                    value = { controller.noMesin }
                                    onChange = { ( event ) => {
                                        controller.setNoMesin( event.target.value );
-
                                    } }
                                    required = { true }/>
             </div>

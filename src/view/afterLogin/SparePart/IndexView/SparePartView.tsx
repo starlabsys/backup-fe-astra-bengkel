@@ -5,6 +5,7 @@ import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import SparePartController from "./SparePartController";
 import { useRouter } from "next/router";
+import { InterfaceSparePart } from "../interfaces/InterfaceSparePart";
 
 
 const SparePartView = () => {
@@ -12,7 +13,7 @@ const SparePartView = () => {
     const route = useRouter();
     return (
         <div className = { `w-full grid gap-5` }>
-            <IBreadcrumbs title = { `Sparepart` } subtitle = { `sparepart` }/>
+            <IBreadcrumbs title = { `Sparepart` } subtitle = { `master-data/sparepart` }/>
             <div className = { `w-full rounded-lg bg-white grid relative` }>
                 <div className = { `w-full p-5 grid gap-10` }>
                     <ITitleMd title = { "List Sparepart" }/>
@@ -25,9 +26,10 @@ const SparePartView = () => {
                                 value = { undefined }
                                 type = { "text" }
                                 onChange = { ( event ) => {
+                                    controller.getSparepart( 1, event.target.value )
                                 } }
                                 placeholder = { "Cari..." }
-                                label = { "Cari" }
+                                label = { "Cari Kode Sparepart" }
                                 onEnter = { "enter" }
                             />
                         </div>
@@ -40,50 +42,24 @@ const SparePartView = () => {
                             </IButton>
                         </div>
                     </div>
-                    <ITableData header = { [
-                        // code: item.parts_code,
-                        // name: item.parts_name,
-                        // group: item.parts_name,
-                        // qty: item.parts_qty.toString,
-                        // price: `Rp. ${item.parts_price}`,
-                        // priceNasional: `Rp. ${item.parts_price}`
-                        {
-                            label : "#",
-                            name : "#",
-                        },
-                        {
-                            label : "Kode",
-                            name : "code",
-                        },
-                        {
-                            label : "Nama",
-                            name : "name",
-                        },
-                        {
-                            label : "Group",
-                            name : "group",
-                        },
-                        {
-                            label : "Harga Ahass",
-                            name : "price",
-                        },
-                        {
-                            label : "Harga Nasional (HET)",
-                            name : "priceNasional",
-                        },
-                        // {
-                        //     label : "Jumlah",
-                        //     name : "qty",
-                        // },
-                        {
-                            label : "Action",
-                            name : "action"
-                        }
-                    ] } data = { controller.sparepart }
+                    <ITableData header = { controller.header }
+                                data = { controller.sparepart }
                                 loading = { controller.loading }
-                                totalPage = { 2 }
-                                page = { 0 }
-                                updated = { ( data ) => {
+                                totalPage = { controller.totalPage }
+                                page = { controller.page - 1 }
+                                changePage = { ( data ) => {
+                                    controller.setPage( data );
+                                    controller.getSparepart( data, '' );
+                                } }
+                                updated = { ( data : InterfaceSparePart ) => {
+                                    route.push( {
+                                        pathname : '/master-data/sparepart/' + data.id + '/edit',
+                                    } )
+                                } }
+                                info = { ( data ) => {
+                                    route.push( {
+                                        pathname : '/master-data/sparepart/' + data.id + '/info',
+                                    } )
                                 } }
                     />
                 </div>

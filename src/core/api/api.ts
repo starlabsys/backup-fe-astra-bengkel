@@ -54,29 +54,27 @@ interface ApiProps {
 }
 
 
-const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig ) : Promise<ReturnResult> => {
+const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig ) : Promise<any> => {
     try {
         const resp = await axios( config );
         if ( resp.status === 200 ) {
-            return {
-                message : 'success',
-                statusCode : resp.status,
-                data : resp.data.data
-            };
+            return JSON.stringify( resp.data );
         }
         if ( resp.status === 201 ) {
             ErrorHandler.successPost( context, resp.data.message );
-            return {
-                message : 'success',
-                statusCode : 201,
-                data : resp.data.message
-            };
+            return null;
+            // return {
+            //     message : 'success',
+            //     statusCode : 201,
+            //     data : resp.data.message
+            // };
         }
-        return {
-            message : 'error',
-            statusCode : resp.status,
-            data : resp.data
-        };
+        return null;
+        // return {
+        //     message : 'error',
+        //     statusCode : resp.status,
+        //     data : resp.data
+        // };
     } catch ( e ) {
         const error = e as AxiosError;
         console.debug( '::ERROR:: ', '\n' + error );
@@ -85,16 +83,19 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
             ErrorHandler.errorResponse( context, { message : data.message } );
         }
         if ( error.response?.status === 401 ) {
-            ErrorHandler.errorResponse( context, { message : 'Error, Tambah data' } );
+            ErrorHandler.notAuthorized( context, { message : data.message } );
         }
         if ( error.response?.status === 403 ) {
             ErrorHandler.notAuthorized( context, { message : data.message.name } );
         }
         if ( error.response?.status === 404 ) {
-            ErrorHandler.notFound( context, { message : data.message.message } );
+            ErrorHandler.notFound( context, { message : data.message } );
         }
         if ( error.response?.status === 405 ) {
             ErrorHandler.methodNotAllowed( context, { message : data.message.message } );
+        }
+        if ( error.response?.status === 449 ) {
+            ErrorHandler.errorPost( context, { message : data.message } );
         }
         if ( error.response?.status === 504 ) {
             ErrorHandler.internalError( context, { message : data.message.message } );
@@ -108,13 +109,14 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
         if ( error.message === 'Timeout' ) {
             ErrorHandler.timeout( context, { message : "Request Time out" } );
         }
-        return {
-            message : 'error',
-            statusCode : 500, //error.response?.status ?? 500,
-            data : {
-                message : '' //error.response?.data ?? 'Internal Server Error'
-            }
-        };
+        return null;
+        // return {
+        //     message : 'error',
+        //     statusCode : 500, //error.response?.status ?? 500,
+        //     data : {
+        //         message : '' //error.response?.data ?? 'Internal Server Error'
+        //     }
+        // };
     } finally {
         console.debug( '::FINISH::' + '\n' );
     }

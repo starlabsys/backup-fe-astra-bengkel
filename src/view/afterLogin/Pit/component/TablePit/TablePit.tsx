@@ -6,7 +6,7 @@ import {
 } from "react-icons/md";
 import ISizeBox from "../../../../../component/ISizeBox/ISizeBox";
 import ISpinLoading from "../../../../../component/animation/ISpinLoading/ISpinLoading";
-import TablePitController from "./TablePitController";
+import PitViewModel from "../../PitViewModel";
 import { InterfacePit } from "../../interface/InterfacePit";
 
 
@@ -17,7 +17,7 @@ interface Interface {
 
 const TablePit = ( props : Interface ) => {
 
-    // const VIewModel = TablePitController();
+    // const VIewModel = PitViewModel();
     return props.controller.loading ? (
         <div className = { `w-full flex place-content-center py-5` }>
             <ISpinLoading/>

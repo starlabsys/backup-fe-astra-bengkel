@@ -1,6 +1,6 @@
 import PitRepository from "../../repository/pit/PitRepository";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
-import { InterfacePit } from "../../repository/pit/interface/InterfacePit";
+import { InterfaceAddPit } from "../../repository/pit/interface/InterfaceAddPit";
 import { InterfacePagination } from "../../interface/InterfacePagination";
 
 
@@ -9,11 +9,11 @@ class PitServices {
         return await PitRepository.get( context, props )
     }
 
-    public addData = async ( context : InterfaceError, data : InterfacePit ) => {
+    public addData = async ( context : InterfaceError, data : InterfaceAddPit ) => {
         return await PitRepository.add( context, data )
     }
 
-    public updateData = async ( context : InterfaceError, id : number, data : InterfacePit ) => {
+    public updateData = async ( context : InterfaceError, id : number, data : InterfaceAddPit ) => {
         return await PitRepository.updated( context, id, data )
     }
 }

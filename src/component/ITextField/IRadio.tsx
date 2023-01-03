@@ -40,7 +40,7 @@ export const IRadio = ( props : InterfaceRadio ) => {
 };
 
 export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
-    const [ value, setValue ] = useState( props.status );
+    // const [ value, setValue ] = useState( props.status );
     return (
         <div
             className = { `w-full grid font-Archivo text-sm gap-2` }
@@ -52,13 +52,15 @@ export const IRadioSingle = ( props : InterfaceRadioSingle ) => {
             ) : null }
             <div className = { `flex gap-20` }>
                 <div className = { `flex gap-2 place-items-center` } onClick = { () => {
-                    setValue( !value );
-                    return props.setStatus( !value );
+                    if ( !props.disabled ) {
+                        return props.setStatus( !props.status );
+                    }
+                    // setValue( !value );
                 } }>
                     <div
                         className = { `w-5 h-5 rounded-full border border-primary border-2 p-0.5` }
                     >
-                        { value ? (
+                        { props.status ? (
                             <div className = { `w-full h-full rounded-full bg-primary` }></div>
                         ) : null }
                     </div>

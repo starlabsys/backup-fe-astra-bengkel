@@ -5,7 +5,7 @@ import { InterfaceMekanik } from "../../repository/mekanik/interface/interfaceMe
 
 class MekanikServices {
     public getData = async ( context : InterfaceError ) => {
-        return await MekanikRepository.getData( context )
+        const resp = await MekanikRepository.getData( context )
     }
 
     public postData = async ( context : InterfaceError, props : InterfaceMekanik ) => {

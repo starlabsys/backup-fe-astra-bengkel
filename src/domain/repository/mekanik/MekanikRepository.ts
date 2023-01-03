@@ -1,45 +1,34 @@
 import { get, patch, post } from "../../../core/api/api";
 import { InterfaceError } from "../../../core/utils/error/IAlertDialog";
 import { InterfaceMekanik } from "./interface/interfaceMekanik";
+import { InterfaceGetListMekanik } from "./interface/InterfaceGetListMekanik";
+import { ConvertModelListMekanik, ModelListMekanik } from "../../models/Mekanik/ModelListMekanik";
+import { InterfaceAddMekanik } from "./interface/InterfaceAddMekanik";
 
 
 class MekanikRepository {
-    public getData = async ( context : InterfaceError ) => {
-        return await get( context, {
-            url : '/mechanic',
-            reqBody : {}
+    public getData = async ( context : InterfaceError, props : InterfaceGetListMekanik ) : Promise<ModelListMekanik | null> => {
+        const resp = await post( context, {
+            url : '/mekanik/get',
+            reqBody : props
         } )
+        if ( resp !== null ) {
+            return ConvertModelListMekanik.toModelListMekanik( resp );
+        }
+        return null;
     }
 
-    public postData = async ( context : InterfaceError, props : InterfaceMekanik ) => {
-        return await post( context, {
-            url : '/mechanic',
-            reqBody : {
-                "workshop_id" : props.workshopId,
-                "mechanic_name" : props.mechanicName,
-                "mechanic_number" : props.mechanicNumber,
-                "mechanic_gender" : props.mechanicGender,
-                "mechanic_phone" : props.mechanicPhone,
-                "mechanic_address" : props.mechanicAddress
-
-            }
+    public postData = async ( context : InterfaceError, props : InterfaceSaveDataMekanik ) => {
+        const resp = await post( context, {
+            url : '/mekanik/store',
+            reqBody : props
         } )
+        if ( resp !== null ) {
+            return resp;
+        }
+        return null;
     }
 
-    public updatedData = async ( context : InterfaceError, props : InterfaceMekanik ) => {
-        return await patch( context, {
-            url : '/mechanic/' + props.id,
-            reqBody : {
-                "workshop_id" : props.workshopId,
-                "mechanic_name" : props.mechanicName,
-                "mechanic_number" : props.mechanicNumber,
-                "mechanic_gender" : props.mechanicGender,
-                "mechanic_phone" : props.mechanicPhone,
-                "mechanic_address" : props.mechanicAddress
-
-            }
-        } )
-    }
 }
 
 export default new MekanikRepository();

@@ -7,7 +7,7 @@ export async function middleware( request : NextRequest ) {
     const url = process.env.ENV === 'dev' ? process.env.DEV_MODE : process.env.PROD_MODE
     if ( request.nextUrl.pathname === '/auth/login' ) {
         if ( token !== undefined ) {
-            return NextResponse.redirect( url + '/' )
+            return NextResponse.redirect( url + '/master-data' )
         }
     }
     else {

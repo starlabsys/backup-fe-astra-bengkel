@@ -33,12 +33,13 @@ export interface InterfaceTextFieldRounded {
 
 
 export interface InterfaceTextFieldDefault {
+    form? : string | undefined
+    defaultValue? : string | undefined
     type : HTMLInputTypeAttribute;
     disabled? : boolean;
     autoCapitalize? : string;
     required? : boolean;
-    onChange : ( e : ChangeEvent<FormElement> ) => void
-    error : boolean;
+    error? : boolean;
     placeholder? : string;
     name? : string
     label : string;
@@ -48,6 +49,8 @@ export interface InterfaceTextFieldDefault {
     errorMessages? : string;
     value : string | number | readonly string[] | undefined;
     onblur? : ( e : ChangeEvent<FormElement> ) => void
+    helperColor? : "error" | "primary" | "default" | "secondary" | "success" | "warning" | undefined;
+    onChange : ( e : ChangeEvent<FormElement> ) => void
 }
 
 export interface InterfaceSelectOption {
@@ -66,6 +69,7 @@ export interface InterfaceRadioSingle {
     value1? : string;
     status : boolean;
     error : boolean;
+    disabled? : boolean;
     setStatus : ( data : boolean ) => void
 }
 

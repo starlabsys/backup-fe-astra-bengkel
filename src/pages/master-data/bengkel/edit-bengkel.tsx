@@ -4,7 +4,7 @@ import MainLayout from "../../../layout/MainLayout";
 
 const EditBengkel = () => {
     return <MainLayout>
-        <TambahBengkelView title = { 'Edit Bengkel' } path = { 'edit-bengkel' }/>
+        <TambahBengkelView title = { 'Status Bengkel' } path = { 'edit-bengkel' }/>
     </MainLayout>;
 }
 

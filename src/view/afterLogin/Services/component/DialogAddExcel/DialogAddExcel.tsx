@@ -2,6 +2,7 @@ import ITitleMd from "../../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../../component/ITextField/ITextField";
 import IButton from "../../../../../component/IButton/IButton";
 import AddServicesExcelController from "./AddServicesController";
+import { FormatKeyJson } from "../../../../../utils/format/formatKeyJson";
 
 
 const XLSX = require( "xlsx" );
@@ -17,20 +18,23 @@ const DialogAddExcel = () => {
                     error = { false }
                     value = { undefined }
                     onChange = { ( e ) => {
-                        // e.preventDefault();
-                        // if (e.target.) {
-                        // 	const reader = new FileReader();
-                        // 	reader.onload = (e) => {
-                        // 		const data = e.target?.result;
-                        // 		const workbook = XLSX.read(data, { type: "array" });
-                        // 		const sheetName = workbook.SheetNames[0];
-                        // 		const worksheet = workbook.Sheets[sheetName];
-                        // 		const json = XLSX.utils.sheet_to_json(worksheet);
-                        // 		console.log(json);
-                        // 		VIewModel.setExcel(json);
-                        // 	};
-                        // 	reader.readAsArrayBuffer(e.target.files[0]);
-                        // }
+                        e.preventDefault();
+                        let files = (e.target as HTMLInputElement).files;
+                        if ( files ) {
+                            const reader = new FileReader();
+                            reader.onload = ( e ) => {
+                                const data = e.target?.result;
+                                const workbook = XLSX.read( data, { type : "array" } );
+                                const sheetName = workbook.SheetNames[ 0 ];
+                                const worksheet = workbook.Sheets[ sheetName ];
+                                const json = XLSX.utils.sheet_to_json( worksheet );
+                                console.log( json );
+                                console.log( JSON.stringify( FormatKeyJson( json[ 0 ] ) ) );
+                                // console.log( JSON.stringify( json ) );
+                                // VIewModel.setExcel(json);
+                            };
+                            reader.readAsArrayBuffer( files[ 0 ] );
+                        }
                     } }
                     placeholder = { "Input File Excel" }
                     name = { "excel" }

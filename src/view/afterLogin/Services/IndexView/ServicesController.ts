@@ -111,7 +111,9 @@ const ServicesController = () => {
         tanggal : '',
         tanggalSampai : '',
         noPolisi : '',
-        statusPencarianPKB : '1',
+        statusPencarianPKB : {
+            id : 1, value : "1", name : "Belum Dibayar"
+        },
         pageNumber : 1,
         pageSize : 10,
     } );
@@ -128,7 +130,7 @@ const ServicesController = () => {
             tanggal : props.tanggal,//"2022-12-02T00:00:00+07:00"
             tanggalSampai : props.tanggalSampai,
             noPolisi : props.noPolisi,
-            statusPencarianPKB : props.statusPencarianPKB,
+            statusPencarianPKB : props.statusPencarianPKB.value,
             pageNumber : props.pageNumber,
             pageSize : props.pageSize,
             totalRow : 100,
@@ -151,7 +153,9 @@ const ServicesController = () => {
         getListPKB( {
             pageSize : 10,
             pageNumber : 1,
-            statusPencarianPKB : '1',
+            statusPencarianPKB : {
+                id : 1, value : "1", name : "Belum Dibayar"
+            },
             noPolisi : '',
             tanggal : dateNow + 'T00:00:00+07:00',
             tanggalSampai : dateNow + 'T00:00:00+07:00',

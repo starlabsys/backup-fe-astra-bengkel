@@ -81,6 +81,7 @@ export const TambahSparePartVM = () => {
     }
 
     const sendData = async () => {
+        loadingLottie.openLoading( true );
         const sendData : InterfaceSendDataSparePart = {
             action : 0,
             id : 0,
@@ -100,8 +101,9 @@ export const TambahSparePartVM = () => {
             rak : '',
             barcode : ''
         }
-        console.log( sendData );
-        // const resp = await SparepartRepository.add( context, sendData );
+        // console.log( sendData );
+        const resp = await SparepartRepository.add( context, sendData );
+        loadingLottie.openLoading( false );
     }
 
     useEffect( () => {

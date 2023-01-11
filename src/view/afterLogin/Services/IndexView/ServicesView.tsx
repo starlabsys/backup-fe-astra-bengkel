@@ -73,15 +73,20 @@ const ServicesView = () => {
                         onEnter = { "next" }
                         name = { "plat" }
                         error = { false }
-                        value = { undefined }
+                        value = { controller.cariPkb.noPolisi }
                         placeholder = { "Masukan Nomor Polisi" }
-                        onChange = { () => {
+                        onChange = { ( value ) => {
+                            controller.setCariPkb( {
+                                ...controller.cariPkb,
+                                noPolisi : value.target.value
+                            } )
                         } }
                     />
                     <IDropDown type = { "text" }
                                error = { false }
                                label = { 'Status Pembayaran' }
                                placeholder = { '-- Select Status --' }
+                               value = { controller.cariPkb.statusPencarianPKB.name }
                                data = { [
                                    { id : 1, value : "1", name : "Belum Dibayar" },
                                    { id : 2, value : "2", name : "Sudah Dibayar" }
@@ -92,13 +97,23 @@ const ServicesView = () => {
                                onValue = { ( item ) => {
                                    controller.setCariPkb( {
                                        ...controller.cariPkb,
-                                       statusPencarianPKB : item.value
+                                       statusPencarianPKB : item
                                    } )
                                } }/>
                 </div>
                 <div className = { `w-full flex place-content-end` }>
                     <div className = { `w-full tablet:w-9/12 laptop:w-5/12 flex place-content-end gap-2` }>
-                        <IButton rounded = { "full" } status = { "danger" }>
+                        <IButton rounded = { "full" } status = { "danger" } onClick = { () => {
+                            controller.setCariPkb( {
+                                tanggal : "",
+                                noPKB : "",
+                                noPolisi : "",
+                                statusPencarianPKB : { id : 0, value : "", name : "" },
+                                pageSize : 10,
+                                pageNumber : 1,
+                                tanggalSampai : ""
+                            } )
+                        } }>
                             Reset
                         </IButton>
                         <IButton rounded = { "full" } onClick = { () => {
@@ -218,7 +233,16 @@ const ServicesView = () => {
             totalPage = { controller.totalPage }
             loading = { false }
             changePage = { index => {
-                console.log( index )
+                controller.setPage( index );
+                controller.getListPKB( {
+                    pageSize : 10,
+                    pageNumber : index,
+                    statusPencarianPKB : controller.cariPkb.statusPencarianPKB,
+                    noPolisi : controller.cariPkb.noPolisi,
+                    tanggal : controller.cariPkb.tanggal + 'T00:00:00+07:00',
+                    tanggalSampai : controller.cariPkb.tanggalSampai + 'T00:00:00+07:00',
+                    noPKB : controller.cariPkb.noPKB,
+                } );
             } }
             updated = { ( data ) => {
             } }

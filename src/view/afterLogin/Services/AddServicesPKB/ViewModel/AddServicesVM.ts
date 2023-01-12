@@ -47,27 +47,27 @@ const AddServicesVM = () => {
         {
             id : 1,
             name : 'Regular',
-            value : 'Regular'
+            value : 'R'
         },
         {
             id : 2,
             name : 'Claim',
-            value : 'Claim'
+            value : 'C'
         },
         {
             id : 3,
             name : 'Fast Track',
-            value : 'Fast Track'
+            value : 'F'
         },
         {
             id : 4,
             name : 'Express',
-            value : 'Express'
+            value : 'E'
         },
         {
             id : 5,
             name : 'Booking',
-            value : 'Booking'
+            value : 'B'
         },
     ]
     const listTypeKedatangan : InterfacePropsDropDown[] = [
@@ -183,14 +183,33 @@ const AddServicesVM = () => {
             value : 'Buku KPB'
         },
     ]
+
+    const customerDatang : InterfacePropsDropDown[] = [
+        {
+            id : 1,
+            name : 'Miliki',
+            value : 'Miliki'
+        },
+        {
+            id : 2,
+            name : 'Bawa',
+            value : 'Bawa'
+        },
+        {
+            id : 3,
+            name : 'Pakai',
+            value : 'Pakai'
+        },
+    ]
+
     const [ listGudang, setListGudang ] = useState<InterfacePropsDropDown[]>( [] );
     const [ listNoMesinNoPlat, setListNoMesinNoPlat ] = useState<InterfacePropsDropDown[]>( [] );
     const [ noMesinNoPlat, setNoMesinNoPlat ] = useState<InterfacePropsDropDown>();
     const [ searchKendaraan, setSearchKendaraan ] = useState<EnumSearchKendaraanPKB>( EnumSearchKendaraanPKB.mesin );
 
     const [ dataPkb, setDataPkb ] = useState<ModelAddServices>( {
-        hubunganDgPemilikID : listHubPemilik[ 0 ],
-        alasanIngatServiceID : listAlasanAhass[ 0 ],
+        // hubunganDgPemilikID : listHubPemilik[ 0 ],
+        // alasanIngatServiceID : listAlasanAhass[ 0 ],
     } as ModelAddServices );
 
     const [ pemilik, setPemilik ] = useState<InterfacePemilik>();
@@ -215,15 +234,16 @@ const AddServicesVM = () => {
         }
     }
 
-    const sendData = () => {
+    const sendData = async () => {
         // const now = new Date();
+        loadingLottie.openLoading( true )
         const sendData : InterfaceAddDataServices = {
             action : 0,
             idPKB : 0,
             pkbNo : '',
             refEquipmentID : dataPkb?.refEquipmentID ?? 0,
             statusPKB : dataPkb?.statusPKB ?? 0,
-            tipePKB : dataPkb?.tipePKB?.id ?? 0,
+            tipePKB : 1,//dataPkb?.tipePKB?.id ?? 0,
             noAntrian : '',
             kmSekarang : dataPkb?.kmSekarang ?? 0,
             kmBerikutnya : dataPkb?.kmBerikutnya ?? 0,
@@ -242,7 +262,7 @@ const AddServicesVM = () => {
             refMechanicID : dataPkb?.refMechanicID?.id.toString() ?? '',
             serviceAdvisorID : dataPkb?.serviceAdvisorID?.id.toString() ?? '',
             finalInspectorID : dataPkb?.finalInspectorID?.id.toString() ?? '',
-            jamMasuk : dataPkb?.jamMasuk ?? '',
+            jamMasuk : FormatDate.dateSend2(),
             jamProses : dataPkb?.jamProses ?? '',
             jamSelesai : dataPkb?.jamSelesai ?? '',
             uangMuka : dataPkb?.uangMuka ?? 0,
@@ -250,49 +270,49 @@ const AddServicesVM = () => {
             idPit : dataPkb?.idPit ?? 0,
             listOfPekerjaan : dataPkb?.listOfPekerjaan?.map( ( item : ListOfPekerjaanModel ) : ListOfPekerjaan => {
                 return {
+                    guid : '',
+                    pkbID : 0,
+                    pkbPekerjaanID : 0,
+                    itemNo : 0,
+                    refJobID : item?.idJasa ?? 0,
+                    nilaiDiskon : Number( Currency.idrToString( item.nilaiDiskon ?? '0' ) ) ?? 0,
+                    nilaiDiskonJasa : Number( Currency.idrToString( item.nilaiDiskonJasa.toString() ?? '0' ) ) ?? 0,
+                    persentaseDiskon : item.persentaseDiskon,
+                    persentaseDiskonJasa : item.persentaseDiskonJasa,
+                    totalJasa : Number( Currency.idrToString( item.totalJasa ?? '0' ) ),
+                    pajakJasa : item.pajakJasa,
                     hargaPekerjaan : Number( Currency.idrToString( item.hargaPekerjaan ?? '0' ) ) ?? 0,
-                    nilaiDiskon : 0,
-                    listOfMaterialHotline : [],
-                    flatRate : item.flatRate,
-                    guid : item.guid,
-                    idJasa : item.idJasa,
-                    isAdditionalPekerjaan : Number( Currency.idrToString( item.isAdditionalPekerjaan ) ),
-                    isFreeService : item.isFreeService,
-                    isEditable : item.isEditable,
+                    namaPekerjaan : item.namaPekerjaan,
                     isOPL : item.isOPL,
-                    itemNo : item.itemNo,
-                    kodeJasa : item.kodeJasa,
-                    isShowDelete : item.isShowDelete,
-                    kodeJasaAHM : item.kodeJasaAHM,
+                    labelisOPL : item.isOPL ? 'Ya' : 'Tidak',
                     listOfMaterial : listSparepartTable.map( ( valueData ) : InterfaceListSparePartPKB => {
                         if ( valueData.pekerjaanID === item.idJasa ) {
                             return valueData
                         }
                         return {} as InterfaceListSparePartPKB
                     } ),
-                    labelisOPL : item.labelisOPL,
-                    markUpJasa : item.markUpJasa,
-                    namaPekerjaan : item.namaPekerjaan,
-                    noBuku : item.noBuku,
-                    nilaiDiskonJasa : item.nilaiDiskonJasa,
-                    noClaimC2 : item.noClaimC2,
-                    pajakJasa : item.pajakJasa,
-                    persentaseDiskon : item.persentaseDiskon,
-                    persentaseDiskonJasa : item.persentaseDiskonJasa,
-                    pkbPekerjaanID : item.pkbPekerjaanID,
-                    refJobID : item.refJobID,
-                    totalJasa : Number( Currency.idrToString( item.totalJasa ?? '0' ) ),
+                    listOfMaterialHotline : [],
+                    kodeJasa : item.kodeJasa,
+                    idJasa : item.idJasa,
+                    isShowDelete : item.isShowDelete,
+                    isEditable : item.isEditable,
+                    isFreeService : item.isFreeService,
+                    flatRate : item.flatRate,
+                    markUpJasa : Number( item.markUpJasa.toString() ?? '0' ) ?? 0,
                     vendorID : item.vendorID,
+                    noClaimC2 : item.noClaimC2,
+                    noBuku : item.noBuku,
+                    isAdditionalPekerjaan : Number( Currency.idrToString( item.isAdditionalPekerjaan ) ),
                 }
             } ),
             listOfMaterialHotline : dataPkb?.listOfMaterialHotline ?? [],
-            tanggal : dataPkb?.tanggal ?? FormatDate.nowDate() + 'T11:35:19+07:00',
-            latitude : dataPkb?.latitude ?? 0,
-            longitude : dataPkb?.longitude ?? 0,
-            noSTNK : dataPkb?.noSTNK?.value ?? '',
+            tanggal : FormatDate.dateSend2(),
+            latitude : getLatLng.lat,
+            longitude : getLatLng.lng,
+            noSTNK : dataPkb?.noSTNK ?? '',
             indikatorBensin : dataPkb?.indikatorBensin ?? 0,
             svPKBReturnID : dataPkb?.svPKBReturnID ?? 0,
-            kodeAntrian : dataPkb?.kodeAntrian ?? '',
+            kodeAntrian : dataPkb?.tipeAntrian?.value ?? '',
             tipeAntrian : dataPkb?.tipeAntrian?.value ?? '',
             activityCapacity : dataPkb?.activityCapacity?.id ?? 0,
             kecamatanPembawa : dataPkb?.kecamatanPembawa ?? '',
@@ -304,8 +324,8 @@ const AddServicesVM = () => {
             isEngineNo : dataPkb?.isEngineNo ?? false,
             isFrameNo : dataPkb?.isFrameNo ?? false,
             isPKBHotline : dataPkb?.isPKBHotline ?? false,
-            jamEstimasiSelesai : dataPkb?.jamEstimasiSelesai ?? '',
-            jamKedatanganCustomer : dataPkb?.jamKedatanganCustomer ?? '',
+            jamEstimasiSelesai : FormatDate.dateSend2(),
+            jamKedatanganCustomer : FormatDate.dateSend2(),
             noClaimC2 : dataPkb?.noClaimC2 ?? '',
             noBuku : dataPkb?.noBuku ?? '',
             DataMotorkuX : dataPkb?.DataMotorkuX ?? {
@@ -314,7 +334,11 @@ const AddServicesVM = () => {
             }
         }
 
-        console.log( sendData );
+        // console.log( sendData )
+
+        const resp = await PkbRepository.addData( context, sendData )
+        loadingLottie.openLoading( false )
+
     }
 
     const getDataCustomerFromPlatNoMesin = async ( platNoMesin : string ) => {
@@ -364,6 +388,7 @@ const AddServicesVM = () => {
                     kotaPembawa : dataKendaraan.kotaPembawa,
                     alamatPembawaSaatIni : dataKendaraan.alamatPembawa,
                     alamatPembawa : dataKendaraan.alamatPembawa,
+                    refEquipmentID : dataKendaraan.id,
                 } as ModelAddServices
             } )
         }
@@ -497,6 +522,11 @@ const AddServicesVM = () => {
         loadingLottie.openLoading( false );
     }
 
+    const [ getLatLng, setGetLatLng ] = useState( {
+        lat : 0,
+        lng : 0,
+    } );
+
     const getLat = async () => {
         await navigator.geolocation.getCurrentPosition( ( position ) => {
             // setLat(position.coords.latitude)
@@ -507,6 +537,10 @@ const AddServicesVM = () => {
                     latitude : position.coords.latitude,
                     longitude : position.coords.longitude,
                 } as ModelAddServices
+            } )
+            setGetLatLng( {
+                lat : position.coords.latitude,
+                lng : position.coords.longitude
             } )
         } )
     }
@@ -602,6 +636,7 @@ const AddServicesVM = () => {
                 totalHarga : total,
             } as InterfaceDataSparepart
         } )
+
     }
 
     const persentaseDiskonSparePart = ( persentase : number ) => {
@@ -731,6 +766,13 @@ const AddServicesVM = () => {
         }
     }
 
+    const [ totalSparepart, setTotalSparepart ] = useState( 0 );
+
+    const subBayar = ( totalJasa : number, totalSparepart : number ) => {
+        // const total = totalJasa + totalSparepart;
+        // setTotalBayarAll( total )
+    }
+
 
     useEffect( () => {
         getListGudang();
@@ -741,6 +783,18 @@ const AddServicesVM = () => {
         getMekanik( EnumDataListMekanik.inspector, '' )
         // getListSparepart();
         // getDetailSparepart();
+        const date = new Date();
+        const time = Date.now();
+        // const tanggal =
+        setDataPkb( ( prevState ) => {
+            return {
+                ...prevState,
+                jamMasuk : FormatDate.stringToDateInput( date.toLocaleDateString() ),
+                jamKedatanganCustomer : FormatDate.getTimeNow( time ),
+                jamEstimasiSelesai : FormatDate.stringToDateInput( date.toLocaleDateString() ),
+                tanggal : FormatDate.nowDate()
+            } as ModelAddServices
+        } )
         return () => {
         };
     }, [] );
@@ -799,7 +853,7 @@ const AddServicesVM = () => {
         listSparepartTable, setListSparepartTable,
         dataSparePart, setDataSparePart,
         totalHargaSparePart, persentaseDiskonSparePart,
-        hargaDiskonSparePart, JumlahTotalSparePart
+        hargaDiskonSparePart, JumlahTotalSparePart, subBayar, totalSparepart, setTotalSparepart, customerDatang
     }
 }
 

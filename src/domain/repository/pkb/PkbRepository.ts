@@ -9,6 +9,7 @@ import {
     ModelGetKendaraanCustomer
 } from "../../models/Pkb/ModelGetKendaraanServices";
 import { ConvertModelCustomerServices, ModelCustomerServices } from "../../models/Pkb/ModelGetCustomerSerivces";
+import { InterfaceAddDataServices } from "./interface/InterfaceAddDataServices";
 
 
 class PkbRepository {
@@ -30,6 +31,17 @@ class PkbRepository {
         } );
         if ( resp !== null ) {
             return ConvertModelCustomerServices.toModelCustomerServices( resp );
+        }
+        return null;
+    }
+
+    public addData = async ( context : InterfaceError, reqBody : InterfaceAddDataServices ) => {
+        const resp = await post( context, {
+            url : '/pkb/store',
+            reqBody : reqBody,
+        } )
+        if ( resp !== null ) {
+            return resp;
         }
         return null;
     }

@@ -42,7 +42,19 @@ export const ValidationAddServicesPKB = () => {
         }
     }
 
+    const validateSparePart = ( idGudang : string | number ) => {
+        if ( idGudang === 0 || idGudang === undefined ) {
+            context.onError( true )
+            context.setOpen( true )
+            context.giveMessage( 'ID gudang tidak boleh kosong' )
+            return false
+        }
+        else {
+            return true
+        }
+    }
+
     return {
-        validationJasa
+        validationJasa, validateSparePart
     }
 }

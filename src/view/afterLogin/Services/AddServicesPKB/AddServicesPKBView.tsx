@@ -21,6 +21,7 @@ import { ValidationAddServicesPKB } from "./ViewModel/ValidationAddServicesPKB";
 import { EnumDataListMekanik } from "../../../../utils/enum/EnumDataListMekanik";
 import { InterfaceListSparePartPKB } from "../interface/interfaceListSparepartPKB";
 import { InterfaceDataSparepart } from "../interface/InterfaceDataSparepart";
+import { useRouter } from "next/router";
 
 
 const AddServicesPKBView = () => {
@@ -35,6 +36,7 @@ const AddServicesPKBView = () => {
 
     const validation = ValidationAddServicesPKB();
 
+    const route = useRouter();
 
     return (
         <div className = { `flex-1 grid gap-5` }>
@@ -51,7 +53,9 @@ const AddServicesPKBView = () => {
             { ETA() }
             { JAM() }
             <div className = "grid tablet:flex tablet:flex-1 gap-5 tablet:place-content-end">
-                <IButton size = { "medium" } rounded = { "full" }>
+                <IButton size = { "medium" } rounded = { "full" } onClick = { () => {
+                    route.back();
+                } }>
                     Batal
                 </IButton>
                 <IButton size = { "medium" } rounded = { "full" } status = { 'success' } onClick = { () => {
@@ -70,7 +74,10 @@ const AddServicesPKBView = () => {
                 <div className = { `w-full grid gap-5 place-content-end` }>
                     <div className = "grid tablet:flex tablet:place-content-end">
                         <IButton rounded = { "full" } status = { "success" } onClick = { () => {
-                            controller.setShowSparepart( !controller.showSparepart )
+                            const sparepart = validation.validateSparePart( controller?.dataPkb?.idGudang?.id ?? 0 )
+                            if ( sparepart ) {
+                                controller.setShowSparepart( !controller.showSparepart )
+                            }
                         } }>
                             + Tambah Sparepart
                         </IButton>
@@ -98,9 +105,9 @@ const AddServicesPKBView = () => {
                                        disabled = { true }
                                        data = { controller?.dataPkb?.listOfPekerjaan?.map( ( item ) : InterfacePropsDropDown => {
                                            return {
-                                               id : item.idJasa,
-                                               name : item.namaPekerjaan,
-                                               value : item.idJasa.toString(),
+                                               id : item?.idJasa,
+                                               name : item?.namaPekerjaan,
+                                               value : item?.idJasa.toString(),
                                                add : item
                                            }
                                        } ) ?? [] }
@@ -224,14 +231,14 @@ const AddServicesPKBView = () => {
                             const listDataJasa = controller.dataPkb?.listOfPekerjaan ?? []
                             if ( listDataJasa.length > 0 ) {
                                 const data = listDataJasa.filter( ( item ) => {
-                                    if ( item.idJasa === controller.dataSparePart?.kodeJasa ) {
+                                    if ( item?.idJasa === controller.dataSparePart?.kodeJasa ) {
                                         return item
                                     }
                                     return []
                                 } )
 
                                 controller.dataPkb?.listOfPekerjaan.find( ( item : ListOfPekerjaanModel ) => {
-                                    if ( item.idJasa === controller.dataSparePart?.kodeJasa ) {
+                                    if ( item?.idJasa === controller.dataSparePart?.kodeJasa ) {
                                         controller.dataPkb?.listOfPekerjaan.splice( controller.dataPkb?.listOfPekerjaan.indexOf( item ), 1 )
                                     }
                                 } )
@@ -279,16 +286,6 @@ const AddServicesPKBView = () => {
                                             ...prevState.listOfPekerjaan,
                                             dataToPush,
                                         ]
-                                        // listOfMaterialHotline : prevState?.listOfMaterialHotline?.map( (
-                                        //     item ) => {
-                                        //     if ( item.id !== value.id ) {
-                                        //         return {
-                                        //             ...item, idJasa :
-                                        //             value.add,
-                                        //         };
-                                        //     }
-                                        //     return item;
-                                        // } )
                                     }
                                 } )
 
@@ -321,11 +318,14 @@ const AddServicesPKBView = () => {
 
 
                                 controller.setListSparepartTable( ( prevState ) => {
+                                    controller.setTotalSparepart( prevState.reduce( ( a, b ) => a + (b.totalMaterial ??
+                                        0), 0 ) + dataInSparepart.totalMaterial )
                                     return [
                                         ...prevState,
                                         dataInSparepart
                                     ]
                                 } )
+
                             }
                             else {
                                 controller.context.giveMessage( 'No Ref Jasa tidak boleh kosong' )
@@ -349,7 +349,7 @@ const AddServicesPKBView = () => {
                     </div>
                     <div className = "grid flex-1 place-items-center place-content-center gap-2">
                         <ITitleMd title = { "Part Bayar" }/>
-                        <div className = { `${ Header1 } text-primary` }>Rp. 0.00</div>
+                        <div className = { `${ Header1 } text-primary` }>{ Currency.stringToIdr( controller.totalSparepart.toString() ) }.00</div>
                     </div>
                 </div>
             </div>
@@ -427,7 +427,11 @@ const AddServicesPKBView = () => {
                 <div className = { `grid gap-5 flex-1 place-content-end` }>
                     <div className = "grid tablet:flex tablet:place-content-end">
                         <IButton rounded = { "full" } status = { "success" } onClick = { () => {
-                            controller.setShowAddJasa( !controller.showAddJasa )
+                            const validateJasa = validation.validationJasa( controller.pemilik?.noMesin ?? '',
+                                controller.dataPkb.kmSekarang, controller.dataPkb.kmSekarang );
+                            if ( validateJasa ) {
+                                controller.setShowAddJasa( !controller.showAddJasa )
+                            }
                         } }>
                             + Tambah Jasa
                         </IButton>
@@ -552,6 +556,14 @@ const AddServicesPKBView = () => {
                                                                                     error = { false }
                                                                                     label = { 'Nama Vendor' }
                                                                                     data = { controller.listVendor }
+                                                                                    onValue = { ( value ) => {
+                                                                                        controller.setAddJasa( ( prevState ) => {
+                                                                                            return {
+                                                                                                ...prevState,
+                                                                                                vendorID : value?.id
+                                                                                            } as InterfaceAddJasaPKB
+                                                                                        } )
+                                                                                    } }
                                                                                     onEnter = { 'enter' }/> : null
                                             }
                                         </div> : null
@@ -563,7 +575,7 @@ const AddServicesPKBView = () => {
                                 const dataSparepart : InterfaceListSparePartPKB[] = jasa?.listSparePart?.map( ( valueSparepart ) : InterfaceListSparePartPKB => {
                                     return {
                                         guid : '',
-                                        pekerjaanID : 0,
+                                        pekerjaanID : jasa?.id ?? 0,
                                         pkbMaterialID : 0,
                                         itemNoMaterial : 0,
                                         refNo : 0,
@@ -589,10 +601,13 @@ const AddServicesPKBView = () => {
                                     } as InterfaceListSparePartPKB
                                 } ) ?? []
 
+
                                 if ( controller.listSparepartTable.length < 1 ) {
                                     controller.setListSparepartTable( ( prevState ) => {
                                         return [ ...prevState, ...dataSparepart ]
                                     } )
+                                    controller.setTotalSparepart( dataSparepart.reduce( ( a, b ) => a + (b.totalMaterial ??
+                                        0), 0 ) )
                                 }
                                 else {
                                     controller.listSparepartTable.forEach( ( value ) => {
@@ -600,6 +615,8 @@ const AddServicesPKBView = () => {
                                             controller.setListSparepartTable( ( prevState ) => {
                                                 return [ ...prevState, ...dataSparepart ]
                                             } )
+                                            controller.setTotalSparepart( dataSparepart.reduce( ( a, b ) => a + (b.totalMaterial ??
+                                                0), 0 ) )
                                         }
                                     } )
                                 }
@@ -618,8 +635,8 @@ const AddServicesPKBView = () => {
                                     isFreeService : jasa?.isFreeService ?? false,
                                     flatRate : jasa?.flatRate ?? 0,
                                     isOPL : addJasa?.opl ?? false,
-                                    isShowDelete : false,
-                                    isEditable : false,
+                                    isShowDelete : true,
+                                    isEditable : true,
                                     pajakJasa : 0,
                                     persentaseDiskonJasa : addJasa?.persentaseDiskon ?? 0,
                                     totalJasa : Currency.stringToIdr( addJasa?.totalHargaPekerjaan.toString() ?? '0' ),
@@ -632,14 +649,14 @@ const AddServicesPKBView = () => {
                                     listOfMaterialHotline : [],
                                     noBuku : '',
                                     refJobID : 0,
-                                    vendorID : 0,
+                                    vendorID : controller?.addJasa?.vendorID ?? 0,
                                 }
 
 
                                 const listData = controller.dataPkb?.listOfPekerjaan ?? []
                                 if ( listData.length > 0 ) {
                                     controller.dataPkb?.listOfPekerjaan.find( ( item : ListOfPekerjaanModel ) => {
-                                        if ( item.idJasa === setDataJasa.idJasa ) {
+                                        if ( item?.idJasa === setDataJasa?.idJasa ) {
                                             controller.dataPkb?.listOfPekerjaan.splice( controller.dataPkb?.listOfPekerjaan.indexOf( item ), 1 )
                                         }
                                     } )
@@ -698,7 +715,7 @@ const AddServicesPKBView = () => {
                                controller.setDataPkb( ( prevState ) => {
                                    return {
                                        ...prevState,
-                                       listOfPekerjaan : prevState.listOfPekerjaan.filter( ( item ) => item.idJasa !== data.idJasa ),
+                                       listOfPekerjaan : prevState.listOfPekerjaan.filter( ( item ) => item?.idJasa !== data.idJasa ),
                                    } as ModelAddServices
                                } )
                            } }
@@ -756,7 +773,7 @@ const AddServicesPKBView = () => {
             <div className = "bg-white grid tablet:grid-cols-3 gap-5 p-10 rounded-lg place-content-center place-items-center">
                 <div className = "grid flex-1 place-items-center place-content-center gap-2">
                     <ITitleMd title = { "Jam Masuk" }/>
-                    <div className = { `${ Header1 } text-primary` }>18:08</div>
+                    <div className = { `${ Header1 } text-primary` }>{ controller.dataPkb.jamKedatanganCustomer }</div>
                 </div>
                 <div className = "grid flex-1 place-items-center place-content-center gap-2">
                     <ITitleMd title = { "Jam Proses" }/>
@@ -780,12 +797,12 @@ const AddServicesPKBView = () => {
                         error = { false }
                         type = { "datetime-local" }
                         onChange = { ( value ) => {
-                            controller.setDataPkb( ( prevState ) => {
-                                return {
-                                    ...prevState,
-                                    jamEstimasiSelesai : value.target.value
-                                } as ModelAddServices;
-                            } )
+                            // controller.setDataPkb( ( prevState ) => {
+                            //     return {
+                            //         ...prevState,
+                            //         jamEstimasiSelesai : value.target.value
+                            //     } as ModelAddServices;
+                            // } )
                         } }
                         label = { "Estimasi Jam Selesai" }
                         onEnter = { "next" }
@@ -861,7 +878,7 @@ const AddServicesPKBView = () => {
                         <div className = "grid grid-cols-2 gap-16 text-primary">
                             <div className = "grid gap-1">
                                 <div className = { `${ bodyLabel3 }` }>Sub Total Bayar</div>
-                                <div className = { `${ body1 }` }>{ Currency.stringToIdr( controller.jasaBayar.toString() ) }.00</div>
+                                <div className = { `${ body1 }` }>{ Currency.stringToIdr( (controller.jasaBayar + controller.totalSparepart).toString() ) }.00</div>
                             </div>
                             <div className = "grid gap-1">
                                 <div className = { `${ bodyLabel3 }` }>Dis. Final</div>
@@ -881,7 +898,7 @@ const AddServicesPKBView = () => {
                             </div>
                             <div className = "grid gap-1">
                                 <div className = { `${ bodyLabel3 }` }>Total Bayar</div>
-                                <div className = { `${ body1 }` }>{ Currency.stringToIdr( controller.jasaBayar.toString() ) }.00</div>
+                                <div className = { `${ body1 }` }>{ Currency.stringToIdr( (controller.jasaBayar + controller.totalSparepart).toString() ) }.00</div>
                             </div>
                         </div>
                     </div>
@@ -889,13 +906,13 @@ const AddServicesPKBView = () => {
                         <div className = "bg-primary rounded-l-lg p-5 flex place-content-center place-items-center">
                             <div className = { ` text-white text-center grid gap-2` }>
                                 <div className = { `${ body1 }` }>Est Biaya</div>
-                                <div className = { `${ Title1 }` }>Rp. 0</div>
+                                <div className = { `${ Title1 }` }>{ Currency.stringToIdr( (controller.jasaBayar + controller.totalSparepart).toString() ) }.00</div>
                             </div>
                         </div>
                         <div className = "bg-secondary rounded-r-lg p-5 flex place-content-center place-items-center">
                             <div className = { ` text-white text-center grid gap-2` }>
                                 <div className = { `${ body1 }` }>Uang Muka</div>
-                                <div className = { `${ Title1 }` }>Rp. 0</div>
+                                <div className = { `${ Title1 }` }>{ Currency.stringToIdr( controller?.dataPkb?.uangMuka?.toString() ?? '0' ) }.00</div>
                             </div>
                         </div>
                     </div>
@@ -911,13 +928,13 @@ const AddServicesPKBView = () => {
                 <div className = "grid tablet:grid-cols-2">
                     <ITextFieldDefault
                         error = { false }
-                        value = { controller.dataPkb?.uangMuka }
+                        value = { Currency.stringToIdr( Currency.idrToString( controller.dataPkb?.uangMuka?.toString() ?? '0' ) ) }
                         type = { "text" }
                         onChange = { ( value ) => {
                             controller.setDataPkb( ( prevState ) => {
                                 return {
                                     ...prevState,
-                                    uangMuka : Number( value.target.value )
+                                    uangMuka : Number( Currency.idrToString( value.target.value ) )
                                 } as ModelAddServices;
                             } )
                         } }
@@ -1000,17 +1017,19 @@ const AddServicesPKBView = () => {
                             controller.setDataPkb( ( prevState ) => {
                                 return {
                                     ...prevState,
-                                    tanggal : value.target.value
+                                    tanggal : FormatDate.stringToDateInput( value.target.value )
                                 } as ModelAddServices
                             } )
                         } }
                         error = { false }
-                        value = { FormatDate.stringToDateInput( controller.dataPkb?.tanggal ?? '' ) }
+                        disabled = { true }
+                        value = { controller.dataPkb?.tanggal ?? '' }
                         label = { "Tanggal" }
                         onEnter = { "next" }
                     />
                     <ITextFieldDefault
                         type = { "time" }
+                        disabled = { true }
                         onChange = { ( value ) => {
                             controller.setDataPkb( ( prevState ) => {
                                 return {
@@ -1429,18 +1448,17 @@ const AddServicesPKBView = () => {
 
                         } }
                     />
-                    <IDropDown
+                    <ITextFieldDefault
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "No STNK" }
-                        data = { [] }
                         error = { false }
-                        value = { controller.dataPkb?.noSTNK?.name }
-                        onValue = { ( value ) => {
+                        value = { controller.dataPkb?.noSTNK }
+                        onChange = { ( value ) => {
                             controller.setDataPkb( ( prevState ) => {
                                 return {
                                     ...prevState,
-                                    noSTNK : value
+                                    noSTNK : value.target.value
                                 } as ModelAddServices
                             } )
                         } }
@@ -1449,7 +1467,7 @@ const AddServicesPKBView = () => {
                         type = { "text" }
                         onEnter = { "next" }
                         label = { "Customer yang Datang *" }
-                        data = { [] }
+                        data = { controller.customerDatang }
                         onValue = { ( value ) => {
                             controller.setDataPkb( ( prevState ) => {
                                 return {
@@ -1469,12 +1487,12 @@ const AddServicesPKBView = () => {
                             error = { false }
                             value = { controller.dataPkb?.latitude }
                             onChange = { ( value ) => {
-                                controller.setDataPkb( ( prevState ) => {
-                                    return {
-                                        ...prevState,
-                                        latitude : Number( value.target.value )
-                                    } as ModelAddServices
-                                } )
+                                // controller.setDataPkb( ( prevState ) => {
+                                //     return {
+                                //         ...prevState,
+                                //         latitude : Number( value.target.value )
+                                //     } as ModelAddServices
+                                // } )
                             } }
                             label = { "Latitude" }
                             onEnter = { "next" }
@@ -1485,12 +1503,12 @@ const AddServicesPKBView = () => {
                             value = { controller.dataPkb?.longitude }
                             error = { false }
                             onChange = { ( value ) => {
-                                controller.setDataPkb( ( prevState ) => {
-                                    return {
-                                        ...prevState,
-                                        longitude : Number( value.target.value )
-                                    } as ModelAddServices
-                                } )
+                                // controller.setDataPkb( ( prevState ) => {
+                                //     return {
+                                //         ...prevState,
+                                //         longitude : Number( value.target.value )
+                                //     } as ModelAddServices
+                                // } )
                             } }
                             label = { "Longitude" }
                             onEnter = { "next" }

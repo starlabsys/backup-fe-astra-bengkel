@@ -9,6 +9,21 @@ class DateFormatData {
         return date + 'T00:00:00+07:07';
     }
 
+    public dateSend2 = () : string => {
+        // const data = new Date( date );
+        const date = new Date();
+        const month = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+        //
+        const data = new Date( date );
+        const hour = data.getHours().toString().length === 1 ? "0" + data.getHours() : data.getHours();
+        const minute = data.getMinutes().toString().length === 1 ? "0" + data.getMinutes() : data.getMinutes();
+        const second = data.getSeconds().toString().length === 1 ? "0" + data.getSeconds() : data.getSeconds();
+
+        // return date.getFullYear() + '-' + month + '-' + day;
+        return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + '+07:07';
+    }
+
     public nowDate = () : string => {
         const date = new Date();
         const month = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
@@ -28,6 +43,14 @@ class DateFormatData {
         const day = newDate.getDate().toString().length === 1 ? "0" + newDate.getDate() : newDate.getDate();
         return newDate.getFullYear() + '-' + month + '-' + day;
         // return result;
+    }
+
+    public getTimeNow = ( date : number ) : string => {
+        const data = new Date( date );
+        const hour = data.getHours().toString().length === 1 ? "0" + data.getHours() : data.getHours();
+        const minute = data.getMinutes().toString().length === 1 ? "0" + data.getMinutes() : data.getMinutes();
+        const second = data.getSeconds().toString().length === 1 ? "0" + data.getSeconds() : data.getSeconds();
+        return hour + ':' + minute + ':' + second;
     }
 }
 

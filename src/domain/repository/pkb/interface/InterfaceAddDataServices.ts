@@ -69,6 +69,7 @@ export interface DataMotorkuX {
 
 export interface ListOfPekerjaan {
     guid : string;
+    pkbID : number;
     pkbPekerjaanID : number;
     itemNo : number;
     refJobID : number;
@@ -85,12 +86,11 @@ export interface ListOfPekerjaan {
     listOfMaterial : InterfaceListSparePartPKB[];
     listOfMaterialHotline : any[];
     kodeJasa : string;
-    kodeJasaAHM : string;
     idJasa : number;
     isShowDelete : boolean;
     isEditable : boolean;
     isFreeService : boolean;
-    markUpJasa : string;
+    markUpJasa : number;
     vendorID : number;
     flatRate : number;
     noClaimC2 : string;

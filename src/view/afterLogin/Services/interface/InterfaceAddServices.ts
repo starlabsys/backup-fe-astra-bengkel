@@ -46,7 +46,7 @@ export interface ModelAddServices {
     tanggal : string;
     latitude : number;
     longitude : number;
-    noSTNK : InterfacePropsDropDown;
+    noSTNK : string;
     indikatorBensin : number;
     svPKBReturnID : number;
     kodeAntrian : string;

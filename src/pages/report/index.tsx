@@ -1,5 +1,5 @@
 import MainLayout from "../../layout/MainLayout";
-import ReportView from "../../view/afterLogin/Report/Report";
+import ReportView from "../../view/afterLogin/Report/ReportView/Report";
 
 
 const Report = () => {

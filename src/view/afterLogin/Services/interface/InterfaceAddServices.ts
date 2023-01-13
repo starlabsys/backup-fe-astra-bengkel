@@ -53,7 +53,7 @@ export interface ModelAddServices {
     tipeAntrian : InterfacePropsDropDown;
     activityCapacity : InterfacePropsDropDown;
     kecamatanPembawa : string;
-    pkbRemove : PkbRemove;
+    pkbRemove : [];
     tipeComingCustomer : InterfacePropsDropDown;
     isEngineNo : boolean;
     isFrameNo : boolean;
@@ -62,7 +62,7 @@ export interface ModelAddServices {
     jamKedatanganCustomer : string;
     noClaimC2 : string;
     noBuku : string;
-    DataMotorkuX : DataMotorkuX;
+    DataMotorkuX : [];
 }
 
 export interface DataMotorkuX {

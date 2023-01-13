@@ -28,10 +28,8 @@ const DialogAddExcel = () => {
                                 const sheetName = workbook.SheetNames[ 0 ];
                                 const worksheet = workbook.Sheets[ sheetName ];
                                 const json = XLSX.utils.sheet_to_json( worksheet );
-                                console.log( json );
-                                console.log( JSON.stringify( FormatKeyJson( json[ 0 ] ) ) );
                                 // console.log( JSON.stringify( json ) );
-                                // VIewModel.setExcel(json);
+                                controller.setExcel( JSON.parse( JSON.stringify( json ) ) );
                             };
                             reader.readAsArrayBuffer( files[ 0 ] );
                         }
@@ -58,9 +56,10 @@ const DialogAddExcel = () => {
                     rounded = { "full" }
                     status = { "success" }
                     onClick = { () => {
-                        controller.excel.map( ( data : any ) => {
-                            return console.log( data );
-                        } );
+                        controller.sendExcel();
+                        // controller.excel.map( ( data : any ) => {
+                        //     return console.log( data );
+                        // } );
                     } }
                 >
                     Tambah

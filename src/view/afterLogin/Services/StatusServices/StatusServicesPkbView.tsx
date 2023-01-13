@@ -1,44 +1,47 @@
-import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
+import { useRouter } from "next/router";
+import StatusServicesPkbVM from "./ViewModel/StatusServicesPkbVM";
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import IButton from "../../../../component/IButton/IButton";
 import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import IDropDown, { InterfacePropsDropDown } from "../../../../component/ITextField/IDropDown";
-import { IRadio } from "../../../../component/ITextField/IRadio";
-import IIndicator from "../../../../component/ITextField/IIndicator";
-import ITextArea from "../../../../component/ITextField/ITextArea";
-import IButton from "../../../../component/IButton/IButton";
-import { body1, bodyLabel3, Header1, Title1 } from "../../../../component/styles/Style";
-import AddServicesVM from "./ViewModel/AddServicesVM";
+import { InterfaceDataSparepart } from "../interface/InterfaceDataSparepart";
+import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
+import Currency from "../../../../utils/format/currency";
 import { ListOfPekerjaanModel, ModelAddServices } from "../interface/InterfaceAddServices";
-import FormatDate from "../../../../utils/format/formatDate";
-import { InterfacePemilik } from "../interface/InterfacePemilik";
-import { Dropdown } from "@nextui-org/react";
-import { EnumSearchKendaraanPKB } from "../../../../utils/enum/EnumSearchKendaraanPKB";
+import { InterfaceListSparePartPKB } from "../interface/interfaceListSparepartPKB";
+import { body1, bodyLabel3, Header1, Title1 } from "../../../../component/styles/Style";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { ListofJasa } from "../../../../domain/models/Jasa/ModelJasa";
 import { InterfaceAddJasaPKB } from "../interface/InterfaceAddJasaPKB";
-import Currency from "../../../../utils/format/currency";
-import { ValidationAddServicesPKB } from "./ViewModel/ValidationAddServicesPKB";
-import { EnumDataListMekanik } from "../../../../utils/enum/EnumDataListMekanik";
-import { InterfaceListSparePartPKB } from "../interface/interfaceListSparepartPKB";
-import { InterfaceDataSparepart } from "../interface/InterfaceDataSparepart";
-import { useRouter } from "next/router";
-import { useContext } from "react";
-import { DialogDataContext } from "../../../../context/IDialogData";
-import DialogAddKendaraan from "./component/DialogAddDataKendataan/DialogAddKendaraan";
+import { IRadio } from "../../../../component/ITextField/IRadio";
+import FormatDate from "../../../../utils/format/formatDate";
+import { InterfacePemilik } from "../interface/InterfacePemilik";
+import IIndicator from "../../../../component/ITextField/IIndicator";
+import ITextArea from "../../../../component/ITextField/ITextArea";
+import { EnumSearchKendaraanPKB } from "../../../../utils/enum/EnumSearchKendaraanPKB";
+import { Dropdown } from "@nextui-org/react";
+import { ValidationAddServicesPKB } from "../AddServicesPKB/ViewModel/ValidationAddServicesPKB";
+import { DataModelDetailPKB, ListOfPekerjaanModelDetailPKB } from "../../../../domain/models/Pkb/ModelDetailPKB";
 
 
-const AddServicesPKBView = () => {
-    const controller = AddServicesVM();
+export const StatusServicesPkbView = () => {
+    const route = useRouter();
+    const { id, status } = route.query;
+    const idData : string = id as string;
+    const statusData : string = status as string;
+
+    const controller = StatusServicesPkbVM( Number( idData ) );
 
     const validation = ValidationAddServicesPKB();
 
-    const route = useRouter();
-
-    const dialog = useContext( DialogDataContext )
+    // return <div>
+    //     1
+    // </div>
 
     return (
         <div className = { `flex-1 grid gap-5` }>
-            <IBreadcrumbs title = { "Pendaftaran Servis" } subtitle = { "services/tambah-services" }/>
+            <IBreadcrumbs title = { statusData === 'edit' ? "Edit Servis" : "Info Servis" }
+                          subtitle = { "services/" + statusData }/>
             { FormSearch() }
             { FormData() }
             { jasaPKB() }
@@ -56,11 +59,14 @@ const AddServicesPKBView = () => {
                 } }>
                     Batal
                 </IButton>
-                <IButton size = { "medium" } rounded = { "full" } status = { 'success' } onClick = { () => {
-                    controller.sendData()
-                } }>
-                    Simpan
-                </IButton>
+                {
+                    statusData === 'edit' ?
+                        <IButton size = { "medium" } rounded = { "full" } status = { 'success' } onClick = { () => {
+                            controller.sendData()
+                        } }>
+                            Simpan
+                        </IButton> : null
+                }
             </div>
         </div>
     );
@@ -479,7 +485,7 @@ const AddServicesPKBView = () => {
                                             <ITextFieldDefault type = { "text" }
                                                                label = { 'Harga Pekerjaan' }
                                                                onEnter = { 'next' }
-                                                               value = { Currency.stringToIdr( controller.addJasa?.hargaPekerjaan.toString() ?? '0' ) }
+                                                               value = { Currency.stringToIdr( controller.addJasa?.hargaPekerjaan?.toString() ?? '0' ) }
                                                                disabled = { true }
                                                                onChange = { () => {
                                                                } }/>
@@ -523,7 +529,7 @@ const AddServicesPKBView = () => {
                                                                label = { 'Total Harga' }
                                                                onEnter = { 'next' }
                                                                disabled = { true }
-                                                               value = { Currency.stringToIdr( controller.addJasa?.totalHargaPekerjaan.toString() ?? '0' ) }
+                                                               value = { Currency.stringToIdr( controller.addJasa?.totalHargaPekerjaan?.toString() ?? '0' ) }
                                                                onChange = { () => {
                                                                } }/>
                                             <IRadio value = { controller.addJasa.opl ? 'Ya' : 'Tidak' }
@@ -961,6 +967,7 @@ const AddServicesPKBView = () => {
                     value = { controller.dataPkb?.pkbNo }
                     placeholder = { "No PKB" }
                     label = { "PKB" }
+                    disabled = { true }
                     labelColor = { "text-white" }
                     backgroundLabel = { "bg-primary" }
                     onEnter = { "next" }
@@ -976,6 +983,7 @@ const AddServicesPKBView = () => {
                         } )
                     } }
                     error = { false }
+                    disabled = { true }
                     value = { controller.dataPkb?.noAntrian }
                     placeholder = { "No Antrian" }
                     label = { "Antrian" }
@@ -1041,9 +1049,9 @@ const AddServicesPKBView = () => {
                         label = { "Jam Kedatangan Cutomer *" }
                         onEnter = { "next" }
                     />
-                    {
-                        dropdownSearchKendaraan()
-                    }
+                    {/*{*/ }
+                    {/*    dropdownSearchKendaraan()*/ }
+                    {/*}*/ }
                     <IDropDown
                         type = { "text" }
                         onEnter = { "next" }
@@ -1552,7 +1560,6 @@ const AddServicesPKBView = () => {
     }
 
     function dropdownSearchKendaraan() {
-
         return <div className = { `flex gap-5 place-content-center place-items-center` }>
             <IDropDown
                 loading = { controller.loading }
@@ -1564,10 +1571,6 @@ const AddServicesPKBView = () => {
                 data = { controller.listNoMesinNoPlat }
                 activeAddOn = { true }
                 onClickAddOn = { () => {
-                    dialog.openDialog( true )
-                    dialog.setDialogData(
-                        <DialogAddKendaraan/>
-                    )
                 } }
                 onValue = { ( value ) => {
                     controller.setNoMesinNoPlat( value );
@@ -1605,5 +1608,6 @@ const AddServicesPKBView = () => {
             </div>
         </div>
     }
-};
-export default AddServicesPKBView;
+
+}
+

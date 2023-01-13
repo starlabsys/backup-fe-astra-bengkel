@@ -1,8 +1,11 @@
-import IBreadcrumbs from "../../../component/IBreadcrumbs/IBreadcrumbs";
-import { ITableData } from "../../../component/ITable/ITableNextUI";
+import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
+import { ITableData } from "../../../../component/ITable/ITableNextUI";
+import ReportViewModel from "./ViewModel/ReportViewModel";
 
 
 const ReportView = () => {
+
+    const controller = ReportViewModel();
 
     return <div className = { `grid gap-5` }>
         <IBreadcrumbs title = { `Reporting` } subtitle = { `report` }/>

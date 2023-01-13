@@ -1,20 +1,29 @@
 import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
 import ITitleMd from "../../../../component/ITitle/ITitleMd";
 import { ITextFieldDefault } from "../../../../component/ITextField/ITextField";
-import ISelectOption from "../../../../component/ITextField/ISelectOption";
 import IButton from "../../../../component/IButton/IButton";
-import CardInformationData from "../component/CardInformationData";
 import ServicesController from "./ServicesController";
-import TablePKB from "../component/TablePKB";
 import { RoleEnum } from "../../../../utils/enum/RoleEnum";
 import DialogAddExcel from "../component/DialogAddExcel/DialogAddExcel";
 import IDropDown from "../../../../component/ITextField/IDropDown";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import FormatDate from "../../../../utils/format/formatDate";
+import ProsesDataVm from "./ViewModel/ProsesDataVm";
+import { ListOfPKB } from "../../../../domain/models/Pkb/ModelListPkb";
+import { useContext } from "react";
+import { DialogDataContext } from "../../../../context/IDialogData";
+import { IDialog } from "../../../../component/IDialog/IDialog";
+import { EnumProsesPKB } from "../../../../utils/enum/EnumProsesPKB";
+import { EnumPausePKB } from "../../../../utils/enum/EnumPausePKB";
+import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
 
 
 const ServicesView = () => {
     const controller = ServicesController();
+    const proses = ProsesDataVm()
+    const context = useContext( IAlertDialogContext )
+    const dialog = useContext( DialogDataContext )
+
 
     return (
         <div className = { `flex-1 grid gap-5` }>
@@ -168,13 +177,129 @@ const ServicesView = () => {
                             <div
                                 className = { `grid gap-2 border border-primary py-4 relative rounded-md tablet:grid-cols-2 laptop:flex` }
                             >
-                                <IButton size = { "small" } rounded = { "full" } status = { "warning" }>
+                                <IButton size = { "small" }
+                                         rounded = { "full" }
+                                         status = { "warning" }
+                                         onClick = { () => {
+                                             let id : number;
+                                             dialog.openDialog( true )
+                                             dialog.setDialogData(
+                                                 <IDialog dialog = { dialog }
+                                                          titleHeader = { '' }
+                                                          onClick = { () => {
+                                                              dialog.openDialog( false )
+                                                              proses.prosesPkb( EnumProsesPKB.start, id ).then( ( res ) => {
+                                                                  const dateNow = FormatDate.nowDate();
+                                                                  // console.log( dateNow )
+                                                                  controller.getListPKB( {
+                                                                      pageSize : 10,
+                                                                      pageNumber : 1,
+                                                                      statusPencarianPKB : {
+                                                                          id : 1,
+                                                                          value : "1",
+                                                                          name : "Belum Dibayar"
+                                                                      },
+                                                                      noPolisi : '',
+                                                                      tanggal : dateNow + 'T00:00:00+07:00',
+                                                                      tanggalSampai : dateNow + 'T00:00:00+07:00',
+                                                                      noPKB : '',
+                                                                  } )
+                                                              } )
+                                                          } }>
+                                                     <IDropDown type = { 'text' }
+                                                                error = { false }
+                                                                label = { 'Pilih Mekanik' }
+                                                                data = { proses.listMekanik }
+                                                                onEnter = { 'done' }
+                                                                onValue = { ( event ) => {
+                                                                    id = event.id
+                                                                } }/>
+                                                 </IDialog> )
+                                         } }>
                                     Proses
                                 </IButton>
-                                <IButton size = { "small" } rounded = { "full" } status = { "danger" }>
+                                <IButton size = { "small" }
+                                         rounded = { "full" }
+                                         status = { "danger" }
+                                         onClick = { () => {
+                                             let id : number;
+                                             let pause : number;
+                                             dialog.openDialog( true )
+                                             dialog.setDialogData(
+                                                 <IDialog dialog = { dialog }
+                                                          titleHeader = { '' }
+                                                          onClick = { () => {
+                                                              dialog.openDialog( false )
+                                                              proses.prosesPkb( pause, id ).then( ( res ) => {
+                                                                  const dateNow = FormatDate.nowDate();
+                                                                  // console.log( dateNow )
+                                                                  controller.getListPKB( {
+                                                                      pageSize : 10,
+                                                                      pageNumber : 1,
+                                                                      statusPencarianPKB : {
+                                                                          id : 1,
+                                                                          value : "1",
+                                                                          name : "Belum Dibayar"
+                                                                      },
+                                                                      noPolisi : '',
+                                                                      tanggal : dateNow + 'T00:00:00+07:00',
+                                                                      tanggalSampai : dateNow + 'T00:00:00+07:00',
+                                                                      noPKB : '',
+                                                                  } )
+                                                              } )
+                                                          } }>
+                                                     <IDropDown type = { 'text' }
+                                                                error = { false }
+                                                                label = { 'Pilih Alasan' }
+                                                                data = { proses.alasanPause }
+                                                                onEnter = { 'done' }
+                                                                onValue = { ( event ) => {
+                                                                    id = event.id
+                                                                    pause = event.value === EnumPausePKB.pause.toString() ? EnumPausePKB.pause : EnumPausePKB.pending
+                                                                } }/>
+                                                 </IDialog> )
+                                         } }>
                                     Pause
                                 </IButton>
-                                <IButton size = { "small" } rounded = { "full" } status = { "success" }>
+                                <IButton size = { "small" }
+                                         rounded = { "full" }
+                                         status = { "success" }
+                                         onClick = { () => {
+                                             let id : number;
+                                             let saran : string;
+                                             dialog.openDialog( true )
+                                             dialog.setDialogData(
+                                                 <IDialog dialog = { dialog }
+                                                          titleHeader = { '' }
+                                                          onClick = { () => {
+                                                              dialog.openDialog( false )
+                                                              proses.prosesPkb( EnumProsesPKB.finish, id, saran ).then( ( res ) => {
+                                                                  const dateNow = FormatDate.nowDate();
+                                                                  // console.log( dateNow )
+                                                                  controller.getListPKB( {
+                                                                      pageSize : 10,
+                                                                      pageNumber : 1,
+                                                                      statusPencarianPKB : {
+                                                                          id : 1,
+                                                                          value : "1",
+                                                                          name : "Belum Dibayar"
+                                                                      },
+                                                                      noPolisi : '',
+                                                                      tanggal : dateNow + 'T00:00:00+07:00',
+                                                                      tanggalSampai : dateNow + 'T00:00:00+07:00',
+                                                                      noPKB : '',
+                                                                  } )
+                                                              } )
+                                                          } }>
+                                                     <ITextFieldDefault type = { 'text' }
+                                                                        label = { 'Saran' }
+                                                                        onEnter = { 'done' }
+                                                                        value = { undefined }
+                                                                        onChange = { ( value ) => {
+                                                                            saran = value.target.value
+                                                                        } }/>
+                                                 </IDialog> )
+                                         } }>
                                     Selesai
                                 </IButton>
                                 <div className = { `absolute -top-3 left-4 bg-white` }>Status</div>
@@ -200,10 +325,52 @@ const ServicesView = () => {
                             </>
                         ) : (
                             <>
-                                <IButton size = { "medium" } rounded = { "full" } status = { "danger" }>
+                                <IButton size = { "medium" }
+                                         rounded = { "full" }
+                                         status = { "danger" }
+                                         onClick = { () => {
+                                             proses.batalServices().then( () => {
+                                                 const dateNow = FormatDate.nowDate();
+                                                 // console.log( dateNow )
+                                                 controller.getListPKB( {
+                                                     pageSize : 10,
+                                                     pageNumber : 1,
+                                                     statusPencarianPKB : {
+                                                         id : 1,
+                                                         value : "1",
+                                                         name : "Belum Dibayar"
+                                                     },
+                                                     noPolisi : '',
+                                                     tanggal : dateNow + 'T00:00:00+07:00',
+                                                     tanggalSampai : dateNow + 'T00:00:00+07:00',
+                                                     noPKB : '',
+                                                 } )
+                                             } )
+                                         } }>
                                     Batal Selesai Services
                                 </IButton>
-                                <IButton size = { "medium" } rounded = { "full" } status = { "danger" }>
+                                <IButton size = { "medium" }
+                                         rounded = { "full" }
+                                         status = { "danger" }
+                                         onClick = { () => {
+                                             proses.batalPKB().then( () => {
+                                                 const dateNow = FormatDate.nowDate();
+                                                 // console.log( dateNow )
+                                                 controller.getListPKB( {
+                                                     pageSize : 10,
+                                                     pageNumber : 1,
+                                                     statusPencarianPKB : {
+                                                         id : 1,
+                                                         value : "1",
+                                                         name : "Belum Dibayar"
+                                                     },
+                                                     noPolisi : '',
+                                                     tanggal : dateNow + 'T00:00:00+07:00',
+                                                     tanggalSampai : dateNow + 'T00:00:00+07:00',
+                                                     noPKB : '',
+                                                 } )
+                                             } )
+                                         } }>
                                     Batal PKB
                                 </IButton>
                             </>
@@ -228,7 +395,7 @@ const ServicesView = () => {
 
     function tableData() {
         return <ITableData
-            selectionMode = { 'multiple' }
+            selectionMode = { 'single' }
             page = { controller.page - 1 }
             totalPage = { controller.totalPage }
             loading = { false }
@@ -244,11 +411,38 @@ const ServicesView = () => {
                     noPKB : controller.cariPkb.noPKB,
                 } );
             } }
-            updated = { ( data ) => {
+            updated = { ( data : ListOfPKB ) => {
+                // console.log( data )
+                if ( data.statusPekerjaan === 'Start' ) {
+                    controller.route.push( "/services/edit/" + data.id ).then( () => {
+                    } );
+                }
+                else {
+                    context.setOpen( true );
+                    context.giveMessage( `PKB sudah ${ data.labelStatus }` );
+                    context.onError( true )
+                }
             } }
-            info = { () => {
+            info = { ( data : ListOfPKB ) => {
+                controller.route.push( "/services/info/" + data.id ).then( () => {
+                } );
             } }
             header = { controller.header }
+            onSelect = { ( data ) => {
+                const valueData : ListOfPKB = controller.listPkb[ data ]
+                proses.setDataProsesPKB( {
+                    id : valueData.id,
+                    action : 0,
+                    durasiPengerjaanPKB : valueData.durasiPengerjaan,
+                    waktu : valueData.waktuTunggu,
+                    saran : '',
+                    refMechanicId : valueData.idMekanik,
+                    isOverdue : 0,
+                    alasanPauseId : 0,
+                    etaOverdue : 0,
+                } )
+                proses.setDataAllPKB( valueData )
+            } }
             data = { controller.listPkb }/>
     }
 };

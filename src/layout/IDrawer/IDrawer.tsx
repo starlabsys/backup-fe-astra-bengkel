@@ -42,10 +42,10 @@ const IDrawer = ( props : Interface ) => {
                                 <ISizeBox width = { `w-2` }/>
                                 <div className = { `flex-1 grid gap-1` }>
                                     <div className = { `${ bodyLabel1 } text-white` }>
-                                        Medianto Pratama Pentadakosta
+                                        { controller.username }
                                     </div>
                                     <div className = { `${ body4 } text-white` }>
-                                        Super Admin
+                                        { controller.role }
                                     </div>
                                 </div>
                             </div>

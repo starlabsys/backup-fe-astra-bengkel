@@ -20,6 +20,7 @@ if ( process.env.ENV === 'dev' ) {
         response => {
             console.debug( 'RESPONSE : ' );
             console.debug( 'Response Status : ', response.status );
+            console.debug( 'PATH : ', response.request.responseURL );
             console.debug( 'Response Headers : ', response.headers );
             console.debug( 'Response Body : ', response.data );
             return response;

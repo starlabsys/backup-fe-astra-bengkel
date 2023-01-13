@@ -51,16 +51,16 @@ export const IDialogData = ( prop : InterfaceBody ) => {
                                 { body }
                             </div>
                             <hr/>
-                            <div className = { `grid grid-cols-1 gap-5 tablet:flex place-content-end` }>
+                            <div className = { `grid tablet:flex place-content-end` }>
                                 {
-                                    <IButton size = { 'medium' }
-                                             rounded = { "full" }
-                                             status = { "primary" }
-                                             onClick = { () => {
-                                                 setOpen( false )
-                                             } }>
-                                        Close
-                                    </IButton>
+                                    // <IButton size = { 'medium' }
+                                    //          rounded = { "full" }
+                                    //          status = { "primary" }
+                                    //          onClick = { () => {
+                                    //              setOpen( false )
+                                    //          } }>
+                                    //     Close
+                                    // </IButton>
                                 }
                                 { footer }
                             </div>

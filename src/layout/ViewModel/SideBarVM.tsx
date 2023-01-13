@@ -79,7 +79,7 @@ export const SideBarVM = () => {
                         {
                             title : "Add Admin",
                             icon : <IoMdPeople color = { `white` } size = { 30 }/>,
-                            path : "/user"
+                            path : "/admin"
                         }
                     ]
                 } )

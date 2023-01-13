@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { InterfaceDropDown } from "./interface/InterfaceDropDown";
 import { Input } from "@nextui-org/react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { ILoading } from "../ILoading/ILoading";
+import ISpinLoading from "../animation/ISpinLoading/ISpinLoading";
 
 
 export interface InterfacePropsDropDown {
@@ -102,7 +104,10 @@ const IDropDown = ( props : InterfaceDropDown ) => {
                                     } }
                                     className = { `w-full hover:bg-primary px-3 py-3 hover:text-white cursor-pointer` }
                                 >
-                                    { data.name }
+
+                                    {
+                                        props.loading ? <ISpinLoading/> : data.name
+                                    }
                                 </div>
                             );
                         } ) }

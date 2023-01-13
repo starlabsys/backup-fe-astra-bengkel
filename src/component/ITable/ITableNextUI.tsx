@@ -18,6 +18,7 @@ interface Interface {
     info? : (( data : any ) => void) | undefined;
     delete? : (( data : any ) => void) | undefined;
     page : number;
+    onSelect? : (( data : number ) => void) | undefined;
     selectionMode? : "single" | "multiple" | "none";
 }
 
@@ -95,6 +96,14 @@ export const ITableData = ( props : Interface ) => {
                 css = { {
                     height : "auto",
                     minWidth : "100%"
+                } }
+                onSelectionChange = { ( data ) => {
+                    const send = new Set( data );
+                    let id;
+                    send.forEach( ( value ) => {
+                        id = value
+                    } )
+                    return props.onSelect !== undefined ? props.onSelect( id ?? 0 ) : undefined
                 } }
             >
                 <Table.Header>

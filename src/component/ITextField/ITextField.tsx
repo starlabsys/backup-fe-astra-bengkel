@@ -44,6 +44,7 @@ export const ITextFieldDefault = ( props : InterfaceTextFieldDefault ) => {
                 className = { `border ${ props.error ? 'border-red-900' : 'border-primary' }  ${ props.disabled ? 'bg-gray-300' : '' }` }
                 value = { props.value }
                 type = { props.type }
+                inputMode = { props.inputMode }
                 onChange = { props.onChange }
                 shadow = { true }
                 status = { props.error ? 'error' : 'primary' }

@@ -64,6 +64,8 @@ const KendaraanController = () => {
             action : 0,
             noPolisi : plat,
             noMesin : "",
+            namaCustomer : "",
+            noRangka : "",
             pageNumber : pageNumber,
             pageSize : 10,
             totalRow : 0,

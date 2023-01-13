@@ -51,6 +51,7 @@ export interface InterfaceTextFieldDefault {
     onblur? : ( e : ChangeEvent<FormElement> ) => void
     helperColor? : "error" | "primary" | "default" | "secondary" | "success" | "warning" | undefined;
     onChange : ( e : ChangeEvent<FormElement> ) => void
+    inputMode? : "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search" | undefined;
 }
 
 export interface InterfaceSelectOption {

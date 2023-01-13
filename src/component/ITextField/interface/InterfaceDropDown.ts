@@ -23,4 +23,5 @@ export interface InterfaceDropDown {
     value? : string | undefined | string[];
     errorMessages? : string;
     children? : JSX.Element;
+    loading? : boolean;
 }

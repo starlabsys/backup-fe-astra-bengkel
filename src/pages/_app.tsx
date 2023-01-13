@@ -18,7 +18,7 @@ const theme = createTheme( {
             primaryBorderHover : '#5138ED',
             primarySolidHover : '#1E2F65',
             primarySolidContrast : 'white',
-            primaryShadow : '#5138ED',
+            primaryShadow : '#1E2F65',
         },
         space : {},
         fonts : {},

@@ -84,7 +84,7 @@ class PkbRepository {
 
     public exportExcel = async ( context : InterfaceError, reqBody : any ) => {
         const resp = await post( context, {
-            url : '/import/xxxx',
+            url : '/import',
             reqBody : reqBody
         } );
         if ( resp !== null ) {

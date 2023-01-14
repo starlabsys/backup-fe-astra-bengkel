@@ -7,7 +7,7 @@ interface Interface {
     children : JSX.Element;
 }
 
-interface InterfaceILoadingContext {
+export interface InterfaceILoadingContext {
     openLoading : ( value : boolean ) => void;
 }
 

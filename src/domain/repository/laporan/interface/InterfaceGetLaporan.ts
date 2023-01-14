@@ -1,4 +1,5 @@
 export interface InterfaceGetLaporan {
-    bulan : number;
-    tahun : number;
+    dateFrom : string,
+    dateTo : string,
+    fileType : string
 }

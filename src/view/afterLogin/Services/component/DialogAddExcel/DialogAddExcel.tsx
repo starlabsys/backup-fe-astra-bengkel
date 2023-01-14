@@ -3,12 +3,17 @@ import { ITextFieldDefault } from "../../../../../component/ITextField/ITextFiel
 import IButton from "../../../../../component/IButton/IButton";
 import AddServicesExcelController from "./AddServicesController";
 import { FormatKeyJson } from "../../../../../utils/format/formatKeyJson";
+import { InterfaceILoadingContext } from "../../../../../component/ILoading/ILoading";
 
 
 const XLSX = require( "xlsx" );
 
-const DialogAddExcel = () => {
-    const controller = AddServicesExcelController();
+export interface InterfaceDialogAddExcel {
+    loadingLottie : InterfaceILoadingContext
+}
+
+const DialogAddExcel = ( props : InterfaceDialogAddExcel ) => {
+    const controller = AddServicesExcelController( props );
     return (
         <div className = { `grid gap-10` }>
             <ITitleMd title = { "Tambah Data Excel" }/>
@@ -56,7 +61,9 @@ const DialogAddExcel = () => {
                     rounded = { "full" }
                     status = { "success" }
                     onClick = { () => {
-                        controller.sendExcel();
+                        controller.sendExcel().then( () => {
+                            controller.dialog.openDialog( false );
+                        } );
                         // controller.excel.map( ( data : any ) => {
                         //     return console.log( data );
                         // } );

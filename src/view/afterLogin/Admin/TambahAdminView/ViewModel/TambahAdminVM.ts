@@ -4,6 +4,8 @@ import AuthRepository from "../../../../../domain/repository/auth/AuthRepository
 import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
 import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
 import { InterfaceAddUser } from "../../../../../domain/repository/auth/interface/InterfaceAddUser";
+import AdminRepository from "../../../../../domain/repository/admin/AdminRepository";
+import { InterfaceAddAdmin } from "../../../../../domain/repository/admin/interface/InterfaceAddAdmin";
 
 
 const TambahAdminVM = () => {
@@ -14,7 +16,7 @@ const TambahAdminVM = () => {
 
     const saveData = async () => {
         loadingLottie.openLoading( true )
-        const sendData : InterfaceAddUser = {
+        const sendData : InterfaceAddAdmin = {
             username : dataAdmin?.username ?? '',
             loginData : dataAdmin?.loginData ?? '',
             fullName : dataAdmin?.namaLengkap ?? '',
@@ -34,7 +36,7 @@ const TambahAdminVM = () => {
             }
         }
 
-        const resp = await AuthRepository.addUser( context, sendData )
+        const resp = await AdminRepository.create( context, sendData )
         loadingLottie.openLoading( false )
     }
 

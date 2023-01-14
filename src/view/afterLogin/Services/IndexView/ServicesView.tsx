@@ -16,6 +16,7 @@ import { IDialog } from "../../../../component/IDialog/IDialog";
 import { EnumProsesPKB } from "../../../../utils/enum/EnumProsesPKB";
 import { EnumPausePKB } from "../../../../utils/enum/EnumPausePKB";
 import { IAlertDialogContext } from "../../../../core/utils/error/IAlertDialog";
+import { ILoadingContext } from "../../../../component/ILoading/ILoading";
 
 
 const ServicesView = () => {
@@ -23,6 +24,7 @@ const ServicesView = () => {
     const proses = ProsesDataVm()
     const context = useContext( IAlertDialogContext )
     const dialog = useContext( DialogDataContext )
+    const loadingLottie = useContext( ILoadingContext )
 
 
     return (
@@ -317,7 +319,8 @@ const ServicesView = () => {
                                     status = { "success" }
                                     onClick = { () => {
                                         controller.dialog.openDialog( true );
-                                        controller.dialog.setDialogData( <DialogAddExcel/> );
+                                        controller.dialog.setDialogData(
+                                            <DialogAddExcel loadingLottie = { loadingLottie }/> );
                                     } }
                                 >
                                     Tambah Dari Excel

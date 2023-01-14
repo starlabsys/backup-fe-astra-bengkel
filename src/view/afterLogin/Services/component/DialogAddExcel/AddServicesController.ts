@@ -3,18 +3,19 @@ import { DialogDataContext } from "../../../../../context/IDialogData";
 import PkbRepository from "../../../../../domain/repository/pkb/PkbRepository";
 import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
 import { renameProp } from "@nextui-org/react/types/utils/object";
+import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
+import { InterfaceDialogAddExcel } from "./DialogAddExcel";
 
 
-const AddServicesExcelController = () => {
+const AddServicesExcelController = ( loading : InterfaceDialogAddExcel ) => {
     const [ excel, setExcel ] = useState<[]>( [] );
     const dialog = useContext( DialogDataContext )
     const context = useContext( IAlertDialogContext )
+    const loadingLottie = useContext( ILoadingContext );
 
     const sendExcel = async () => {
-        // console.log( excel )
-        // excel.forEach( ( data : any ) => {
-        //     console.log(  )
-        // } )
+        // loadingLottie.openLoading( true );
+        loading.loadingLottie.openLoading( true );
         const dataSend = excel.map( ( data : any ) => {
             let keysData = Object.keys( data );
             let newData = {};
@@ -27,11 +28,8 @@ const AddServicesExcelController = () => {
             return newData;
         } )
 
-        // console.log( dataSend )
         const resp = await PkbRepository.exportExcel( context, dataSend )
-        if ( resp !== null ) {
-            console.log( resp )
-        }
+        loading.loadingLottie.openLoading( false )
     }
     return {
         excel,

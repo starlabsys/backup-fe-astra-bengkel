@@ -2,10 +2,15 @@ import IBreadcrumbs from "../../../../component/IBreadcrumbs/IBreadcrumbs";
 import { ComponentIndexSearch } from "../../../component/ComponentIndexSearch";
 import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { useRouter } from "next/router";
+import AdminViewModel from "./ViewModel/AdminViewModel";
+import { DatumModelAdminUser } from "../../../../domain/models/Admin/ModelAdminUser";
 
 
 const AdminView = () => {
     const route = useRouter()
+
+    const controller = AdminViewModel()
+
     return <ComponentIndexSearch breadcrumbs = { 'Admin' }
                                  title = { 'List Daftar Admin' }
                                  subtitle = { 'admin' }
@@ -27,7 +32,7 @@ const AdminView = () => {
     </ComponentIndexSearch>
 
     function tableData() {
-        return <ITableData page = { 1 }
+        return <ITableData page = { 0 }
                            totalPage = { 1 }
                            loading = { false }
                            changePage = { index => {
@@ -35,12 +40,12 @@ const AdminView = () => {
                                // controller.getJasa( index, 10, '', '' );
                            } }
                            info = { ( data ) => {
-                               // route.push( '/master-data/jasa/' + data.id + '/Info' ).then( () => {
-                               // } )
+                               route.push( '/admin/info/' + data.id ).then( () => {
+                               } )
                            } }
-                           updated = { ( data ) => {
-                               // route.push( '/master-data/jasa/' + data.id + '/edit' ).then( () => {
-                               // } )
+                           updated = { ( data : DatumModelAdminUser ) => {
+                               route.push( '/admin/edit/' + data.id ).then( () => {
+                               } )
                            } }
                            header = { [
                                {
@@ -48,27 +53,35 @@ const AdminView = () => {
                                    name : '#',
                                },
                                {
-                                   label : 'Kode',
-                                   name : 'kode',
+                                   label : 'Username',
+                                   name : 'username',
                                },
                                {
                                    label : 'Nama',
-                                   name : 'nama',
+                                   name : 'full_name',
+                               },
+                               {
+                                   label : 'Kode',
+                                   name : 'kode_bengkel',
                                },
                                {
                                    label : 'Nama Bengkel',
-                                   name : 'namaBengkel',
+                                   name : 'nama_bengkel',
                                },
                                {
                                    label : 'Status',
                                    name : 'status',
                                },
                                {
+                                   label : 'Address',
+                                   name : 'address',
+                               },
+                               {
                                    label : 'Action',
                                    name : 'action',
                                }
                            ] }
-                           data = { [] }/>
+                           data = { controller.listAdmin }/>
     }
 }
 

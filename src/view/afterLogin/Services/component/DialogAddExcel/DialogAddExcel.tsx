@@ -56,7 +56,9 @@ const DialogAddExcel = () => {
                     rounded = { "full" }
                     status = { "success" }
                     onClick = { () => {
-                        controller.sendExcel();
+                        controller.sendExcel().then( () => {
+                            controller.dialog.openDialog( false );
+                        } );
                         // controller.excel.map( ( data : any ) => {
                         //     return console.log( data );
                         // } );

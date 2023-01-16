@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { DialogDataContext } from "../../../../../context/IDialogData";
 import PkbRepository from "../../../../../domain/repository/pkb/PkbRepository";
 import { IAlertDialogContext } from "../../../../../core/utils/error/IAlertDialog";
-import { renameProp } from "@nextui-org/react/types/utils/object";
 import { ILoadingContext } from "../../../../../component/ILoading/ILoading";
 import { InterfaceDialogAddExcel } from "./DialogAddExcel";
 import { ModelDataExcel } from "./interface/InterfaceSendDataExcel";

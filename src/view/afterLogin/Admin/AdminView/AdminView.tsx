@@ -4,12 +4,16 @@ import { ITableData } from "../../../../component/ITable/ITableNextUI";
 import { useRouter } from "next/router";
 import AdminViewModel from "./ViewModel/AdminViewModel";
 import { DatumModelAdminUser } from "../../../../domain/models/Admin/ModelAdminUser";
+import { useContext } from "react";
+import { DialogDataContext } from "../../../../context/IDialogData";
+import IButton from "../../../../component/IButton/IButton";
 
 
 const AdminView = () => {
     const route = useRouter()
 
     const controller = AdminViewModel()
+    const dialog = useContext( DialogDataContext )
 
     return <ComponentIndexSearch breadcrumbs = { 'Admin' }
                                  title = { 'List Daftar Admin' }
@@ -47,10 +51,41 @@ const AdminView = () => {
                                route.push( '/admin/edit/' + data.id ).then( () => {
                                } )
                            } }
+                           delete = { ( data : DatumModelAdminUser ) => {
+                               dialog.openDialog( true )
+                               dialog.setDialogData( <div>
+                                   <div className = { `text-center` }>
+                                       <h1 className = { `text-2xl font-bold` }>Hapus { data.role }</h1>
+                                       <p className = { `text-md` }>
+                                           Apakah anda yakin ingin menghapus
+                                           bengkel <div className = { `font-bold` }> { data.nama_bengkel } </div> dengan
+                                           username <div className = { `font-bold` }> { data.username } </div> ?
+                                       </p>
+                                   </div>
+                               </div> )
+                               dialog.setFooterDialog(
+                                   <div className = { `flex w-full gap-5` }>
+                                       <IButton onClick = { () => {
+                                           dialog.openDialog( false )
+                                       } }>
+                                           Kembali
+                                       </IButton>
+                                       <IButton status = { 'danger' } onClick = { () => {
+                                           controller.deleteAdmin( data.id )
+                                       } }>
+                                           YA
+                                       </IButton>
+                                   </div>
+                               )
+                           } }
                            header = { [
                                {
                                    label : '#',
                                    name : '#',
+                               },
+                               {
+                                   label : 'Role',
+                                   name : 'role',
                                },
                                {
                                    label : 'Username',

@@ -36,7 +36,7 @@ const TambahAdminView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Kode Bengkel' }
                                    onEnter = { 'next' }
-                                   value = { undefined }
+                                   value = { controller.dataAdmin?.kodeBengkel }
                                    onChange = { ( value ) => {
                                        controller.setDataAdmin( ( prev ) => {
                                            return {
@@ -48,7 +48,7 @@ const TambahAdminView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Nama Bengkel' }
                                    onEnter = { 'next' }
-                                   value = { undefined }
+                                   value = { controller.dataAdmin?.namaBengkel }
                                    onChange = { ( value ) => {
                                        controller.setDataAdmin( ( prev ) => {
                                            return {
@@ -60,18 +60,7 @@ const TambahAdminView = () => {
                 <IDropDown type = { 'text' }
                            error = { false }
                            label = { 'Role' }
-                           data = { [
-                               {
-                                   id : 1,
-                                   value : 'user',
-                                   name : 'User'
-                               },
-                               {
-                                   id : 2,
-                                   value : 'admin',
-                                   name : 'Admin'
-                               }
-                           ] }
+                           data = { controller.role }
                            onValue = { ( value ) => {
                                controller.setDataAdmin( ( prev ) => {
                                    return {
@@ -84,7 +73,7 @@ const TambahAdminView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Nama Lengkap' }
                                    onEnter = { 'next' }
-                                   value = { undefined }
+                                   value = { controller.dataAdmin?.namaLengkap }
                                    onChange = { ( value ) => {
                                        controller.setDataAdmin( ( prev ) => {
                                            return {
@@ -96,7 +85,7 @@ const TambahAdminView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Username' }
                                    onEnter = { 'next' }
-                                   value = { undefined }
+                                   value = { controller.dataAdmin?.username }
                                    onChange = { ( value ) => {
                                        controller.setDataAdmin( ( prev ) => {
                                            return {
@@ -108,7 +97,7 @@ const TambahAdminView = () => {
                 <ITextFieldDefault type = { 'text' }
                                    label = { 'Password' }
                                    onEnter = { 'next' }
-                                   value = { undefined }
+                                   value = { controller.dataAdmin?.password }
                                    onChange = { ( value ) => {
                                        controller.setDataAdmin( ( prev ) => {
                                            return {
@@ -119,6 +108,7 @@ const TambahAdminView = () => {
                                    } }/>
             </div>
             <ITextArea error = { false }
+                       value = { controller.dataAdmin?.loginData }
                        label = { 'Credential Login' }
                        onChange = { ( value ) => {
                            controller.setDataAdmin( ( prev ) => {

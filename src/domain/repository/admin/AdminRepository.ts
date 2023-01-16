@@ -40,7 +40,7 @@ class AdminRepository {
         return null;
     }
 
-    public delete = async ( context : InterfaceError, id : string ) => {
+    public delete = async ( context : InterfaceError, id : number ) => {
         const resp = await del( context, {
             url : `/admin/admin/${ id }`,
             reqBody : {}

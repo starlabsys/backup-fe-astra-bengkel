@@ -400,19 +400,19 @@ const ServicesView = () => {
         return <ITableData
             selectionMode = { 'single' }
             page = { controller.page - 1 }
-            totalPage = { controller.totalPage }
+            totalPage = { 1 }
             loading = { false }
             changePage = { index => {
-                controller.setPage( index );
-                controller.getListPKB( {
-                    pageSize : 10,
-                    pageNumber : index,
-                    statusPencarianPKB : controller.cariPkb.statusPencarianPKB,
-                    noPolisi : controller.cariPkb.noPolisi,
-                    tanggal : controller.cariPkb.tanggal + 'T00:00:00+07:00',
-                    tanggalSampai : controller.cariPkb.tanggalSampai + 'T00:00:00+07:00',
-                    noPKB : controller.cariPkb.noPKB,
-                } );
+                // controller.setPage( index );
+                // controller.getListPKB( {
+                //     pageSize : 10,
+                //     pageNumber : index,
+                //     statusPencarianPKB : controller.cariPkb.statusPencarianPKB,
+                //     noPolisi : controller.cariPkb.noPolisi,
+                //     tanggal : controller.cariPkb.tanggal + 'T00:00:00+07:00',
+                //     tanggalSampai : controller.cariPkb.tanggalSampai + 'T00:00:00+07:00',
+                //     noPKB : controller.cariPkb.noPKB,
+                // } );
             } }
             updated = { ( data : ListOfPKB ) => {
                 // console.log( data )

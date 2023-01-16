@@ -31,6 +31,12 @@ class DateFormatData {
         return date.getFullYear() + '-' + month + '-' + day;
     }
 
+    public dateExcel = ( excelDate : number ) : string => {
+        // const date = new Date();
+        const date = new Date( (excelDate - (25567 + 1)) * 86400 * 1000 );
+        return `${ date.toLocaleDateString() } ${ date.toLocaleTimeString() }`
+    }
+
     private addOneDay( date : Date ) {
         date.setDate( date.getDate() + 1 );
         return date;

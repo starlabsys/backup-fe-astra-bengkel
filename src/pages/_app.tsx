@@ -1,6 +1,7 @@
 import "../../styles/globals.css";
 import type { AppProps } from "next/app";
 import { createTheme, NextUIProvider } from "@nextui-org/react";
+import { SSRProvider } from "@react-aria/ssr";
 
 
 const theme = createTheme( {
@@ -32,9 +33,11 @@ const theme = createTheme( {
 
 function MyApp( { Component, pageProps } : AppProps ) {
     return (
-        <NextUIProvider theme = { theme }>
-            <Component { ...pageProps } />
-        </NextUIProvider>
+        <SSRProvider>
+            <NextUIProvider theme = { theme }>
+                <Component { ...pageProps } />
+            </NextUIProvider>
+        </SSRProvider>
     );
 }
 

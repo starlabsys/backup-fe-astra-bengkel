@@ -21,7 +21,7 @@ const AddServicesExcelController = ( loading : InterfaceDialogAddExcel ) => {
             let newData = {};
             keysData.forEach( ( key : any, index ) => {
                 // @ts-ignore
-                const dataKey = key.toLowerCase().replaceAll( ' ', '_' ).replaceAll( '/', '' );
+                const dataKey = key.toLowerCase().replaceAll( ' ', '_' ).replaceAll( '/', '' ).replaceAll( '(', '' ).replaceAll( ')', '' );
                 // @ts-ignore
                 newData[ dataKey ] = data[ key ];
             } )

@@ -81,7 +81,7 @@ const fetchData = async ( context : InterfaceError, config : AxiosRequestConfig 
         console.debug( '::ERROR:: ', '\n' + error );
         const data : any = error.response?.data;
         if ( error.response?.status === 400 ) {
-            ErrorHandler.errorResponse( context, { message : data.message } );
+            ErrorHandler.errorResponse( context, { message : data.message ?? 'Request Time out' } );
         }
         if ( error.response?.status === 401 ) {
             ErrorHandler.notAuthorized( context, { message : data.message } );

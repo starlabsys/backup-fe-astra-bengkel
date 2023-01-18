@@ -10,6 +10,9 @@ const AdminViewModel = () => {
     const loadingLottie = useContext( ILoadingContext )
 
     const [ listAdmin, setListAdmin ] = useState<DatumModelAdminUser[]>( [] );
+    const [ searchListAdmin, setSearchListAdmin ] = useState<DatumModelAdminUser[]>( [] );
+
+    const [ searchData, setSearchData ] = useState( '' );
 
     const getListAdmin = async () => {
         loadingLottie.openLoading( true )
@@ -17,6 +20,19 @@ const AdminViewModel = () => {
         if ( resp !== null ) {
             // console.log( resp );
             setListAdmin( resp.data ?? [] );
+        }
+        loadingLottie.openLoading( false )
+    }
+
+    const getSearchListAdmin = ( searchData : string ) => {
+        loadingLottie.openLoading( true )
+        if ( searchData === '' ) {
+            setSearchListAdmin( [] );
+        }
+        else {
+            setSearchListAdmin( listAdmin.filter( ( item ) => {
+                return item.full_name.toLowerCase().includes( searchData.toLowerCase() )
+            } ) );
         }
         loadingLottie.openLoading( false )
     }
@@ -40,7 +56,9 @@ const AdminViewModel = () => {
 
     return {
         listAdmin,
-        deleteAdmin
+        deleteAdmin,
+        getSearchListAdmin,
+        searchListAdmin, searchData, setSearchData
     }
 }
 export default AdminViewModel

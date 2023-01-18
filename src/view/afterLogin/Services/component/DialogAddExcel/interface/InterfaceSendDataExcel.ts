@@ -54,5 +54,6 @@ export interface ModelDataExcel {
     kecamatan : string;
     kelurahan : string;
     no_hp_1 : string;
+    harga_jual : string;
 }
 

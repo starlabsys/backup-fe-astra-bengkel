@@ -22,6 +22,8 @@ const AdminView = () => {
                                      label : 'Cari Nama Admin',
                                      placeholder : 'Cari Nama Admin',
                                      onChange : ( value ) => {
+                                         controller.setSearchData( value.target.value )
+                                         controller.getSearchListAdmin( value.target.value )
                                          // controller.getJasa( 1, 10, value.target.value, '' );
                                      }
                                  } }
@@ -116,7 +118,10 @@ const AdminView = () => {
                                    name : 'action',
                                }
                            ] }
-                           data = { controller.listAdmin }/>
+                           data = { controller.searchData !== '' ?
+                               controller.searchListAdmin :
+                               controller.listAdmin
+                           }/>
     }
 }
 

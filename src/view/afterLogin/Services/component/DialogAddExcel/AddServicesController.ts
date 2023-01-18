@@ -81,6 +81,7 @@ const AddServicesExcelController = ( loading : InterfaceDialogAddExcel ) => {
                 kelurahan : data.kelurahan,
                 no_hp_1 : data.no_hp_1,
                 harga_jual : data.harga_jual,
+                no_stnk : data.no_stnk,
             }
         } )
 

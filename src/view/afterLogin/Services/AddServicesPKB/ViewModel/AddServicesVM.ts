@@ -187,8 +187,8 @@ const AddServicesVM = () => {
     const customerDatang : InterfacePropsDropDown[] = [
         {
             id : 1,
-            name : 'Miliki',
-            value : 'Miliki'
+            name : 'Milik',
+            value : 'Milik'
         },
         {
             id : 2,

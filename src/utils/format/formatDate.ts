@@ -32,9 +32,13 @@ class DateFormatData {
     }
 
     public dateExcel = ( excelDate : number ) : string => {
-        // const date = new Date();
-        const date = new Date( (excelDate - (25567 + 1)) * 86400 * 1000 );
-        return `${ date.toLocaleDateString() } ${ date.toLocaleTimeString() }`
+        // const date = new Date( (excelDate - (25567 + 1)) * 86400 * 1000 );
+        const date = new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) );
+        // const date = new Date( Date.UTC( 0, 0, excelDate - 1 ) );
+        console.log( 'date', date.getUTCHours() )
+        // console.log( 'excelDate', new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) ) )
+        // console.log( 'excelDate', new Date( excelDate ) )
+        return `${ date.toLocaleDateString() } ${ date.getUTCHours() }:${ date.getUTCMinutes() }:00`;
     }
 
     private addOneDay( date : Date ) {

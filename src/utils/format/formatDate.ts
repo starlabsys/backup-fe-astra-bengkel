@@ -35,10 +35,12 @@ class DateFormatData {
         // const date = new Date( (excelDate - (25567 + 1)) * 86400 * 1000 );
         const date = new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) );
         // const date = new Date( Date.UTC( 0, 0, excelDate - 1 ) );
-        console.log( 'date', date.getUTCHours() )
+        // console.log( 'date', date.getUTCHours() )
         // console.log( 'excelDate', new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) ) )
         // console.log( 'excelDate', new Date( excelDate ) )
-        return `${ date.toLocaleDateString() } ${ date.getUTCHours() }:${ date.getUTCMinutes() }:00`;
+        const month = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+        return `${ date.getUTCFullYear() }/${ month }/${ day } ${ date.getUTCHours() }:${ date.getUTCMinutes() }:00`;
     }
 
     private addOneDay( date : Date ) {

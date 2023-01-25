@@ -85,10 +85,10 @@ const AddServicesExcelController = ( loading : InterfaceDialogAddExcel ) => {
             }
         } )
 
-        // console.log( sendData )
+        console.log( 'sendData', sendData )
 
 
-        const resp = await PkbRepository.exportExcel( context, sendData )
+        // const resp = await PkbRepository.exportExcel( context, sendData )
         loading.loadingLottie.openLoading( false )
     }
     return {

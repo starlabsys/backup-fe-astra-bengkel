@@ -61,8 +61,8 @@ const DialogAddExcel = ( props : InterfaceDialogAddExcel ) => {
                     rounded = { "full" }
                     status = { "success" }
                     onClick = { () => {
+                        controller.dialog.openDialog( false );
                         controller.sendExcel().then( () => {
-                            controller.dialog.openDialog( false );
                         } );
                         // controller.excel.map( ( data : any ) => {
                         //     return console.log( data );

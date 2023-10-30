@@ -14,6 +14,6 @@ echo "Creating Production Build..."
 npm run build
 
 echo "PM2 Reload"
-pm2 reload astra-bengkel-fe
+pm2 reload 0
 
 echo "Deployment Finished!"

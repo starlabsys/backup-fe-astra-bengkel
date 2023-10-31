@@ -1,5 +1,3 @@
-import { body3 } from "../styles/Style";
-import { MouseEventHandler } from "react";
 import { Button } from "@nextui-org/react";
 import { PressEvent } from "@react-types/shared";
 

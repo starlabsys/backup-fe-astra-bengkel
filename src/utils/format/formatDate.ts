@@ -32,11 +32,21 @@ class DateFormatData {
     }
 
     public dateExcel = ( excelDate : number ) : string => {
-        const date = new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) );
-        const month:string = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1).toString();
-        const day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
-        const monthString = month.startsWith('0') ? month.substring(1) : month;
-        return `${ date.getUTCFullYear() }/${ monthString }/${ day } ${ date.getUTCHours() }:${ date.getUTCMinutes() }:00`;
+        // const date = new Date( Math.round( (excelDate - 25569) * 86400 * 1000 ) );
+        // const month:string = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1).toString();
+        // const day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+        // const monthString = month.startsWith('0') ? month.substring(1) : month;
+        // return `${ date.getUTCFullYear() }/${ monthString }/${ day } ${ date.getUTCHours() }:${ date.getUTCMinutes() }:00`;
+
+        const date = new Date(Math.round((excelDate - 25569) * 86400 * 1000));
+
+        const year = date.getUTCFullYear();
+        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+        const day = date.getUTCDate().toString().padStart(2, '0');
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${year}/${month}/${day} ${hours}:${minutes}:00`;
     }
 
     private addOneDay( date : Date ) {

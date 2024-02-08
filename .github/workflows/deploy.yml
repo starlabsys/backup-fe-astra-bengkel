@@ -30,8 +30,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build . -t ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.1
-          docker push ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.1
+          docker build . -t ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.2
+          docker push ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.2
 
   deploy:
     needs: build
@@ -44,8 +44,8 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.1
+            docker pull ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.2
             docker stop nextjs-app || true
             docker rm nextjs-app || true
             # Menggunakan port 8081 untuk aplikasi Next.js
-            docker run -d --name nextjs-app -p 8081:3000 ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.1
+            docker run -d --name nextjs-app -p 8081:3000 ${{ secrets.DOCKER_USERNAME }}/nextjs-app:canary-v0.0.2

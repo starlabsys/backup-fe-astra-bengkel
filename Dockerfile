@@ -1,5 +1,5 @@
 # Tahap 1: Pembangunan (Build)
-FROM node:18.11.0-alpine as builder
+FROM node:18.17.1 as builder
 
 # Menetapkan direktori kerja di dalam container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Tahap 2: Produksi
-FROM node:18.11.0-alpine as runner
+FROM node:18.17.1 as runner
 
 WORKDIR /app
 
